@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
-import '../css/App.css';
+import '../../css/App.css';
 
-class NewOrder extends Component {
+class OrderList extends Component {
 
     render() {
         return (
             <div className="main">
-                nowe zamowienie
+                <h3>Lista zamówień</h3>
             </div>
         );
     }
 }
 
-export default NewOrder;
+export default OrderList;

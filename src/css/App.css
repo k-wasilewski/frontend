@@ -1,5 +1,4 @@
 .App {
-  text-align: center;
   background-color: lavender;
   min-height: 100vh;
   font-family: Lato
@@ -8,8 +7,8 @@
 .menu {
   top: 5px;
   right: 10vw;
-  background-color: lightgray;
-  box-shadow: 0 0 10px 10px lightgray;
+  background-color: #d3d3e6;
+  box-shadow: 0 0 10px 10px #d3d3e6;
   min-height: 5px;
   min-width: 20px;
   float: left;
@@ -28,7 +27,7 @@
   display: inline-block;
   cursor: pointer;
   color: black;
-  font-size: 14px;
+  font-size: 20px;
   text-decoration: none;
   margin: 5px;
 }
@@ -44,9 +43,34 @@
 }
 
 .main {
-  padding-top: 20vh;
+  padding-top: 10vh;
+  clear: both;
+  padding-left: 15%;
 }
 
 .hidden {
   display: none;
+}
+
+.form > .col1 {
+  width: 15%;
+  float: left;
+  display: block;
+}
+
+.form > .col2 {
+  float: left;
+  width: 30%;
+}
+
+.col1 > p {
+  height: 1.5em;
+}
+
+.col2 > p {
+  height: 1.5em;
+}
+
+.form > h2 {
+  padding-bottom: 5%;
 }

@@ -26,7 +26,7 @@ class Menu extends Component {
                         </NavLink>
                     </nav>
                 </div>
-                <img id='menu-btn' onClick={this.toggleMenuVisibility} src={img} />
+                <img id='menu-btn' alt='menu button' onClick={this.toggleMenuVisibility} src={img} />
             </header>
         );
     }
