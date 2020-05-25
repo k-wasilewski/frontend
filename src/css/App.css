@@ -1,0 +1,52 @@
+.App {
+  text-align: center;
+  background-color: lavender;
+  min-height: 100vh;
+  font-family: Lato
+}
+
+.menu {
+  top: 5px;
+  right: 10vw;
+  background-color: lightgray;
+  box-shadow: 0 0 10px 10px lightgray;
+  min-height: 5px;
+  min-width: 20px;
+  float: left;
+  position: fixed;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.menu-item {
+  font-family: Lato;
+  background-color: transparent;
+  border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
+  color: black;
+  font-size: 14px;
+  text-decoration: none;
+  margin: 5px;
+}
+
+.menu-item-div:hover {
+  font-weight: bold;
+}
+
+#menu-btn {
+  cursor: pointer;
+  height: 60px;
+  float: right;
+}
+
+.main {
+  padding-top: 20vh;
+}
+
+.hidden {
+  display: none;
+}
