@@ -1,10 +1,8 @@
+export const ADD_ORDER = 'ADD_ORDER';
 
-
-export const SET_CN = 'SET_CN';
-
-export function setClient(client) {
+export function addOrder(order) {
     return {
-        type: SET_CN,
-        data: client
+        type: ADD_ORDER,
+        data: order
     }
 }

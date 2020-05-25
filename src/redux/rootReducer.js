@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-import clientReducer from "./clientReducer";
+import newOrderReducer from "./newOrderReducer";
 
 export default combineReducers({
-    clientReducer
+    newOrderReducer
 });
