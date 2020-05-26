@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../../css/App.css';
 import { connect } from 'react-redux';
-import { addOrder } from "../../redux/actions";
+import { addOrder, setOrders } from "../../redux/actions";
 
 class NewOrder extends Component {
     constructor(props) {
@@ -11,7 +11,7 @@ class NewOrder extends Component {
             age: '',
             color: '',
             size: '',
-            id: 0
+            id: 0,
         };
 
         this.nameOnChange = this.nameOnChange.bind(this);
@@ -34,6 +34,12 @@ class NewOrder extends Component {
         newOrder.push(color);
         newOrder.push(size);
         this.props.addOrder(newOrder)
+
+        /*let updatedOrders = this.state.orders
+        updatedOrders.push(newOrder)
+        this.setState({
+            orders: updatedOrders
+        })*/
 
         this.setState({id: id+1})
         this.resetForm()
@@ -66,6 +72,11 @@ class NewOrder extends Component {
         this.setState({size: event.target.value});
     }
 
+    sendData = (event) => {
+        alert(this.props.orders)
+        if (event!==undefined) event.preventDefault();
+    }
+
     render() {
         return (
             <div className="main">
@@ -78,6 +89,7 @@ class NewOrder extends Component {
                             <p><label htmlFor='color'>Kolor:</label></p>
                             <p>Rozmiar:</p>
                             <button>Zapisz</button>
+                            <button onClick={this.sendData}>Wyślij</button>
                         </div>
                         <div className='col2'>
                             <p><input type='text' name='name' value= {this.state.name}
@@ -114,11 +126,13 @@ class NewOrder extends Component {
 function mapStateToProps(state) {
     return {
         order: state.newOrderReducer.order,
+        orders: state.setOrdersReducer.orders
     };
 }
 
 const mapDispatchToProps = {
-    addOrder
+    addOrder,
+    setOrders
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewOrder);

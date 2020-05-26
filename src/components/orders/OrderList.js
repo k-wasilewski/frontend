@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import '../../css/App.css';
 import {connect} from "react-redux";
+import {setOrders} from "../../redux/actions";
 
 class OrderList extends Component {
     constructor(props) {
@@ -15,6 +16,7 @@ class OrderList extends Component {
             var orderAdded = this.state.orders
             orderAdded.push(nextProps.order);
             this.setState({ orders: orderAdded })
+            this.props.setOrders(this.state.orders)
         }
     }
 
@@ -23,11 +25,13 @@ class OrderList extends Component {
             if (o[3]==='blue') o[3] = 'Niebieski'
             else if (o[3]==='lightblue') o[3] = 'Błękitny'
             else if (o[3]==='darkblue') o[3] = 'Granatowy'
+            else o[3] = 'brak'
 
             if (o[4]==='s') o[4] = 'S'
             else if (o[4]==='m') o[4] = 'M'
             else if (o[4]==='l') o[4] = 'L'
             else if (o[4]==='xl') o[4] = 'XL'
+            else o[4] = 'brak'
         })
         return orders
     }
@@ -52,8 +56,12 @@ class OrderList extends Component {
 
 function mapStateToProps(state) {
     return {
-        order: state.newOrderReducer.order,
+        order: state.newOrderReducer.order
     };
 }
 
-export default connect(mapStateToProps)(OrderList);
+const mapDispatchToProps = {
+    setOrders
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(OrderList);
