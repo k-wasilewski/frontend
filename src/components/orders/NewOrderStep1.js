@@ -57,7 +57,10 @@ class NewOrderStep1 extends Component {
                 </form>
             </div>
         );
-        else return <Redirect to='/step2'  />
+        else {
+            this.setState({redirect: false})
+            return <Redirect to='/step2'  />
+        }
     }
 }
 

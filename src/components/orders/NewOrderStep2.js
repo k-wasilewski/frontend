@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import '../../css/App.css';
 import { connect } from 'react-redux';
-import { addOrder, setOrders } from "../../redux/actions";
+import { addOrder, setOrders, setName, setAge } from "../../redux/actions";
 import axios from 'axios';
+import {Redirect} from "react-router-dom";
 
 class NewOrderStep2 extends Component {
     constructor(props) {
@@ -13,6 +14,8 @@ class NewOrderStep2 extends Component {
             color: '',
             size: '',
             id: 0,
+
+            redirect: false
         };
 
         this.colorOnChange = this.colorOnChange.bind(this);
@@ -23,13 +26,9 @@ class NewOrderStep2 extends Component {
     handleSubmit(event) {
         var newOrder = [];
         var id = (this.state.id);
-        var name = (this.props.name);
-        var age = (this.props.age);
         var size = (this.state.size);
         var color = (this.state.color);
         newOrder.push(id)
-        newOrder.push(name)
-        newOrder.push(age)
         newOrder.push(color);
         newOrder.push(size);
 
@@ -37,7 +36,9 @@ class NewOrderStep2 extends Component {
             alert('Należy wybrać kolor lub rozmiar')
         } else {
             this.props.addOrder(newOrder)
-            this.setState({id: id+1})
+            this.setState({
+                id: id+1,
+            })
         }
 
         this.resetForm()
@@ -60,14 +61,20 @@ class NewOrderStep2 extends Component {
     }
 
     sendData = (event) => {
-        /*axios.post('http://localhost:8081/add',
-            "filename=" + filename[1] + "&"
-            + "score=" + score[1] + "&" + "acc=" +acc[1]
-        );*/
-        alert(this.props.orders)
+        axios.post('http://localhost:8081/add',
+            "name=" + this.props.name + "&"
+            + "age=" + this.props.age + "&" + "orders=" +this.props.orders
+        );
+        alert(this.props.name+', '+this.props.age+'\n' +
+            ''+this.props.orders)
 
         this.props.setOrders([])
-        this.setState({id: 0})
+        this.props.setName('')
+        this.props.setAge('')
+        this.setState({
+            id: 0,
+            redirect: true
+        })
         if (event!==undefined) event.preventDefault();
     }
 
@@ -75,7 +82,7 @@ class NewOrderStep2 extends Component {
         const name = this.props.name
         const age = this.props.age
 
-        return (
+        if (!this.state.redirect) return (
             <div className="main">
                 <form onSubmit={this.handleSubmit}>
                     <div className='form'>
@@ -111,6 +118,10 @@ class NewOrderStep2 extends Component {
                 </form>
             </div>
         );
+        else {
+            this.setState({redirect: false})
+            return <Redirect to='/'  />
+        }
     }
 }
 
@@ -124,7 +135,9 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
     addOrder,
-    setOrders
+    setOrders,
+    setName,
+    setAge
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewOrderStep2);
