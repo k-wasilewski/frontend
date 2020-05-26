@@ -67,23 +67,28 @@ class NewOrderStep2 extends Component {
             }
         };
 
-        axios.post('http://localhost:8081/add',
-            "name=" + this.props.name + "&"
-            + "age=" + this.props.age + "&" + "orders=" +this.props.orders,
-            axiosConfig
-        ).then(resp => {
-            alert(resp.data);
-        });
-        alert(this.props.name+', '+this.props.age+'\n' +
-            ''+this.props.orders)
+        if (this.props.orders.length===0) {
+            alert('Należy złożyć conajmniej jedno zamówienie')
+        } else {
+            axios.post('http://localhost:8081/add',
+                "name=" + this.props.name + "&"
+                + "age=" + this.props.age + "&" + "orders=" +this.props.orders,
+                axiosConfig
+            ).then(resp => {
+                alert(resp.data); //TODO
+            }).catch(error => {
+                alert(error.response) //TODO
+            });
 
-        this.props.setOrders([])
-        this.props.setName('')
-        this.props.setAge('')
-        this.setState({
-            id: 0,
-            redirect: true
-        })
+            this.props.setOrders([])
+            this.props.setName('')
+            this.props.setAge('')
+            this.setState({
+                id: 0,
+                redirect: true
+            })
+        }
+
         if (event!==undefined) event.preventDefault();
     }
 

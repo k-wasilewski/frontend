@@ -24,7 +24,11 @@ class NewOrderStep1 extends Component {
         var name = (this.state.name);
         this.props.setName(name)
 
-        this.setState({redirect: true})
+        if (age==='' || name==='') {
+            alert('Należy podać wymagane dane')
+        } else {
+            this.setState({redirect: true})
+        }
         if (event!==undefined) event.preventDefault();
     }
 
