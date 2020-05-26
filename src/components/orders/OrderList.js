@@ -16,36 +16,54 @@ class OrderList extends Component {
             orderAdded.push(nextProps.order);
             this.setState({ orders: orderAdded })
         }
+        console.log(this.state.orders)
     }
 
     translateOrders = (orders) => {
-        orders.map((o) => {
-            if (o[3]==='blue') o[3] = 'Niebieski'
-            else if (o[3]==='lightblue') o[3] = 'Błękitny'
-            else if (o[3]==='darkblue') o[3] = 'Granatowy'
-            else o[3] = 'brak'
+        let n = [[]]
+        orders.forEach((o) => {
+            let nn = []
+            if (o[3]==='blue') nn[3] = 'Niebieski'
+            else if (o[3]==='lightblue') nn[3] = 'Błękitny'
+            else if (o[3]==='darkblue') nn[3] = 'Granatowy'
+            else nn[3] = 'brak'
 
-            if (o[4]==='s') o[4] = 'S'
-            else if (o[4]==='m') o[4] = 'M'
-            else if (o[4]==='l') o[4] = 'L'
-            else if (o[4]==='xl') o[4] = 'XL'
-            else o[4] = 'brak'
+            if (o[4]==='s') nn[4] = 'S'
+            else if (o[4]==='m') nn[4] = 'M'
+            else if (o[4]==='l') nn[4] = 'L'
+            else if (o[4]==='xl') nn[4] = 'XL'
+            else nn[4] = 'brak'
+
+            n.push(nn)
         })
-        return orders
+        return n
+    }
+
+    mapOrders = (orders) => {
+        console.log(orders.length)
+        if (orders.length!==1) {
+            let n = []
+            orders.forEach(function (o) {
+                if (orders.indexOf(o)!==0) n.push(<li key={o[0]}>
+                    Kolor: {o[3]}<br/>
+                    Rozmiar: {o[4]}<br/>
+                </li>)
+            })
+
+            return n
+        } else return undefined
     }
 
     render() {
         const orders = this.state.orders
-        const individualOrders = this.translateOrders(orders).map((o) => <li key={o[0]}>
-            Kolor: {o[3]}<br/>
-            Rozmiar: {o[4]}
-        </li>);
+        const translatedOrders = this.translateOrders(orders)
+        const mappedOrders = this.mapOrders(translatedOrders)
 
         return (
             <div className="main">
                 <h3>Lista zamówień</h3>
                 <ol start='1'>
-                    {individualOrders}
+                    {mappedOrders}
                 </ol>
             </div>
         );
