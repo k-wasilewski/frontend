@@ -77,7 +77,7 @@ class NewOrderStep2 extends Component {
             ).then(resp => {
                 this.props.setResp(resp.data)
             }).catch(error => {
-                this.props.setResp(error.response)
+                this.props.setResp('Błąd serwera')
             });
 
             this.props.setOrders([])
