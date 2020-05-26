@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../../css/App.css';
 import { connect } from 'react-redux';
-import { addOrder, setOrders, setName, setAge } from "../../redux/actions";
+import { addOrder, setOrders, setName, setAge, setResp } from "../../redux/actions";
 import axios from 'axios';
 import {Redirect} from "react-router-dom";
 
@@ -75,9 +75,9 @@ class NewOrderStep2 extends Component {
                 + "age=" + this.props.age + "&" + "orders=" +this.props.orders,
                 axiosConfig
             ).then(resp => {
-                alert(resp.data); //TODO
+                this.props.setResp(resp.data)
             }).catch(error => {
-                alert(error.response) //TODO
+                this.props.setResp(error.response)
             });
 
             this.props.setOrders([])
@@ -151,7 +151,8 @@ const mapDispatchToProps = {
     addOrder,
     setOrders,
     setName,
-    setAge
+    setAge,
+    setResp
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewOrderStep2);
