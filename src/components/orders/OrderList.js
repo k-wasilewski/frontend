@@ -24,16 +24,16 @@ class OrderList extends Component {
         let n = [[]]
         orders.forEach((o) => {
             let nn = []
-            if (o[3]==='blue') nn[3] = 'Niebieski'
-            else if (o[3]==='lightblue') nn[3] = 'Błękitny'
-            else if (o[3]==='darkblue') nn[3] = 'Granatowy'
-            else nn[3] = 'brak'
+            if (o[1]==='blue') nn[1] = 'Niebieski'
+            else if (o[1]==='lightblue') nn[1] = 'Błękitny'
+            else if (o[1]==='darkblue') nn[1] = 'Granatowy'
+            else nn[1] = 'brak'
 
-            if (o[4]==='s') nn[4] = 'S'
-            else if (o[4]==='m') nn[4] = 'M'
-            else if (o[4]==='l') nn[4] = 'L'
-            else if (o[4]==='xl') nn[4] = 'XL'
-            else nn[4] = 'brak'
+            if (o[2]==='s') nn[2] = 'S'
+            else if (o[2]==='m') nn[2] = 'M'
+            else if (o[2]==='l') nn[2] = 'L'
+            else if (o[2]==='xl') nn[2] = 'XL'
+            else nn[2] = 'brak'
 
             n.push(nn)
         })
@@ -45,8 +45,8 @@ class OrderList extends Component {
             let n = []
             orders.forEach(function (o) {
                 if (orders.indexOf(o)!==0) n.push(<li key={o[0]}>
-                    Kolor: {o[3]}<br/>
-                    Rozmiar: {o[4]}<br/>
+                    Kolor: {o[1]}<br/>
+                    Rozmiar: {o[2]}<br/>
                 </li>)
             })
 
