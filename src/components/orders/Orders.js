@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import '../../css/App.css';
-import NewOrder from "./NewOrder";
 import OrderList from "./OrderList";
+import NewOrderStep2 from "./NewOrderStep2";
 
 class Orders extends Component {
 
     render() {
         return (
             <div>
-                <NewOrder />
+                <NewOrderStep2 />
                 <OrderList />
             </div>
         );

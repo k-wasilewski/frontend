@@ -2,20 +2,19 @@ import React, {Component} from 'react';
 import '../../css/App.css';
 import { connect } from 'react-redux';
 import { addOrder, setOrders } from "../../redux/actions";
+import axios from 'axios';
 
-class NewOrder extends Component {
+class NewOrderStep2 extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
+            name : '',
             age: '',
             color: '',
             size: '',
             id: 0,
         };
 
-        this.nameOnChange = this.nameOnChange.bind(this);
-        this.ageOnChange = this.ageOnChange.bind(this);
         this.colorOnChange = this.colorOnChange.bind(this);
         this.sizeOnChange = this.sizeOnChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -24,37 +23,32 @@ class NewOrder extends Component {
     handleSubmit(event) {
         var newOrder = [];
         var id = (this.state.id);
-        var age = (this.state.age);
-        var name = (this.state.name);
+        var name = (this.props.name);
+        var age = (this.props.age);
         var size = (this.state.size);
         var color = (this.state.color);
         newOrder.push(id)
-        newOrder.push(name);
-        newOrder.push(age);
+        newOrder.push(name)
+        newOrder.push(age)
         newOrder.push(color);
         newOrder.push(size);
-        this.props.addOrder(newOrder)
 
-        this.setState({id: id+1})
+        if (size==='' && color==='') {
+            alert('Należy wybrać kolor lub rozmiar')
+        } else {
+            this.props.addOrder(newOrder)
+            this.setState({id: id+1})
+        }
+
         this.resetForm()
         if (event!==undefined) event.preventDefault();
     }
 
     resetForm = () => {
         this.setState({
-            name: '',
-            age: '',
             color: '',
             size: '',
         })
-    }
-
-    nameOnChange = (event) => {
-        this.setState({name: event.target.value});
-    }
-
-    ageOnChange = (event) => {
-        this.setState({age: event.target.value});
     }
 
     colorOnChange = (event) => {
@@ -66,7 +60,10 @@ class NewOrder extends Component {
     }
 
     sendData = (event) => {
-        //axios
+        /*axios.post('http://localhost:8081/add',
+            "filename=" + filename[1] + "&"
+            + "score=" + score[1] + "&" + "acc=" +acc[1]
+        );*/
         alert(this.props.orders)
 
         this.props.setOrders([])
@@ -75,24 +72,21 @@ class NewOrder extends Component {
     }
 
     render() {
+        const name = this.props.name
+        const age = this.props.age
+
         return (
             <div className="main">
                 <form onSubmit={this.handleSubmit}>
                     <div className='form'>
-                        <h2>Nowe zamówienie</h2>
                         <div className='col1'>
-                            <p>Imię:</p>
-                            <p>Wiek:</p>
+                            {name} {(name==='' || age==='') ? '' : ','} {age}
                             <p><label htmlFor='color'>Kolor:</label></p>
                             <p>Rozmiar:</p>
                             <button>Zapisz</button>
                             <button onClick={this.sendData}>Wyślij</button>
                         </div>
                         <div className='col2'>
-                            <p><input type='text' name='name' value= {this.state.name}
-                                      onChange={this.nameOnChange}/></p>
-                            <p><input type='number' name='age' onChange={this.ageOnChange}
-                                      value= {this.state.age}/></p>
                             <p><select name='color' id='color' onChange={this.colorOnChange}
                                        value={this.state.color}>
                                 <option disabled defaultValue value=''>(wybierz)</option>
@@ -122,7 +116,9 @@ class NewOrder extends Component {
 
 function mapStateToProps(state) {
     return {
-        orders: state.setOrdersReducer.orders
+        orders: state.setOrdersReducer.orders,
+        name: state.setNameReducer.name,
+        age: state.setAgeReducer.age
     };
 }
 
@@ -131,4 +127,4 @@ const mapDispatchToProps = {
     setOrders
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewOrder);
+export default connect(mapStateToProps, mapDispatchToProps)(NewOrderStep2);
