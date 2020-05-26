@@ -91,7 +91,7 @@ class NewOrder extends Component {
                                       value= {this.state.age}/></p>
                             <p><select name='color' id='color' onChange={this.colorOnChange}
                                        value={this.state.color}>
-                                <option disabled selected value=''>(wybierz)</option>
+                                <option disabled defaultValue value=''>(wybierz)</option>
                                 <option value='blue'>Niebieski</option>
                                 <option value='lightblue'>Błękitny</option>
                                 <option value='darkblue'>Granatowy</option>
