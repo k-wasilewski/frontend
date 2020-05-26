@@ -18,18 +18,33 @@ class OrderList extends Component {
         }
     }
 
+    translateOrders = (orders) => {
+        orders.map((o) => {
+            if (o[3]==='blue') o[3] = 'Niebieski'
+            else if (o[3]==='lightblue') o[3] = 'Błękitny'
+            else if (o[3]==='darkblue') o[3] = 'Granatowy'
+
+            if (o[4]==='s') o[4] = 'S'
+            else if (o[4]==='m') o[4] = 'M'
+            else if (o[4]==='l') o[4] = 'L'
+            else if (o[4]==='xl') o[4] = 'XL'
+        })
+        return orders
+    }
+
     render() {
         const orders = this.state.orders
-        const individualOrders = orders.map((o) => <li key={o[0]}>
-            {o[1]}, {o[2]}, {o[3]}, {o[4]}
+        const individualOrders = this.translateOrders(orders).map((o) => <li key={o[0]}>
+            Kolor: {o[3]}<br/>
+            Rozmiar: {o[4]}
         </li>);
 
         return (
             <div className="main">
                 <h3>Lista zamówień</h3>
-                <div>
+                <ol start='1'>
                     {individualOrders}
-                </div>
+                </ol>
             </div>
         );
     }

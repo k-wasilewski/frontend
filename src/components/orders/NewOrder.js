@@ -36,7 +36,18 @@ class NewOrder extends Component {
         this.props.addOrder(newOrder)
 
         this.setState({id: id+1})
+        this.resetForm()
         if (event!==undefined) event.preventDefault();
+    }
+
+    resetForm = () => {
+        this.setState({
+            name: '',
+            age: '',
+            color: '',
+            size: '',
+            id: 0
+        })
     }
 
     nameOnChange = (event) => {
@@ -69,21 +80,28 @@ class NewOrder extends Component {
                             <button>Zapisz</button>
                         </div>
                         <div className='col2'>
-                            <p><input type='text' name='name' onChange={this.nameOnChange}/></p>
-                            <p><input type='number' name='age' onChange={this.ageOnChange}/></p>
-                                <p><select name='color' id='color' onChange={this.colorOnChange}>
-                                    <option disabled selected>(wybierz)</option>
+                            <p><input type='text' name='name' value= {this.state.name}
+                                      onChange={this.nameOnChange}/></p>
+                            <p><input type='number' name='age' onChange={this.ageOnChange}
+                                      value= {this.state.age}/></p>
+                                <p><select name='color' id='color' onChange={this.colorOnChange}
+                                    value={this.state.color}>
+                                    <option disabled selected value=''>(wybierz)</option>
                                     <option value='blue'>Niebieski</option>
                                     <option value='lightblue'>Błękitny</option>
                                     <option value='darkblue'>Granatowy</option>
                             </select></p>
-                            <input type="radio" id="s" name="size" value="s" onChange={this.sizeOnChange}/>
+                            <input type="radio" id="s" name="size" value="s"
+                                   onChange={this.sizeOnChange} checked={this.state.size==='s'}/>
                             <label htmlFor="male">S</label><br/>
-                            <input type="radio" id="m" name="size" value="m" onChange={this.sizeOnChange}/>
+                            <input type="radio" id="m" name="size" value="m"
+                                   onChange={this.sizeOnChange} checked={this.state.size==='m'}/>
                             <label htmlFor="female">M</label><br/>
-                            <input type="radio" id="l" name="size" value="l" onChange={this.sizeOnChange}/>
+                            <input type="radio" id="l" name="size" value="l"
+                                   onChange={this.sizeOnChange} checked={this.state.size==='l'}/>
                             <label htmlFor="other">L</label><br/>
-                            <input type="radio" id="xl" name="size" value="xl" onChange={this.sizeOnChange}/>
+                            <input type="radio" id="xl" name="size" value="xl"
+                                   onChange={this.sizeOnChange} checked={this.state.size==='xl'}/>
                             <label htmlFor="other">XL</label><br/>
                         </div>
                     </div>
