@@ -61,10 +61,19 @@ class NewOrderStep2 extends Component {
     }
 
     sendData = (event) => {
+        let axiosConfig = {
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+            }
+        };
+
         axios.post('http://localhost:8081/add',
             "name=" + this.props.name + "&"
-            + "age=" + this.props.age + "&" + "orders=" +this.props.orders
-        );
+            + "age=" + this.props.age + "&" + "orders=" +this.props.orders,
+            axiosConfig
+        ).then(resp => {
+            alert(resp.data);
+        });
         alert(this.props.name+', '+this.props.age+'\n' +
             ''+this.props.orders)
 
