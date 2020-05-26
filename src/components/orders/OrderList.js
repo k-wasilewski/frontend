@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import '../../css/App.css';
 import {connect} from "react-redux";
+import {setOrders} from "../../redux/actions";
 
 class OrderList extends Component {
     constructor(props) {
@@ -15,8 +16,8 @@ class OrderList extends Component {
             var orderAdded = this.state.orders
             orderAdded.push(nextProps.order);
             this.setState({ orders: orderAdded })
+            this.props.setOrders(orderAdded)
         }
-        console.log(this.state.orders)
     }
 
     translateOrders = (orders) => {
@@ -40,7 +41,6 @@ class OrderList extends Component {
     }
 
     mapOrders = (orders) => {
-        console.log(orders.length)
         if (orders.length!==1) {
             let n = []
             orders.forEach(function (o) {
@@ -55,7 +55,7 @@ class OrderList extends Component {
     }
 
     render() {
-        const orders = this.state.orders
+        const orders = this.props.orders
         const translatedOrders = this.translateOrders(orders)
         const mappedOrders = this.mapOrders(translatedOrders)
 
@@ -72,8 +72,13 @@ class OrderList extends Component {
 
 function mapStateToProps(state) {
     return {
-        order: state.newOrderReducer.order
+        order: state.newOrderReducer.order,
+        orders: state.setOrdersReducer.orders
     };
 }
 
-export default connect(mapStateToProps)(OrderList);
+const mapDispatchToProps = {
+    setOrders,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(OrderList);

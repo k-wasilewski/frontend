@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../../css/App.css';
 import { connect } from 'react-redux';
-import { addOrder } from "../../redux/actions";
+import { addOrder, setOrders } from "../../redux/actions";
 
 class NewOrder extends Component {
     constructor(props) {
@@ -66,7 +66,11 @@ class NewOrder extends Component {
     }
 
     sendData = (event) => {
+        //axios
         alert(this.props.orders)
+
+        this.props.setOrders([])
+        this.setState({id: 0})
         if (event!==undefined) event.preventDefault();
     }
 
@@ -118,12 +122,13 @@ class NewOrder extends Component {
 
 function mapStateToProps(state) {
     return {
-        orders: state.newOrderReducer.orders
+        orders: state.setOrdersReducer.orders
     };
 }
 
 const mapDispatchToProps = {
     addOrder,
+    setOrders
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewOrder);
