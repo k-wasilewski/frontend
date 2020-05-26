@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import '../../css/App.css';
 import {connect} from "react-redux";
-import {setOrders} from "../../redux/actions";
 
 class OrderList extends Component {
     constructor(props) {
@@ -16,7 +15,6 @@ class OrderList extends Component {
             var orderAdded = this.state.orders
             orderAdded.push(nextProps.order);
             this.setState({ orders: orderAdded })
-            this.props.setOrders(this.state.orders)
         }
     }
 
@@ -60,8 +58,4 @@ function mapStateToProps(state) {
     };
 }
 
-const mapDispatchToProps = {
-    setOrders
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(OrderList);
+export default connect(mapStateToProps)(OrderList);

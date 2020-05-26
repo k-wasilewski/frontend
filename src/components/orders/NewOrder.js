@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../../css/App.css';
 import { connect } from 'react-redux';
-import { addOrder, setOrders } from "../../redux/actions";
+import { addOrder } from "../../redux/actions";
 
 class NewOrder extends Component {
     constructor(props) {
@@ -35,12 +35,6 @@ class NewOrder extends Component {
         newOrder.push(size);
         this.props.addOrder(newOrder)
 
-        /*let updatedOrders = this.state.orders
-        updatedOrders.push(newOrder)
-        this.setState({
-            orders: updatedOrders
-        })*/
-
         this.setState({id: id+1})
         this.resetForm()
         if (event!==undefined) event.preventDefault();
@@ -52,7 +46,6 @@ class NewOrder extends Component {
             age: '',
             color: '',
             size: '',
-            id: 0
         })
     }
 
@@ -96,12 +89,12 @@ class NewOrder extends Component {
                                       onChange={this.nameOnChange}/></p>
                             <p><input type='number' name='age' onChange={this.ageOnChange}
                                       value= {this.state.age}/></p>
-                                <p><select name='color' id='color' onChange={this.colorOnChange}
-                                    value={this.state.color}>
-                                    <option disabled selected value=''>(wybierz)</option>
-                                    <option value='blue'>Niebieski</option>
-                                    <option value='lightblue'>Błękitny</option>
-                                    <option value='darkblue'>Granatowy</option>
+                            <p><select name='color' id='color' onChange={this.colorOnChange}
+                                       value={this.state.color}>
+                                <option disabled selected value=''>(wybierz)</option>
+                                <option value='blue'>Niebieski</option>
+                                <option value='lightblue'>Błękitny</option>
+                                <option value='darkblue'>Granatowy</option>
                             </select></p>
                             <input type="radio" id="s" name="size" value="s"
                                    onChange={this.sizeOnChange} checked={this.state.size==='s'}/>
@@ -125,14 +118,12 @@ class NewOrder extends Component {
 
 function mapStateToProps(state) {
     return {
-        order: state.newOrderReducer.order,
-        orders: state.setOrdersReducer.orders
+        orders: state.newOrderReducer.orders
     };
 }
 
 const mapDispatchToProps = {
     addOrder,
-    setOrders
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewOrder);
