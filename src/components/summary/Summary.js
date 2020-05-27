@@ -81,12 +81,16 @@ class Summary extends Component {
                 )
             })
 
+            let key = name+age+created
             transformedList.push((
-                <ul key={name+age}>
+                <ul key={key}>
                     <li>
                         Imię: {name}<br/>
                         Wiek: {age}<br/>
-                        Zamówienia: <br/><ol start='1'>{itemsTransformed}</ol><br/>
+                        <button onClick={this.showOrderList}>Zamówienia</button> <br/>
+                        <div className='orderItems' style={{display: 'none'}}>
+                            <ol start='1'>{itemsTransformed}</ol><br/>
+                        </div>
                         Data utworzenia: {created}
                     </li>
                 </ul>
@@ -100,6 +104,13 @@ class Summary extends Component {
         return transformedList
     }
 
+    showOrderList = (event) => {
+        let $this = event.target
+        let list = $this.nextSibling.nextSibling.nextSibling
+        if (list.style.display==='none') list.style.display = 'block'
+        else list.style.display = 'none'
+    }
+
     render() {
         let list = this.state.list
         list = this.formatList(list)
@@ -110,6 +121,8 @@ class Summary extends Component {
                     <h2>Podsumowanie</h2>
                     <div className='col1'>
                         <p>{list}</p>
+                    </div>
+                    <div className='col2'>
                         <button onClick={this.doGetList}>Szukaj</button>
                     </div>
                 </div>
