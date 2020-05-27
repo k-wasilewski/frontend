@@ -10,7 +10,11 @@ class NewOrderStep1 extends Component {
         this.state = {
             name: '',
             age: '',
-            redirect: false
+
+            redirect: false,
+
+            ageValid: false,
+            nameValid: false
         };
 
         this.nameOnChange = this.nameOnChange.bind(this);
@@ -26,18 +30,44 @@ class NewOrderStep1 extends Component {
 
         if (age==='' || name==='') {
             alert('Należy podać wymagane dane')
-        } else {
+        } else if (!this.state.ageValid) {
+            alert('Należy podać wiek w przedziale 18-100')
+        } else if (!this.state.nameValid) {
+            alert('Imię może zawierać tylko jeden wyraz, ' +
+                'musi być pisane z wielkiej litery, ' +
+                'bez cyfr i znaków specjalnych')
+        }else {
             this.setState({redirect: true})
         }
         if (event!==undefined) event.preventDefault();
     }
 
     nameOnChange = (event) => {
-        this.setState({name: event.target.value});
+        let name = event.target.value
+        this.setState({name: name});
+
+        let nameValidationRegex = new RegExp('^[A-Z]([a-z]*)$')
+        if (name.includes(' ') || nameValidationRegex.exec(name)===null) {
+            document.getElementById('nameInput').style.color = 'red'
+            this.setState({nameValid: false})
+        } else {
+            document.getElementById('nameInput').style.color = 'black'
+            this.setState({nameValid: true})
+        }
     }
 
     ageOnChange = (event) => {
-        this.setState({age: event.target.value});
+        let age = event.target.value
+        this.setState({age: age});
+
+        if (age<18 || age>100) {
+            document.getElementById('ageInput').style.color = 'red'
+            this.setState({ageValid: false})
+        }
+        else {
+            document.getElementById('ageInput').style.color = 'black'
+            this.setState({ageValid: true})
+        }
     }
 
     render() {
@@ -54,9 +84,9 @@ class NewOrderStep1 extends Component {
                         </div>
                         <div className='col2'>
                             <p><input type='text' name='name' value= {this.state.name}
-                                      onChange={this.nameOnChange}/></p>
+                                      id='nameInput' onChange={this.nameOnChange}/></p>
                             <p><input type='number' name='age' onChange={this.ageOnChange}
-                                      value= {this.state.age}/></p>
+                                      id='ageInput' value= {this.state.age}/></p>
                         </div>
                     </div>
                 </form>
