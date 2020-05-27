@@ -28,13 +28,31 @@ class Summary extends Component {
         });
     }
 
+    formatList = (list) => {
+        let nameRegex = new RegExp('^\\[(\\w)+')
+        let name = nameRegex.exec(list)
+        if (name!==null) name=name[0].substr(1)
+        console.log('name: '+name)
+
+        let ageRegex = new RegExp('\\d+')
+        let age = ageRegex.exec(list)
+        console.log('age: '+age)
+
+        let itemRegex = /'\\[(\\w)*, (\\w)*\\]'/g
+        let items = list.match(itemRegex)
+        console.log('items: '+items)
+    }
+
     render() {
+        let list = this.state.list
+        list = this.formatList(list)
+
         return (
             <div className="main">
                 <div className='form'>
                     <h2>Podsumowanie</h2>
                     <div className='col1'>
-                        <p>{this.state.list}</p>
+                        <p>{list}</p>
                         <button onClick={this.doGetList}>Szukaj</button>
                     </div>
                     <div className='col2'>
