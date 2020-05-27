@@ -82,3 +82,14 @@
 .resp {
   color: #6c6cac;
 }
+
+.summary > .col1 {
+  width: 40%;
+  float: left;
+  display: block;
+}
+
+.summary > .col2 {
+  float: left;
+  width: 30%;
+}
