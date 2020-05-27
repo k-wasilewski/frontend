@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import '../../css/App.css';
-import OrderList from "./OrderList";
+import ItemList from "./ItemList";
 import NewOrderStep2 from "./NewOrderStep2";
 
 class Orders extends Component {
@@ -9,7 +9,7 @@ class Orders extends Component {
         return (
             <div>
                 <NewOrderStep2 />
-                <OrderList />
+                <ItemList />
             </div>
         );
     }

@@ -1,28 +1,28 @@
 import React, {Component} from 'react';
 import '../../css/App.css';
 import {connect} from "react-redux";
-import {setOrders} from "../../redux/actions";
+import {setItems} from "../../redux/actions";
 
-class OrderList extends Component {
+class ItemList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            orders: []
+            items: []
         };
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.order !== this.props.order) {
-            var orderAdded = this.state.orders
-            orderAdded.push(nextProps.order);
-            this.setState({ orders: orderAdded })
-            this.props.setOrders(orderAdded)
+        if (nextProps.item !== this.props.item) {
+            var updatedItems = this.state.items
+            updatedItems.push(nextProps.item);
+            this.setState({ item: updatedItems })
+            this.props.setItems(updatedItems)
         }
     }
 
-    translateOrders = (orders) => {
+    translateItems = (items) => {
         let n = [[]]
-        orders.forEach((o) => {
+        items.forEach((o) => {
             let nn = []
             if (o[1]==='blue') nn[1] = 'Niebieski'
             else if (o[1]==='lightblue') nn[1] = 'Błękitny'
@@ -40,11 +40,11 @@ class OrderList extends Component {
         return n
     }
 
-    mapOrders = (orders) => {
-        if (orders.length!==1) {
+    mapItems = (items) => {
+        if (items.length!==1) {
             let n = []
-            orders.forEach(function (o) {
-                if (orders.indexOf(o)!==0) n.push(<li key={o[0]}>
+            items.forEach(function (o) {
+                if (items.indexOf(o)!==0) n.push(<li key={o[0]}>
                     Kolor: {o[1]}<br/>
                     Rozmiar: {o[2]}<br/>
                 </li>)
@@ -55,15 +55,15 @@ class OrderList extends Component {
     }
 
     render() {
-        const orders = this.props.orders
-        const translatedOrders = this.translateOrders(orders)
-        const mappedOrders = this.mapOrders(translatedOrders)
+        const items = this.props.items
+        const translatedItems = this.translateItems(items)
+        const mappedItems = this.mapItems(translatedItems)
 
         return (
             <div className="main">
                 <h3>Lista zamówień</h3>
                 <ol start='1'>
-                    {mappedOrders}
+                    {mappedItems}
                 </ol>
             </div>
         );
@@ -72,13 +72,13 @@ class OrderList extends Component {
 
 function mapStateToProps(state) {
     return {
-        order: state.newOrderReducer.order,
-        orders: state.setOrdersReducer.orders
+        item: state.newItemReducer.item,
+        items: state.setItemsReducer.items
     };
 }
 
 const mapDispatchToProps = {
-    setOrders,
+    setItems,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrderList);
+export default connect(mapStateToProps, mapDispatchToProps)(ItemList);

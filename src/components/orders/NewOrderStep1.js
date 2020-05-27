@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../../css/App.css';
 import { connect } from 'react-redux';
-import { setAge, setName, setResp } from "../../redux/actions";
+import { setAge, setName } from "../../redux/actions";
 import  { Redirect } from 'react-router-dom'
 
 class NewOrderStep1 extends Component {
@@ -71,7 +71,6 @@ class NewOrderStep1 extends Component {
 
 function mapStateToProps(state) {
     return {
-        orders: state.setOrdersReducer.orders,
         name: state.setNameReducer.name,
         age: state.setAgeReducer.age,
         resp: state.setRespReducer.resp

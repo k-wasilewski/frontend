@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../../css/App.css';
 import { connect } from 'react-redux';
-import { addOrder, setOrders, setName, setAge, setResp } from "../../redux/actions";
+import { addItem, setItems, setName, setAge, setResp } from "../../redux/actions";
 import axios from 'axios';
 import {Redirect} from "react-router-dom";
 
@@ -24,18 +24,18 @@ class NewOrderStep2 extends Component {
     }
 
     handleSubmit(event) {
-        var newOrder = [];
+        var newItem = [];
         var id = (this.state.id);
         var size = (this.state.size);
         var color = (this.state.color);
-        newOrder.push(id)
-        newOrder.push(color);
-        newOrder.push(size);
+        newItem.push(id)
+        newItem.push(color);
+        newItem.push(size);
 
         if (size==='' && color==='') {
             alert('Należy wybrać kolor lub rozmiar')
         } else {
-            this.props.addOrder(newOrder)
+            this.props.addItem(newItem)
             this.setState({
                 id: id+1,
             })
@@ -67,12 +67,12 @@ class NewOrderStep2 extends Component {
             }
         };
 
-        if (this.props.orders.length===0) {
+        if (this.props.items.length===0) {
             alert('Należy złożyć conajmniej jedno zamówienie')
         } else {
             axios.post('http://localhost:8081/add',
                 "name=" + this.props.name + "&"
-                + "age=" + this.props.age + "&" + "orders=" +this.props.orders,
+                + "age=" + this.props.age + "&" + "items=" +this.props.items,
                 axiosConfig
             ).then(resp => {
                 this.props.setResp(resp.data)
@@ -80,7 +80,7 @@ class NewOrderStep2 extends Component {
                 this.props.setResp('Błąd serwera')
             });
 
-            this.props.setOrders([])
+            this.props.setItems([])
             this.props.setName('')
             this.props.setAge('')
             this.setState({
@@ -141,15 +141,15 @@ class NewOrderStep2 extends Component {
 
 function mapStateToProps(state) {
     return {
-        orders: state.setOrdersReducer.orders,
+        items: state.setItemsReducer.items,
         name: state.setNameReducer.name,
         age: state.setAgeReducer.age
     };
 }
 
 const mapDispatchToProps = {
-    addOrder,
-    setOrders,
+    addItem,
+    setItems,
     setName,
     setAge,
     setResp
