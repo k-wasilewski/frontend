@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import NewOrderStep1 from "./components/orders/NewOrderStep1";
-import Summary from './components/Summary'
+import Summary from './components/summary/Summary'
 import Orders from "./components/orders/Orders";
 
 const Router = () => {
