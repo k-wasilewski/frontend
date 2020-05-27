@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { addItem, setItems, setName, setAge, setResp } from "../../redux/actions";
 import axios from 'axios';
 import {Redirect} from "react-router-dom";
+import Visualization from "../visualization/Visualization";
 
 class NewOrderStep2 extends Component {
     constructor(props) {
@@ -127,6 +128,9 @@ class NewOrderStep2 extends Component {
                             <input type="radio" id="xl" name="size" value="xl"
                                    onChange={this.sizeOnChange} checked={this.state.size==='xl'}/>
                             <label htmlFor="other">XL</label><br/>
+                        </div>
+                        <div className='col2'>
+                            <Visualization size={this.state.size} color={this.state.color}/>
                         </div>
                     </div>
                 </form>

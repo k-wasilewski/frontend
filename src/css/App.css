@@ -93,3 +93,8 @@
   float: left;
   width: 30%;
 }
+
+#visualization {
+  width: 0;
+  height: 0;
+}
