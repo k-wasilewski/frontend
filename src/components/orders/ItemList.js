@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import '../../css/App.css';
 import {connect} from "react-redux";
 import {setItems} from "../../redux/actions";
+import InListVisualization from "../visualization/InListVisualization";
 
 class ItemList extends Component {
     constructor(props) {
@@ -44,10 +45,13 @@ class ItemList extends Component {
         if (items.length!==1) {
             let n = []
             items.forEach(function (o) {
-                if (items.indexOf(o)!==0) n.push(<li key={o[0]}>
-                    Kolor: {o[1]}<br/>
-                    Rozmiar: {o[2]}<br/>
-                </li>)
+                if (items.indexOf(o)!==0) n.push(
+                    <li key={o[0]}>
+                        Kolor: {o[1]}<br/>
+                        Rozmiar: {o[2]}<br/>
+                        <InListVisualization size={o[2]} color={o[1]}/>
+                    </li>
+                )
             })
 
             return n
