@@ -22,7 +22,7 @@ class NewOrderStep2 extends Component {
 
         this.colorOnChange = this.colorOnChange.bind(this);
         this.sizeOnChange = this.sizeOnChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.addToList = this.addToList.bind(this);
     }
 
     componentWillUnmount() {
@@ -39,7 +39,27 @@ class NewOrderStep2 extends Component {
         };
     }
 
-    handleSubmit(event) {
+    doCheckAvailability = (color, size, newItem, id) => {
+        axios.post('http://localhost:8081/check',
+            "color=" + color + "&" + "size=" + size,
+            this.getAxiosConfig()
+        ).then(resp => {
+            if (resp.data==='success') {
+                this.props.addItem(newItem)
+                this.setState({
+                    id: id+1,
+                })
+            } else if (resp.data==='fail') {
+                this.setState({
+                    error: 'Towar chwilowo niedostępny'
+                })
+            }
+        }).catch(error => {
+            this.props.setResp('Błąd serwera')
+        });
+    }
+
+    addToList(event) {
         var newItem = [];
         var id = (this.state.id);
         var size = (this.state.size);
@@ -53,23 +73,7 @@ class NewOrderStep2 extends Component {
                 error: 'Należy wybrać kolor i rozmiar'
             })
         } else {
-            axios.post('http://localhost:8081/check',
-                "color=" + color + "&" + "size=" + size,
-                this.getAxiosConfig()
-            ).then(resp => {
-                if (resp.data==='success') {
-                    this.props.addItem(newItem)
-                    this.setState({
-                        id: id+1,
-                    })
-                } else if (resp.data==='fail') {
-                    this.setState({
-                        error: 'Towar chwilowo niedostępny'
-                    })
-                }
-            }).catch(error => {
-                this.props.setResp('Błąd serwera')
-            });
+            this.doCheckAvailability(color, size, newItem, id)
         }
 
         this.resetForm()
@@ -91,60 +95,76 @@ class NewOrderStep2 extends Component {
         this.setState({size: event.target.value});
     }
 
+    translateColor = (response) => {
+        let colorRegex = new RegExp('\\[(.*),', 'g')
+        let c = colorRegex.exec(response)[1]
+        let cPL
+
+        if (c==='blue') cPL = 'Niebieski'
+        else if (c==='lightblue') cPL = 'Błękitny'
+        else if (c==='darkblue') cPL = 'Granatowy'
+
+        return response.replace(c, cPL)
+    }
+
+    translateSize = (response) => {
+        let sizeRegex = new RegExp(',(.*)\\]', 'g')
+        let s = sizeRegex.exec(response)[1]
+        let sPL = s.toUpperCase()
+        let sIndex = response.indexOf(']')-1
+
+        if (response.charAt(sIndex-1)==='x') {
+            sIndex--
+            response=response.replace('l]', ']')
+        }
+
+        return response.substring(0, sIndex) + sPL +
+            response.substring(sIndex + 1)
+    }
+
+    handleResponse = (resp) => {
+        this.props.setResp(resp.data)
+
+        let notAvailRegex = new RegExp('error: (.*)', 'g')
+        let match = notAvailRegex.exec(resp.data)
+        if (match!==null) {
+            let response = match[1]
+            response = this.translateColor(response)
+            response = this.translateSize(response)
+
+            this.setState({
+                error: response
+            })
+        } else {
+            this.props.setItems([])
+            this.props.setName('')
+            this.props.setAge('')
+            this.setState({
+                id: 0,
+                redirect: true
+            })
+        }
+    }
+
+    doAddOrder = () => {
+        axios.post('http://localhost:8081/add',
+            "name=" + this.props.name + "&"
+            + "age=" + this.props.age + "&" + "items=" +this.props.items,
+            this.getAxiosConfig()
+        ).then(resp => {
+            this.handleResponse(resp)
+        }).catch(error => {
+            this.props.setResp('Błąd serwera')
+        });
+    }
+
     sendData = (event) => {
         if (this.props.items.length===0) {
             this.setState({
                 error: 'Należy złożyć conajmniej jedno zamówienie'
             })
         } else {
-            axios.post('http://localhost:8081/add',
-                "name=" + this.props.name + "&"
-                + "age=" + this.props.age + "&" + "items=" +this.props.items,
-                this.getAxiosConfig()
-            ).then(resp => {
-                this.props.setResp(resp.data)
-
-                let notAvailRegex = new RegExp('error: (.*)', 'g')
-                let match = notAvailRegex.exec(resp.data)
-                if (match!==null) {
-                    let colorRegex = new RegExp('\\[(.*),', 'g')
-                    let sizeRegex = new RegExp(',(.*)\\]', 'g')
-                    let response = match[1]
-                    let c = colorRegex.exec(response)[1]
-                    let cPL
-                    let s = sizeRegex.exec(response)[1]
-                    let sPL
-
-                    if (c==='blue') cPL = 'Niebieski'
-                    else if (c==='lightblue') cPL = 'Błękitny'
-                    else if (c==='darkblue') cPL = 'Granatowy'
-
-                    sPL = s.toUpperCase()
-
-                    response = response.replace(c, cPL)
-                    let sIndex = response.indexOf(']')-1
-                    if (response.charAt(sIndex-1)==='x') {
-                        sIndex--
-                        response=response.replace('l]', ']')
-                    }
-                    response = response.substring(0, sIndex) + sPL +
-                        response.substring(sIndex + 1)
-
-                    this.setState({
-                        error: response
-                    })
-                } else {
-                    this.props.setItems([])
-                    this.props.setName('')
-                    this.props.setAge('')
-                    this.setState({
-                        id: 0,
-                        redirect: true
-                    })
-                }
-            }).catch(error => {
-                this.props.setResp('Błąd serwera')
-            });
+            this.doAddOrder()
         }
 
         if (event!==undefined) event.preventDefault();
@@ -156,7 +176,7 @@ class NewOrderStep2 extends Component {
 
         if (!this.state.redirect) return (
             <div className="main">
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.addToList}>
                     <p className='resp'>{this.state.error}</p>
                     <div className='form'>
                         <div className='col1'>
