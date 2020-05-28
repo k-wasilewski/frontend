@@ -98,3 +98,8 @@
   width: 0;
   height: 0;
 }
+
+#nameAgeError {
+  display: none;
+  color: red;
+}

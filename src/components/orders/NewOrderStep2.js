@@ -17,7 +17,7 @@ class NewOrderStep2 extends Component {
             id: 0,
 
             redirect: false,
-            notAvailError: ''
+            error: ''
         };
 
         this.colorOnChange = this.colorOnChange.bind(this);
@@ -47,7 +47,9 @@ class NewOrderStep2 extends Component {
         newItem.push(size);
 
         if (size==='' && color==='') {
-            alert('Należy wybrać kolor lub rozmiar')
+            this.setState({
+                error: 'Należy wybrać kolor lub rozmiar'
+            })
         } else {
             let axiosConfig = {
                 headers: {
@@ -65,7 +67,9 @@ class NewOrderStep2 extends Component {
                         id: id+1,
                     })
                 } else if (resp.data==='fail') {
-                    alert('wyczerpane')
+                    this.setState({
+                        error: 'Towar chwilowo niedostępny'
+                    })
                 }
             }).catch(error => {
                 this.props.setResp('Błąd serwera')
@@ -99,7 +103,9 @@ class NewOrderStep2 extends Component {
         };
 
         if (this.props.items.length===0) {
-            alert('Należy złożyć conajmniej jedno zamówienie')
+            this.setState({
+                error: 'Należy złożyć conajmniej jedno zamówienie'
+            })
         } else {
             axios.post('http://localhost:8081/add',
                 "name=" + this.props.name + "&"
@@ -135,7 +141,7 @@ class NewOrderStep2 extends Component {
                         response.substring(sIndex + 1)
 
                     this.setState({
-                        notAvailError: response
+                        error: response
                     })
                 } else {
                     this.props.setItems([])
@@ -161,7 +167,7 @@ class NewOrderStep2 extends Component {
         if (!this.state.redirect) return (
             <div className="main">
                 <form onSubmit={this.handleSubmit}>
-                    <p className='resp'>{this.state.notAvailError}</p>
+                    <p className='resp'>{this.state.error}</p>
                     <div className='form'>
                         <div className='col1'>
                             {name} {(name==='' || age==='') ? '' : ','} {age}

@@ -14,7 +14,9 @@ class NewOrderStep1 extends Component {
             redirect: false,
 
             ageValid: false,
-            nameValid: false
+            nameValid: false,
+
+            error: ''
         };
 
         this.nameOnChange = this.nameOnChange.bind(this);
@@ -35,14 +37,20 @@ class NewOrderStep1 extends Component {
         this.props.setName(name)
 
         if (age==='' || name==='') {
-            alert('Należy podać wymagane dane')
+            this.setState({
+                error: 'Należy podać wymagane dane'
+            })
         } else if (!this.state.ageValid) {
-            alert('Należy podać wiek w przedziale 18-100')
+            this.setState({
+                error: 'Należy podać wiek w przedziale 18-100'
+            })
         } else if (!this.state.nameValid) {
-            alert('Imię może zawierać tylko jeden wyraz, ' +
-                'musi być pisane z wielkiej litery, ' +
-                'bez cyfr i znaków specjalnych')
-        }else {
+            this.setState({
+                error: 'Imię może zawierać tylko jeden wyraz, ' +
+                    'musi być pisane z wielkiej litery, ' +
+                    'bez cyfr i znaków specjalnych'
+            })
+        } else {
             this.setState({redirect: true})
         }
         if (event!==undefined) event.preventDefault();
@@ -82,12 +90,17 @@ class NewOrderStep1 extends Component {
         let match = notAvailRegex.exec(this.props.resp)
         if (match===null) resp=this.props.resp
 
+        let error = this.state.error
+        if (error!=='') document.getElementById('nameAgeError').
+            style.display = 'block'
+
         if (!this.state.redirect) return (
             <div className="main">
                 <form onSubmit={this.handleSubmit}>
                     <div className='form'>
                         <p className='resp'>{resp}</p>
                         <h2>Nowe zamówienie</h2>
+                        <p id='nameAgeError'>{error}</p>
                         <div className='col1'>
                             <p>Imię:</p>
                             <p>Wiek:</p>
