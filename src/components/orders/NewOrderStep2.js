@@ -26,15 +26,17 @@ class NewOrderStep2 extends Component {
     }
 
     componentWillUnmount() {
-        let axiosConfig = {
+        axios.post('http://localhost:8081/restore',
+            this.getAxiosConfig()
+        )
+    }
+
+    getAxiosConfig = () => {
+        return {
             headers: {
                 "Access-Control-Allow-Origin": "*",
             }
         };
-
-        axios.post('http://localhost:8081/restore',
-            axiosConfig
-        )
     }
 
     handleSubmit(event) {
@@ -51,15 +53,9 @@ class NewOrderStep2 extends Component {
                 error: 'Należy wybrać kolor i rozmiar'
             })
         } else {
-            let axiosConfig = {
-                headers: {
-                    "Access-Control-Allow-Origin": "*",
-                }
-            };
-
             axios.post('http://localhost:8081/check',
                 "color=" + color + "&" + "size=" + size,
-                axiosConfig
+                this.getAxiosConfig()
             ).then(resp => {
                 if (resp.data==='success') {
                     this.props.addItem(newItem)
@@ -96,12 +92,6 @@ class NewOrderStep2 extends Component {
     }
 
     sendData = (event) => {
-        let axiosConfig = {
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-            }
-        };
-
         if (this.props.items.length===0) {
             this.setState({
                 error: 'Należy złożyć conajmniej jedno zamówienie'
@@ -110,7 +100,7 @@ class NewOrderStep2 extends Component {
             axios.post('http://localhost:8081/add',
                 "name=" + this.props.name + "&"
                 + "age=" + this.props.age + "&" + "items=" +this.props.items,
-                axiosConfig
+                this.getAxiosConfig()
             ).then(resp => {
                 this.props.setResp(resp.data)
 
