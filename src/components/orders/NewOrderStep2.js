@@ -46,9 +46,9 @@ class NewOrderStep2 extends Component {
         newItem.push(color);
         newItem.push(size);
 
-        if (size==='' && color==='') {
+        if (size==='' || color==='') {
             this.setState({
-                error: 'Należy wybrać kolor lub rozmiar'
+                error: 'Należy wybrać kolor i rozmiar'
             })
         } else {
             let axiosConfig = {

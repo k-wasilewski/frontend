@@ -53,6 +53,7 @@ class NewOrderStep1 extends Component {
         } else {
             this.setState({redirect: true})
         }
+
         if (event!==undefined) event.preventDefault();
     }
 
@@ -84,15 +85,28 @@ class NewOrderStep1 extends Component {
         }
     }
 
-    render() {
+    getResponse = () => {
         let resp
+
         let notAvailRegex = new RegExp('error: (.*)', 'g')
         let match = notAvailRegex.exec(this.props.resp)
         if (match===null) resp=this.props.resp
 
+        return resp
+    }
+
+    getError = () => {
         let error = this.state.error
         if (error!=='') document.getElementById('nameAgeError').
             style.display = 'block'
+
+        return error
+    }
+
+    render() {
+        let resp = this.getResponse()
+
+        let error = this.getError()
 
         if (!this.state.redirect) return (
             <div className="main">
