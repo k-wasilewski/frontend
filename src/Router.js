@@ -12,6 +12,7 @@ const Router = () => {
                 <Route path={`/step2`} exact component={Orders} />
                 <Route path={`/summary`} exact component={Summary} />
             </Switch>
+            <p id='copyright'> &copy; Kuba Wasilewski, 2020 </p>
         </div>
     );
 }
