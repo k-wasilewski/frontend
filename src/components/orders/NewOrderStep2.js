@@ -82,8 +82,31 @@ class NewOrderStep2 extends Component {
                 let notAvailRegex = new RegExp('error: (.*)', 'g')
                 let match = notAvailRegex.exec(resp.data)
                 if (match!==null) {
+                    let colorRegex = new RegExp('\\[(.*),', 'g')
+                    let sizeRegex = new RegExp(',(.*)\\]', 'g')
+                    let response = match[1]
+                    let c = colorRegex.exec(response)[1]
+                    let cPL
+                    let s = sizeRegex.exec(response)[1]
+                    let sPL
+
+                    if (c==='blue') cPL = 'Niebieski'
+                    else if (c==='lightblue') cPL = 'Błękitny'
+                    else if (c==='darkblue') cPL = 'Granatowy'
+
+                    sPL = s.toUpperCase()
+
+                    response = response.replace(c, cPL)
+                    let sIndex = response.indexOf(']')-1
+                    if (response.charAt(sIndex-1)==='x') {
+                        sIndex--
+                        response=response.replace('l]', ']')
+                    }
+                    response = response.substring(0, sIndex) + sPL +
+                        response.substring(sIndex + 1)
+
                     this.setState({
-                        notAvailError: match[1]
+                        notAvailError: response
                     })
                 } else {
                     this.props.setItems([])
