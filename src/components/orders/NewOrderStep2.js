@@ -25,6 +25,18 @@ class NewOrderStep2 extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    componentWillUnmount() {
+        let axiosConfig = {
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+            }
+        };
+
+        axios.post('http://localhost:8081/restore',
+            axiosConfig
+        )
+    }
+
     handleSubmit(event) {
         var newItem = [];
         var id = (this.state.id);
@@ -37,10 +49,27 @@ class NewOrderStep2 extends Component {
         if (size==='' && color==='') {
             alert('Należy wybrać kolor lub rozmiar')
         } else {
-            this.props.addItem(newItem)
-            this.setState({
-                id: id+1,
-            })
+            let axiosConfig = {
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                }
+            };
+
+            axios.post('http://localhost:8081/check',
+                "color=" + color + "&" + "size=" + size,
+                axiosConfig
+            ).then(resp => {
+                if (resp.data==='success') {
+                    this.props.addItem(newItem)
+                    this.setState({
+                        id: id+1,
+                    })
+                } else if (resp.data==='fail') {
+                    alert('wyczerpane')
+                }
+            }).catch(error => {
+                this.props.setResp('Błąd serwera')
+            });
         }
 
         this.resetForm()

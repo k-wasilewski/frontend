@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../../css/App.css';
 import { connect } from 'react-redux';
-import { setAge, setName } from "../../redux/actions";
+import { setAge, setName, setItems } from "../../redux/actions";
 import  { Redirect } from 'react-router-dom'
 
 class NewOrderStep1 extends Component {
@@ -20,6 +20,12 @@ class NewOrderStep1 extends Component {
         this.nameOnChange = this.nameOnChange.bind(this);
         this.ageOnChange = this.ageOnChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        this.props.setItems([])
+        this.props.setName('')
+        this.props.setAge('')
     }
 
     handleSubmit(event) {
@@ -114,7 +120,8 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
     setAge,
-    setName
+    setName,
+    setItems
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewOrderStep1);
