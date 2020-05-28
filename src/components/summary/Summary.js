@@ -28,8 +28,33 @@ class Summary extends Component {
         });
     }
 
+    formatItems = (items) => {
+        let itemsTransformed = []
+
+        items.forEach(function(item) {
+            let colorRegex = new RegExp('\\[(.*),')
+            let color = colorRegex.exec(item)[1]
+            let sizeRegex = new RegExp(',(.*)\\]')
+            let size = sizeRegex.exec(item)[1]
+
+            if (color==='blue') color='Niebieski'
+            else if (color==='darkblue') color='Granatowy'
+            else if (color==='lightblue') color='Błękitny'
+
+            size = size.toUpperCase()
+
+            itemsTransformed.push(
+                <li>
+                    Kolor: {color}<br/>
+                    Rozmiar: {size}<br/>
+                </li>
+            )
+        })
+
+        return itemsTransformed
+    }
+
     formatList = (list) => {
-        console.log('list: '+list)
         let transformedList = []
 
         let nameRegex = new RegExp('<(\\w)+', 'g')
@@ -45,41 +70,16 @@ class Summary extends Component {
 
         while (name!==null) {
             name=name[0].substr(1)
-            console.log('name: '+name)
-
             age=age.toString().substr(0, age.toString().length-1)
-            console.log('age: '+age)
-
             created = created[0]
             if (created!==null) created = createdRegex2.exec(created)[1]
-            console.log('created: '+created)
 
             while (item!==null) {
                 items.push(item[0])
                 item = itemRegex.exec(list)
             }
-            console.log(items)
 
-            let itemsTransformed = []
-            items.forEach(function(item) {
-                let colorRegex = new RegExp('\\[(.*),')
-                let color = colorRegex.exec(item)[1]
-                let sizeRegex = new RegExp(',(.*)\\]')
-                let size = sizeRegex.exec(item)[1]
-
-                if (color==='blue') color='Niebieski'
-                else if (color==='darkblue') color='Granatowy'
-                else if (color==='lightblue') color='Błękitny'
-
-                size = size.toUpperCase()
-
-                itemsTransformed.push(
-                    <li>
-                        Kolor: {color}<br/>
-                        Rozmiar: {size}<br/>
-                    </li>
-                )
-            })
+            let itemsTransformed = this.formatItems(items)
 
             let key = name+age+created
             transformedList.push((
