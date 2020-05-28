@@ -13,10 +13,18 @@ class ItemList extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        this.displayVisualization(nextProps)
+        this.paintVisualizationSize(nextProps)
+        this.paintVisualizationColor(nextProps)
+    }
+
+    displayVisualization = (nextProps) => {
         if (nextProps.size!=='' && nextProps.color!=='') {
             document.getElementById('visualization').style.display = 'block'
         }
+    }
 
+    paintVisualizationSize = (nextProps) => {
         if (nextProps.size !== this.props.size) {
             if (nextProps.size==='s' || nextProps.size==='S') {
                 document.getElementById('visualization').style.width = '25px'
@@ -33,6 +41,9 @@ class ItemList extends Component {
             } else document.getElementById('visualization').style.display
                 = 'none'
         }
+    }
+
+    paintVisualizationColor = (nextProps) => {
         if (nextProps.color !== this.props.color) {
             if (nextProps.color==='lightblue' || nextProps.color==='Błękitny') {
                 document.getElementById('visualization').style.backgroundColor

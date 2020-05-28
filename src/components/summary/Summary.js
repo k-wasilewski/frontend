@@ -87,7 +87,7 @@ class Summary extends Component {
                     <li>
                         Imię: {name}<br/>
                         Wiek: {age}<br/>
-                        <button onClick={this.showOrderList}>Zamówienia</button> <br/>
+                        <button onClick={this.showOrderList}>Elementy</button> <br/>
                         <div className='orderItems' style={{display: 'none'}}>
                             <ol start='1'>{itemsTransformed}</ol><br/>
                         </div>

@@ -12,28 +12,53 @@ class ItemList extends Component {
         };
     }
 
-    renderVisualization = () => {
-        let size = this.props.size
-        let color = this.props.color
-
+    setWidth = (size) => {
         let width
-        let height
-        let col
-        let visibility = 'visible'
 
         if (size==='S') {
             width = '25px'
-            height = '25px'
         } else if (size==='M') {
             width = '50px'
-            height = '50px'
         } else if (size==='L') {
             width = '75px'
-            height = '75px'
         } else if (size==='XL') {
             width = '100px'
+        }
+
+        return width
+    }
+
+    setHeight = (size) => {
+        let height
+
+        if (size==='S') {
+            height = '25px'
+        } else if (size==='M') {
+            height = '50px'
+        } else if (size==='L') {
+            height = '75px'
+        } else if (size==='XL') {
             height = '100px'
-        } else visibility = 'hidden'
+        }
+
+        return height
+    }
+
+    setVisibility = (size, color) => {
+        let visibility = 'visible'
+
+        if (size!=='S' && size!=='M' && size!=='L' && size!=='XL') {
+            visibility = 'hidden'
+        }
+        if (color!=='Błękitny' && color!=='Niebieski' && color!=='Granatowy') {
+            visibility = 'hidden'
+        }
+
+        return visibility
+    }
+
+    setCol = (color) => {
+        let col
 
         if (color==='Błękitny') {
             col = 'lightblue'
@@ -41,7 +66,19 @@ class ItemList extends Component {
             col = 'darkblue'
         } else if (color==='Niebieski') {
             col = 'blue'
-        } else visibility = 'hidden'
+        }
+
+        return col
+    }
+
+    renderVisualization = () => {
+        let size = this.props.size
+        let color = this.props.color
+
+        let visibility = this.setVisibility(size, color)
+        let width = this.setWidth(size)
+        let height = this.setHeight(size)
+        let col = this.setCol(color)
 
         return (
             <div style={{width: width, height: height, backgroundColor: col, visibility: visibility}}>
