@@ -71,11 +71,16 @@ class NewOrderStep1 extends Component {
     }
 
     render() {
+        let resp
+        let notAvailRegex = new RegExp('error: (.*)', 'g')
+        let match = notAvailRegex.exec(this.props.resp)
+        if (match===null) resp=this.props.resp
+
         if (!this.state.redirect) return (
             <div className="main">
                 <form onSubmit={this.handleSubmit}>
                     <div className='form'>
-                        <p className='resp'>{this.props.resp}</p>
+                        <p className='resp'>{resp}</p>
                         <h2>Nowe zamówienie</h2>
                         <div className='col1'>
                             <p>Imię:</p>

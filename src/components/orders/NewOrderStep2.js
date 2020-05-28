@@ -16,7 +16,8 @@ class NewOrderStep2 extends Component {
             size: '',
             id: 0,
 
-            redirect: false
+            redirect: false,
+            notAvailError: ''
         };
 
         this.colorOnChange = this.colorOnChange.bind(this);
@@ -77,17 +78,25 @@ class NewOrderStep2 extends Component {
                 axiosConfig
             ).then(resp => {
                 this.props.setResp(resp.data)
+
+                let notAvailRegex = new RegExp('error: (.*)', 'g')
+                let match = notAvailRegex.exec(resp.data)
+                if (match!==null) {
+                    this.setState({
+                        notAvailError: match[1]
+                    })
+                } else {
+                    this.props.setItems([])
+                    this.props.setName('')
+                    this.props.setAge('')
+                    this.setState({
+                        id: 0,
+                        redirect: true
+                    })
+                }
             }).catch(error => {
                 this.props.setResp('Błąd serwera')
             });
-
-            this.props.setItems([])
-            this.props.setName('')
-            this.props.setAge('')
-            this.setState({
-                id: 0,
-                redirect: true
-            })
         }
 
         if (event!==undefined) event.preventDefault();
@@ -100,6 +109,7 @@ class NewOrderStep2 extends Component {
         if (!this.state.redirect) return (
             <div className="main">
                 <form onSubmit={this.handleSubmit}>
+                    <p className='resp'>{this.state.notAvailError}</p>
                     <div className='form'>
                         <div className='col1'>
                             {name} {(name==='' || age==='') ? '' : ','} {age}
