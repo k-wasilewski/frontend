@@ -1,0 +1,122 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App specification App is rendered 1`] = `
+<div
+  className="App"
+>
+  <header>
+    <div
+      className="menu hidden"
+    >
+      <nav>
+        <a
+          aria-current="page"
+          className="menu-item active"
+          href="/"
+          onClick={[Function]}
+          style={Object {}}
+        >
+          <button
+            className="menu-item"
+          >
+            <div
+              className="menu-item-div"
+            >
+              Nowe zamówienie
+            </div>
+          </button>
+        </a>
+        <a
+          aria-current={null}
+          className="menu-item"
+          href="/summary"
+          onClick={[Function]}
+        >
+          <button
+            className="menu-item"
+          >
+            <div
+              className="menu-item-div"
+            >
+              Podsumowanie
+            </div>
+          </button>
+        </a>
+      </nav>
+    </div>
+    <img
+      alt="menu button"
+      id="menu-btn"
+      onClick={[Function]}
+      src={Object {}}
+    />
+  </header>
+  <div
+    className="router"
+  >
+    <div
+      className="main"
+    >
+      <form
+        onSubmit={[Function]}
+      >
+        <div
+          className="form"
+        >
+          <p
+            className="resp"
+          />
+          <h2>
+            Nowe zamówienie
+          </h2>
+          <p
+            id="nameAgeError"
+          >
+            
+          </p>
+          <div
+            className="col1"
+          >
+            <p>
+              Imię:
+            </p>
+            <p>
+              Wiek:
+            </p>
+            <button>
+              Dalej
+            </button>
+          </div>
+          <div
+            className="col2"
+          >
+            <p>
+              <input
+                id="nameInput"
+                name="name"
+                onChange={[Function]}
+                type="text"
+                value=""
+              />
+            </p>
+            <p>
+              <input
+                id="ageInput"
+                name="age"
+                onChange={[Function]}
+                type="number"
+                value=""
+              />
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+    <p
+      id="copyright"
+    >
+       © Kuba Wasilewski, 2020 
+    </p>
+  </div>
+</div>
+`;

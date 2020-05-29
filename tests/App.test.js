@@ -6,8 +6,7 @@ import App from "../src/App";
 import {Provider} from "react-redux";
 
 describe("App specification", () => {
-    it('App is rendered', (done) => {
-        done()
+    it('App is rendered', () => {
         const component = renderer.create(
             <Provider store={store}>
                 <BrowserRouter>
