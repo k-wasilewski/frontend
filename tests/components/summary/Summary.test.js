@@ -5,6 +5,8 @@ import {Provider} from "react-redux";
 import {configure, shallow} from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
 import ConnectedSummary, { Summary } from "../../../src/components/summary/Summary"
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 
 describe("Summary specification", () => {
     it('renders a title and a button initially', () => {
@@ -21,13 +23,31 @@ describe("Summary specification", () => {
         expect(summary.children[2].children[0].children[0]).toEqual('Szukaj')
     })
 
-    it('doGetList()', () => {
+    it('doGetList() is invoked when search btn is clicked', () => {
         configure({ adapter: new Adapter() });
+
+        const doGetList = jest.spyOn(Summary.prototype, 'doGetList');
 
         const component = shallow(
             <Summary />
         )
 
-        let mockClick = () => component.find('.col2')[0].children[0].simulate('click')
+        component.instance().doGetList = jest.fn();
+        component.update();
+        let mockClick = () => component.find('.col2').find('button').simulate('click')
+        mockClick()
+
+        expect(doGetList).toHaveBeenCalled()
     })
+
+    /*
+    var mock = new MockAdapter(axios);
+        const data = { response: true };
+        mock.onGet('http://localhost:8081/list').reply(200, data);
+
+        mockClick().then(response => {
+            expect(response).toEqual(data);
+            done();
+        });
+     */
 })
