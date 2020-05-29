@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InListVisualization specification renders empty div 1`] = `
+<div>
+  <div
+    style={
+      Object {
+        "backgroundColor": undefined,
+        "height": undefined,
+        "visibility": "hidden",
+        "width": undefined,
+      }
+    }
+  >
+     
+  </div>
+</div>
+`;

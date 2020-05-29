@@ -3,7 +3,7 @@ import '../../css/App.css';
 import {connect} from "react-redux";
 import {setItems} from "../../redux/actions";
 
-class InListVisualization extends Component {
+export class InListVisualization extends Component {
     constructor(props) {
         super(props);
         this.state = {

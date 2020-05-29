@@ -1,10 +1,10 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import store from "../../src/redux/store";
+import store from "../../../src/redux/store";
 import {Provider} from "react-redux";
 import {configure, shallow} from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
-import ConnectedVisualization, { Visualization } from "../../src/components/visualization/Visualization";
+import ConnectedVisualization, { Visualization } from "../../../src/components/visualization/Visualization";
 
 describe("Visualization specification", () => {
     it('renders empty div', () => {
