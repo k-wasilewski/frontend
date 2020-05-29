@@ -2,7 +2,7 @@ import React from 'react';
 import * as actions from "../../src/redux/actions"
 import setAgeReducer from "../../src/redux/setAgeReducer";
 
-describe("newItemReducer specification", () => {
+describe("setAgeReducer specification", () => {
     it('should return the initial state', () => {
         expect(setAgeReducer(undefined, {})).toEqual({
             age: []
