@@ -40,14 +40,20 @@ describe("Summary specification", () => {
         expect(doGetList).toHaveBeenCalled()
     })
 
-    /*
-    var mock = new MockAdapter(axios);
-        const data = { response: true };
-        mock.onGet('http://localhost:8081/list').reply(200, data);
+    it('doGetList() sends a request to server', (done) => {
+        var mock = new MockAdapter(axios);
+        const resp = true
+        mock.onGet('http://localhost:8081/list').reply(200, resp);
 
-        mockClick().then(response => {
-            expect(response).toEqual(data);
-            done();
-        });
-     */
+        const component = shallow(
+            <Summary />
+        )
+
+        component.instance().doGetList()
+
+        setTimeout(function () {
+            expect(component.instance().state.list).toEqual(resp)
+            done()
+        }, 4000)
+    })
 })
