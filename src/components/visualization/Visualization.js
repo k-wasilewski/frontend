@@ -12,7 +12,7 @@ export class Visualization extends Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         this.displayVisualization(nextProps)
         this.paintVisualizationSize(nextProps)
         this.paintVisualizationColor(nextProps)

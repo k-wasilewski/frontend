@@ -28,7 +28,7 @@ describe("Visualization specification", () => {
         )
 
         try {
-            component.instance().componentWillReceiveProps({
+            component.instance().UNSAFE_componentWillReceiveProps({
                 size: 'mock size',
                 color: 'mock color'
             })

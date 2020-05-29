@@ -6,7 +6,7 @@ export class Summary extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            list: ''
+            list: '',
         };
 
         this.doGetList = this.doGetList.bind(this);
@@ -44,7 +44,7 @@ export class Summary extends Component {
             size = size.toUpperCase()
 
             itemsTransformed.push(
-                <li>
+                <li key={itemsTransformed.length}>
                     Kolor: {color}<br/>
                     Rozmiar: {size}<br/>
                 </li>

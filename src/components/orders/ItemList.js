@@ -12,7 +12,7 @@ class ItemList extends Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.item !== this.props.item) {
             var updatedItems = this.state.items
             updatedItems.push(nextProps.item);

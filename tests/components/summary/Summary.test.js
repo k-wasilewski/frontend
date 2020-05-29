@@ -56,4 +56,20 @@ describe("Summary specification", () => {
             done()
         }, 4000)
     })
+
+    it('formatList() transforms string to a list element', () => {
+        const name = 'Kuba'
+        const age = '30'
+        const datetime = '2020-05-29 18:37:23.458'
+        const list = '[<'+name+', '+age+', '+datetime+': [[blue, s]]>]'
+
+        const component = shallow(
+            <Summary />
+        )
+
+        const transformedList = component.instance().formatList(list)
+
+        expect(transformedList[0].type).toEqual('ul')
+        expect(transformedList[0].key).toEqual(name+age+datetime)
+    })
 })
