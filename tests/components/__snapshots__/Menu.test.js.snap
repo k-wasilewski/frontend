@@ -49,3 +49,53 @@ exports[`Menu specification renders gyfytfuyfiytd 1`] = `
   />
 </header>
 `;
+
+exports[`Menu specification renders two menu items and a menu btn 1`] = `
+<header>
+  <div
+    className="menu hidden"
+  >
+    <nav>
+      <a
+        aria-current="page"
+        className="menu-item active"
+        href="/"
+        onClick={[Function]}
+        style={Object {}}
+      >
+        <button
+          className="menu-item"
+        >
+          <div
+            className="menu-item-div"
+          >
+            Nowe zamówienie
+          </div>
+        </button>
+      </a>
+      <a
+        aria-current={null}
+        className="menu-item"
+        href="/summary"
+        onClick={[Function]}
+      >
+        <button
+          className="menu-item"
+        >
+          <div
+            className="menu-item-div"
+          >
+            Podsumowanie
+          </div>
+        </button>
+      </a>
+    </nav>
+  </div>
+  <img
+    alt="menu button"
+    id="menu-btn"
+    onClick={[Function]}
+    src={Object {}}
+  />
+</header>
+`;

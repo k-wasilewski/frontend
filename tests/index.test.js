@@ -4,7 +4,6 @@ import {BrowserRouter} from "react-router-dom";
 import App from "../src/App";
 import {Provider} from "react-redux";
 import {render} from "react-dom";
-import {act} from "react-dom/test-utils";
 
 describe("index specification", () => {
     it('index is rendered to "root" div', () => {

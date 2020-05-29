@@ -4,6 +4,9 @@ import store from "../../src/redux/store";
 import {Provider} from "react-redux";
 import Menu from "../../src/components/Menu";
 import {BrowserRouter} from "react-router-dom";
+import {configure, shallow} from 'enzyme';
+import Adapter from "enzyme-adapter-react-16";
+import App from "../../src/App";
 
 describe("Menu specification", () => {
     it('renders two menu items and a menu btn', () => {
@@ -25,5 +28,23 @@ describe("Menu specification", () => {
 
         let menuBtn = tree.children[1]
         expect(menuBtn.props.id).toContain('menu-btn')
+    })
+
+    it('toggleMenuVisibility()', () => {
+        configure({ adapter: new Adapter() });
+
+        const component = shallow(
+            <Menu />
+        )
+        
+        let mockClick = () => component.find('#menu-btn').simulate('click')
+
+        expect(mockClick).toThrow(TypeError)
+
+        try {
+            mockClick()
+        } catch (e) {
+            expect(e.message).toBe("Cannot read property 'classList' of undefined");
+        }
     })
 })
