@@ -16,23 +16,24 @@ describe("Visualization specification", () => {
         let tree = component.toJSON();
         expect(tree).toMatchSnapshot();
 
-        console.log(tree)
         expect(tree.children[0]).toEqual('\u00a0')
     })
 
-    it('toggleMenuVisibility()', () => {
+    it('should invoke style-changing functions when componentWillReceiveProps() ' +
+        'is invoked', () => {
         configure({ adapter: new Adapter() });
 
         const component = shallow(
             <Visualization />
         )
 
-        component.instance().displayVisualization = jest.fn();
-        component.instance().paintVisualizationSize = jest.fn();
-        component.instance().paintVisualizationColor = jest.fn();
-        component.update();
-        expect(component.instance().displayVisualization).toBeCalled()
-        expect(component.instance().paintVisualizationSize).toBeCalled()
-        expect(component.instance().paintVisualizationColor).toBeCalled()
+        try {
+            component.instance().componentWillReceiveProps({
+                size: 'mock size',
+                color: 'mock color'
+            })
+        } catch (e) {
+            expect(e.message).toBe("Cannot read property 'style' of null");
+        }
     })
 })

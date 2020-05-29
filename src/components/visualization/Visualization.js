@@ -3,7 +3,7 @@ import '../../css/App.css';
 import {connect} from "react-redux";
 import {setItems} from "../../redux/actions";
 
-export class ItemList extends Component {
+export class Visualization extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -81,4 +81,4 @@ const mapDispatchToProps = {
     setItems,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ItemList);
+export default connect(mapStateToProps, mapDispatchToProps)(Visualization);
