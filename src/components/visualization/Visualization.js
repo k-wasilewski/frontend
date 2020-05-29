@@ -3,7 +3,7 @@ import '../../css/App.css';
 import {connect} from "react-redux";
 import {setItems} from "../../redux/actions";
 
-class ItemList extends Component {
+export class ItemList extends Component {
     constructor(props) {
         super(props);
         this.state = {
