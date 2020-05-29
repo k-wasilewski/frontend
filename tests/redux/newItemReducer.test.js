@@ -1,7 +1,6 @@
 import React from 'react';
 import * as actions from "../../src/redux/actions"
 import newItemReducer from "../../src/redux/newItemReducer";
-import {addItem} from "../../src/redux/actions";
 
 describe("newItemReducer specification", () => {
     it('should return the initial state', () => {

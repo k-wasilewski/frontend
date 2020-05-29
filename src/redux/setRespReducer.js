@@ -4,7 +4,7 @@ const initialState = {
     resp: []
 };
 
-export default function setAgeReducer(state = initialState, action) {
+export default function setRespReducer(state = initialState, action) {
     switch(action.type) {
         case SET_RESP:
             return {
