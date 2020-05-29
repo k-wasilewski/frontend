@@ -6,6 +6,7 @@
   "plugins": [
     "@babel/plugin-proposal-class-properties",
     "@babel/transform-runtime",
-    "babel-plugin-react-css-modules"
+    "babel-plugin-react-css-modules",
+    "transform-export-extensions"
   ]
 }
