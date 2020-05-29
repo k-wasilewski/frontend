@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import '../../css/App.css';
 import axios from "axios";
 
-class Summary extends Component {
+export class Summary extends Component {
     constructor(props) {
         super(props);
         this.state = {

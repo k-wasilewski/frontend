@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Summary specification renders a list and a button 1`] = `
+<div
+  className="main"
+>
+  <div
+    className="summary"
+  >
+    <h2>
+      Podsumowanie
+    </h2>
+    <div
+      className="col1"
+    >
+      <p />
+    </div>
+    <div
+      className="col2"
+    >
+      <button
+        onClick={[Function]}
+      >
+        Szukaj
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Summary specification renders a title and a button initially 1`] = `
+<div
+  className="main"
+>
+  <div
+    className="summary"
+  >
+    <h2>
+      Podsumowanie
+    </h2>
+    <div
+      className="col1"
+    >
+      <p />
+    </div>
+    <div
+      className="col2"
+    >
+      <button
+        onClick={[Function]}
+      >
+        Szukaj
+      </button>
+    </div>
+  </div>
+</div>
+`;
