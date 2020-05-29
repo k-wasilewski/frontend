@@ -57,7 +57,7 @@ describe("Summary specification", () => {
         }, 4000)
     })
 
-    it('formatList() transforms string to a list element', () => {
+    it('formatList() transforms string to list elements', () => {
         const name = 'Kuba'
         const age = '30'
         const datetime = '2020-05-29 18:37:23.458'
@@ -71,5 +71,28 @@ describe("Summary specification", () => {
 
         expect(transformedList[0].type).toEqual('ul')
         expect(transformedList[0].key).toEqual(name+age+datetime)
+    })
+
+    it('formatItems() transforms array elements to list elements', () => {
+        const size = 's'
+        const color = 'blue'
+        const sizePL = 'S'
+        const colorPL = 'Niebieski'
+
+        let items = []
+        let item = '['+color+','+size+']'
+        items.push(item)
+
+        const component = shallow(
+            <Summary />
+        )
+
+        const transformedItems = component.instance().formatItems(items)
+
+        expect(transformedItems[0].type).toEqual('li')
+        expect(transformedItems[0].key).toEqual('0')
+
+        expect(JSON.stringify(transformedItems[0])).toContain(colorPL)
+        expect(JSON.stringify(transformedItems[0])).toContain(sizePL)
     })
 })
