@@ -6,7 +6,7 @@ import axios from 'axios';
 import {Redirect} from "react-router-dom";
 import Visualization from "../visualization/Visualization";
 
-class NewOrderStep2 extends Component {
+export class NewOrderStep2 extends Component {
     constructor(props) {
         super(props);
         this.state = {
