@@ -5,8 +5,8 @@ import {Provider} from "react-redux";
 import {configure, shallow} from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
 import ConnectedNewOrderStep2, { NewOrderStep2 } from "../../../src/components/orders/NewOrderStep2";
-import {NewOrderStep1} from "../../../src/components/orders/NewOrderStep1";
-import {Summary} from "../../../src/components/summary/Summary";
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 
 describe("NewOrderStep2 specification", () => {
     it('should render a form with select, radio, and two buttons', () => {
@@ -257,5 +257,162 @@ describe("NewOrderStep2 specification", () => {
         })
         component.instance().addToList()
         expect(component.state('checking')).toEqual('sblue')
+    })
+
+    it('componentWillUnmount()', (done) => {
+        configure({adapter: new Adapter()});
+
+        const error = console.error;
+        console.error = jest.fn();
+
+        let axiosConfig = {
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+            }
+        };
+
+        var mock = new MockAdapter(axios);
+        const resp = []
+        mock.onPost(
+            'http://localhost:8081/restore',
+            axiosConfig
+        ).reply(200, resp);
+
+        let mockSetResp = jest.fn()
+        let mockSetName = jest.fn()
+        let mockSetAge = jest.fn()
+        let mockSetItems = jest.fn()
+
+        const component = shallow(
+            <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
+                           setItems={mockSetItems}/>
+        )
+
+        component.instance().componentWillUnmount()
+        console.error = error
+        done()
+    })
+
+    it('doCheckAvailability() with error', (done) => {
+        configure({adapter: new Adapter()});
+
+        const error = console.error;
+        console.error = jest.fn();
+
+        let axiosConfig = {
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+            }
+        };
+
+        var mock = new MockAdapter(axios);
+        const resp = {data: 'success'}
+        mock.onPost(
+            'http://localhost:8081/sdfsdf',
+            axiosConfig
+        ).reply(200, resp);
+
+        let mockSetResp = jest.fn()
+        let mockSetName = jest.fn()
+        let mockSetAge = jest.fn()
+        let mockSetItems = jest.fn()
+        let mockAddItem = jest.fn()
+
+        const component = shallow(
+            <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
+                           setItems={mockSetItems} addItem={mockAddItem}/>
+        )
+
+        const color = 'blue'
+        const size = 's'
+        const id = 0
+        const item = [id, color, size]
+
+        component.instance().doCheckAvailability(color, size, item, id)
+
+        setTimeout(function () {
+            expect(mockSetResp).toHaveBeenCalled()
+            done()
+        }, 4000)
+    })
+
+    it('doCheckAvailability() with success response', (done) => {
+        configure({adapter: new Adapter()});
+
+        const error = console.error;
+        console.error = jest.fn();
+
+        let axiosConfig = {
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+            }
+        };
+
+        var mock = new MockAdapter(axios);
+        const resp = 'success'
+        mock.onPost().reply(200, resp);
+
+        let mockSetResp = jest.fn()
+        let mockSetName = jest.fn()
+        let mockSetAge = jest.fn()
+        let mockSetItems = jest.fn()
+        let mockAddItem = jest.fn()
+
+        const component = shallow(
+            <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
+                           setItems={mockSetItems} addItem={mockAddItem}/>
+        )
+
+        const color = 'blue'
+        const size = 's'
+        const id = 0
+        const item = [id, color, size]
+
+        component.instance().doCheckAvailability(color, size, item, id)
+
+        setTimeout(function () {
+            expect(mockAddItem).toHaveBeenCalled()
+            done()
+        }, 4000)
+    })
+
+    it('doCheckAvailability() with fail response', (done) => {
+        configure({adapter: new Adapter()});
+
+        const error = console.error;
+        console.error = jest.fn();
+
+        let axiosConfig = {
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+            }
+        };
+
+        var mock = new MockAdapter(axios);
+        const resp = 'fail'
+        mock.onPost().reply(200, resp);
+
+        let mockSetResp = jest.fn()
+        let mockSetName = jest.fn()
+        let mockSetAge = jest.fn()
+        let mockSetItems = jest.fn()
+        let mockAddItem = jest.fn()
+
+        const component = shallow(
+            <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
+                           setItems={mockSetItems} addItem={mockAddItem}/>
+        )
+
+        const color = 'blue'
+        const size = 's'
+        const id = 0
+        const item = [id, color, size]
+
+        component.instance().doCheckAvailability(color, size, item, id)
+
+        setTimeout(function () {
+            expect(component.state('error')).toEqual('Towar chwilowo niedostępny')
+            done()
+        }, 4000)
     })
 })
