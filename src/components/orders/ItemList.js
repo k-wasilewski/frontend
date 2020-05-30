@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {setItems} from "../../redux/actions";
 import InListVisualization from "../visualization/InListVisualization";
 
-class ItemList extends Component {
+export class ItemList extends Component {
     constructor(props) {
         super(props);
         this.state = {

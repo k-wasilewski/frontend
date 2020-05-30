@@ -18,8 +18,6 @@ describe("Orders specification", () => {
         let tree = component.toJSON();
         expect(tree).toMatchSnapshot();
 
-        console.log(JSON.stringify(tree))
-
         expect((/Kolor:/g).test(JSON.stringify(tree))).toBeTruthy()
         expect((/Rozmiar:/g).test(JSON.stringify(tree))).toBeTruthy()
         expect((/Lista zamówień/g).test(JSON.stringify(tree))).toBeTruthy()

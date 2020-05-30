@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ItemList specification renders edwede 1`] = `
+<div
+  className="main"
+>
+  <h3>
+    Lista zamówień
+  </h3>
+  <ol
+    start="1"
+  />
+</div>
+`;
