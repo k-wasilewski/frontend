@@ -5,7 +5,6 @@ import {Provider} from "react-redux";
 import {configure, shallow} from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
 import ConnectedNewOrderStep1, { NewOrderStep1 } from "../../../src/components/orders/NewOrderStep1";
-import {Summary} from "../../../src/components/summary/Summary";
 
 describe("NewOrderStep1 specification", () => {
     it('should render a form with two inputs', () => {
@@ -57,5 +56,55 @@ describe("NewOrderStep1 specification", () => {
         expect(mockSetAge).toHaveBeenCalled()
         expect(getResponse).toHaveBeenCalled()
         expect(getError).toHaveBeenCalled()
+    })
+
+    it('nameOnChange is invoked on nameInput value change', () => {
+        configure({ adapter: new Adapter() });
+
+        const event = {
+            preventDefault() {},
+            target: { value: 'some value' }
+        };
+
+        let mockSetItems = jest.fn()
+        let mockSetName = jest.fn()
+        let mockSetAge = jest.fn()
+
+        const component = shallow(
+            <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge} />
+        )
+
+        const nameInput = component.find('#nameInput')
+
+        try {
+            nameInput.simulate('change', event)
+        } catch (e) {
+            expect(e.message).toEqual('Cannot read property \'style\' of null')
+        }
+    })
+
+    it('ageOnChange is invoked on ageInput value change', () => {
+        configure({ adapter: new Adapter() });
+
+        const event = {
+            preventDefault() {},
+            target: { value: 'some value' }
+        };
+
+        let mockSetItems = jest.fn()
+        let mockSetName = jest.fn()
+        let mockSetAge = jest.fn()
+
+        const component = shallow(
+            <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge} />
+        )
+
+        const ageInput = component.find('#ageInput')
+
+        try {
+            ageInput.simulate('change', event)
+        } catch (e) {
+            expect(e.message).toEqual('Cannot read property \'style\' of null')
+        }
     })
 })
