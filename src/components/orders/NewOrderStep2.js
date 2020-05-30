@@ -17,7 +17,9 @@ export class NewOrderStep2 extends Component {
             id: 0,
 
             redirect: false,
-            error: ''
+            error: '',
+
+            checking: ''
         };
 
         this.colorOnChange = this.colorOnChange.bind(this);
@@ -39,7 +41,7 @@ export class NewOrderStep2 extends Component {
         };
     }
 
-    doCheckAvailability = (color, size, newItem, id) => {
+    doCheckAvailability(color, size, newItem, id) {
         axios.post('http://localhost:8081/check',
             "color=" + color + "&" + "size=" + size,
             this.getAxiosConfig()
@@ -73,6 +75,7 @@ export class NewOrderStep2 extends Component {
                 error: 'Należy wybrać kolor i rozmiar'
             })
         } else {
+            this.setState({checking: size+color})
             this.doCheckAvailability(color, size, newItem, id)
         }
 

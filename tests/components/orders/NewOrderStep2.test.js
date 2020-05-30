@@ -6,6 +6,7 @@ import {configure, shallow} from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
 import ConnectedNewOrderStep2, { NewOrderStep2 } from "../../../src/components/orders/NewOrderStep2";
 import {NewOrderStep1} from "../../../src/components/orders/NewOrderStep1";
+import {Summary} from "../../../src/components/summary/Summary";
 
 describe("NewOrderStep2 specification", () => {
     it('should render a form with select, radio, and two buttons', () => {
@@ -167,5 +168,94 @@ describe("NewOrderStep2 specification", () => {
         component.instance().sendData()
 
         expect(component.instance().doAddOrder).toBeCalled();
+    })
+
+    it('handleResponse() with error', () => {
+        configure({ adapter: new Adapter() });
+
+        const msg = '[blue,s]'
+        const msgPL = '[Niebieski,S]'
+        const data = 'error: '+msg
+
+        const resp = {data: data}
+
+        let mockSetResp = jest.fn()
+        let mockSetName = jest.fn()
+        let mockSetAge = jest.fn()
+        let mockSetItems = jest.fn()
+
+        const component = shallow(
+            <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
+                           setItems={mockSetItems}/>
+        )
+
+        component.instance().handleResponse(resp)
+        expect(mockSetResp).toHaveBeenCalled()
+        expect(component.state('error')).toEqual(msgPL)
+    })
+
+    it('handleResponse() without error', () => {
+        configure({ adapter: new Adapter() });
+
+        const msg = '[blue,s]'
+        const msgPL = '[Niebieski,S]'
+        const data = msg
+
+        const resp = {data: data}
+
+        let mockSetResp = jest.fn()
+        let mockSetName = jest.fn()
+        let mockSetAge = jest.fn()
+        let mockSetItems = jest.fn()
+
+        const component = shallow(
+            <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
+                           setItems={mockSetItems}/>
+        )
+
+        component.instance().handleResponse(resp)
+        expect(mockSetResp).toHaveBeenCalled()
+        expect(mockSetItems).toHaveBeenCalled()
+        expect(mockSetAge).toHaveBeenCalled()
+        expect(mockSetName).toHaveBeenCalled()
+        expect(component.state('id')).toEqual(0)
+        expect(component.state('redirect')).toEqual(true)
+    })
+
+    it('addToList()', () => {
+        configure({ adapter: new Adapter() });
+
+        let mockSetResp = jest.fn()
+        let mockSetName = jest.fn()
+        let mockSetAge = jest.fn()
+        let mockSetItems = jest.fn()
+
+        const component = shallow(
+            <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
+                           setItems={mockSetItems}/>
+        )
+
+        component.setState({
+            size: '',
+            color: 'blue'
+        })
+        component.instance().addToList()
+        expect(component.state('error')).toEqual('Należy wybrać kolor i rozmiar')
+
+        component.setState({
+            size: 's',
+            color: ''
+        })
+        component.instance().addToList()
+        expect(component.state('error')).toEqual('Należy wybrać kolor i rozmiar')
+
+
+
+        component.setState({
+            size: 's',
+            color: 'blue'
+        })
+        component.instance().addToList()
+        expect(component.state('checking')).toEqual('sblue')
     })
 })
