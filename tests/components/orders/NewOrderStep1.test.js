@@ -47,10 +47,6 @@ describe("NewOrderStep1 specification", () => {
             <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge}/>
         )
 
-        component.instance().getResponse = jest.fn()
-        component.instance().getError = jest.fn()
-        component.update()
-
         expect(mockSetItems).toHaveBeenCalled()
         expect(mockSetName).toHaveBeenCalled()
         expect(mockSetAge).toHaveBeenCalled()
@@ -106,5 +102,57 @@ describe("NewOrderStep1 specification", () => {
         } catch (e) {
             expect(e.message).toEqual('Cannot read property \'style\' of null')
         }
+    })
+
+    it('getError()', () => {
+        configure({ adapter: new Adapter() });
+
+        let mockSetItems = jest.fn()
+        let mockSetName = jest.fn()
+        let mockSetAge = jest.fn()
+
+        const component = shallow(
+            <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge} />
+        )
+
+        try {
+            component.setState({
+                error: 'sample error'
+            })
+        } catch (e) {
+            expect(e.message).toEqual('Cannot read property \'style\' of null')
+        }
+    })
+
+    it('getResponse() with error', () => {
+        configure({ adapter: new Adapter() });
+
+        let mockSetItems = jest.fn()
+        let mockSetName = jest.fn()
+        let mockSetAge = jest.fn()
+
+        const component = shallow(
+            <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge}
+                resp='error: sample resp' />
+        )
+
+        let result = component.instance().getResponse()
+        expect(result).toEqual('sample resp')
+    })
+
+    it('getResponse() without error', () => {
+        configure({ adapter: new Adapter() });
+
+        let mockSetItems = jest.fn()
+        let mockSetName = jest.fn()
+        let mockSetAge = jest.fn()
+
+        const component = shallow(
+            <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge}
+                           resp='sample resp' />
+        )
+
+        let result = component.instance().getResponse()
+        expect(result).toEqual('sample resp')
     })
 })

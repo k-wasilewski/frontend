@@ -86,13 +86,11 @@ export class NewOrderStep1 extends Component {
     }
 
     getResponse() {
-        let resp
-
         let notAvailRegex = new RegExp('error: (.*)', 'g')
         let match = notAvailRegex.exec(this.props.resp)
-        if (match===null) resp=this.props.resp
+        if (match===null) return this.props.resp
 
-        return resp
+        return match[1]
     }
 
     getError() {
