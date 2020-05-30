@@ -67,6 +67,8 @@ describe("Summary specification", () => {
     })
 
     it('formatList() transforms string to list elements', () => {
+        configure({ adapter: new Adapter() });
+
         const name = 'Kuba'
         const age = '30'
         const datetime = '2020-05-29 18:37:23.458'
@@ -83,6 +85,8 @@ describe("Summary specification", () => {
     })
 
     it('formatItems() transforms array elements to list elements', () => {
+        configure({ adapter: new Adapter() });
+
         const size = 's'
         const color = 'blue'
         const sizePL = 'S'
@@ -106,6 +110,8 @@ describe("Summary specification", () => {
     })
 
     it('button "Elementy" should invoke showOrderList()', () => {
+        configure({ adapter: new Adapter() });
+
         const name = 'Kuba'
         const age = '30'
         const datetime = '2020-05-29 18:37:23.458'

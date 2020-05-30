@@ -1,0 +1,158 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Orders specification Orders renders NewOrderStep2 and ItemList components 1`] = `
+<div>
+  <div
+    className="main"
+  >
+    <form
+      onSubmit={[Function]}
+    >
+      <p
+        className="resp"
+      >
+        
+      </p>
+      <div
+        className="form"
+      >
+        <div
+          className="col1"
+        >
+           
+          ,
+           
+          <p>
+            <label
+              htmlFor="color"
+            >
+              Kolor:
+            </label>
+          </p>
+          <p>
+            Rozmiar:
+          </p>
+          <button>
+            Zapisz
+          </button>
+          <button
+            onClick={[Function]}
+          >
+            Wyślij
+          </button>
+        </div>
+        <div
+          className="col2"
+        >
+          <p>
+            <select
+              id="color"
+              name="color"
+              onChange={[Function]}
+              value=""
+            >
+              <option
+                defaultValue={true}
+                disabled={true}
+                value=""
+              >
+                (wybierz)
+              </option>
+              <option
+                value="blue"
+              >
+                Niebieski
+              </option>
+              <option
+                value="lightblue"
+              >
+                Błękitny
+              </option>
+              <option
+                value="darkblue"
+              >
+                Granatowy
+              </option>
+            </select>
+          </p>
+          <input
+            checked={false}
+            id="s"
+            name="size"
+            onChange={[Function]}
+            type="radio"
+            value="s"
+          />
+          <label
+            htmlFor="male"
+          >
+            S
+          </label>
+          <br />
+          <input
+            checked={false}
+            id="m"
+            name="size"
+            onChange={[Function]}
+            type="radio"
+            value="m"
+          />
+          <label
+            htmlFor="female"
+          >
+            M
+          </label>
+          <br />
+          <input
+            checked={false}
+            id="l"
+            name="size"
+            onChange={[Function]}
+            type="radio"
+            value="l"
+          />
+          <label
+            htmlFor="other"
+          >
+            L
+          </label>
+          <br />
+          <input
+            checked={false}
+            id="xl"
+            name="size"
+            onChange={[Function]}
+            type="radio"
+            value="xl"
+          />
+          <label
+            htmlFor="other"
+          >
+            XL
+          </label>
+          <br />
+        </div>
+        <div
+          className="col2"
+        >
+          <div
+            id="visualization"
+          >
+             
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div
+    className="main"
+  >
+    <h3>
+      Lista zamówień
+    </h3>
+    <ol
+      start="1"
+    />
+  </div>
+</div>
+`;
