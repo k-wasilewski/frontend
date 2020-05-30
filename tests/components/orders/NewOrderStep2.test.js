@@ -5,6 +5,7 @@ import {Provider} from "react-redux";
 import {configure, shallow} from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
 import ConnectedNewOrderStep2, { NewOrderStep2 } from "../../../src/components/orders/NewOrderStep2";
+import {NewOrderStep1} from "../../../src/components/orders/NewOrderStep1";
 
 describe("NewOrderStep2 specification", () => {
     it('should render a form with select, radio, and two buttons', () => {
@@ -50,12 +51,49 @@ describe("NewOrderStep2 specification", () => {
         expect(radio10.props).toHaveProperty('name', 'size' )
     })
 
-    it('sdfsdfsd', () => {
+    it('colorOnChange is invoked and changes state on colorInput value change', () => {
         configure({ adapter: new Adapter() });
+
+        const event = {
+            preventDefault() {},
+            target: { value: 'some value' }
+        };
 
         const component = shallow(
             <NewOrderStep2 />
         )
 
+        const colorInput = component.find('#color')
+
+        expect(component.state('color')).toEqual('')
+        colorInput.simulate('change', event)
+        expect(component.state('color')).toEqual('some value')
+    })
+
+    it('sizeOnChange is invoked and changes state on sizeInput value change', () => {
+        configure({ adapter: new Adapter() });
+
+        const event = {
+            preventDefault() {},
+            target: { value: 'some value' }
+        };
+
+        const component = shallow(
+            <NewOrderStep2 />
+        )
+
+        expect(component.state('size')).toEqual('')
+        const sizeInputS = component.find('#s')
+        sizeInputS.simulate('change', event)
+        expect(component.state('size')).toEqual('some value')
+        const sizeInputM = component.find('#m')
+        sizeInputS.simulate('change', event)
+        expect(component.state('size')).toEqual('some value')
+        const sizeInputL = component.find('#l')
+        sizeInputS.simulate('change', event)
+        expect(component.state('size')).toEqual('some value')
+        const sizeInputXL = component.find('#xl')
+        sizeInputS.simulate('change', event)
+        expect(component.state('size')).toEqual('some value')
     })
 })
