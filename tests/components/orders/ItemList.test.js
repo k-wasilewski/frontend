@@ -5,6 +5,7 @@ import {Provider} from "react-redux";
 import {configure, shallow} from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
 import ConnectedItemList, { ItemList } from "../../../src/components/orders/ItemList";
+import InListVisualization from "../../../src/components/visualization/InListVisualization";
 
 describe("ItemList specification", () => {
     it('renders header and ordered list', () => {
@@ -49,5 +50,28 @@ describe("ItemList specification", () => {
 
         expect(translatedItems).toEqual([[],
             [undefined, 'Niebieski', 'S'], [undefined, 'Błękitny', 'XL']])
+    })
+
+    it('mapItems() should map array elements to html list elements', () => {
+        configure({ adapter: new Adapter() });
+        const items = [[], [undefined, 'Niebieski', 'S']]
+
+        const component = shallow(
+            <ItemList items={[]}/>
+        )
+
+        const mappedItems = component.instance().mapItems(items)
+
+        let result = []
+        const elem = (
+            <li key='0'>
+                Kolor: Niebieski<br/>
+                Rozmiar: S<br/>
+                <InListVisualization size='S' color='Niebieski'/>
+            </li>
+        )
+        result.push(elem)
+
+        expect(mappedItems.toString()).toContain(result)
     })
 })
