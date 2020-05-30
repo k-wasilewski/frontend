@@ -41,9 +41,18 @@ describe("Summary specification", () => {
     })
 
     it('doGetList() sends a request to server', (done) => {
+        let axiosConfig = {
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+            }
+        };
+
         var mock = new MockAdapter(axios);
         const resp = true
-        mock.onGet('http://localhost:8081/list').reply(200, resp);
+        mock.onGet(
+            'http://localhost:8081/list',
+            axiosConfig
+        ).reply(200, resp);
 
         const component = shallow(
             <Summary />
@@ -94,5 +103,29 @@ describe("Summary specification", () => {
 
         expect(JSON.stringify(transformedItems[0])).toContain(colorPL)
         expect(JSON.stringify(transformedItems[0])).toContain(sizePL)
+    })
+
+    it('button "Elementy" should invoke showOrderList()', () => {
+        const name = 'Kuba'
+        const age = '30'
+        const datetime = '2020-05-29 18:37:23.458'
+        const list = '[<'+name+', '+age+', '+datetime+': [[blue, s]]>]'
+
+        const component = shallow(
+            <Summary />
+        )
+
+        component.instance().setState({
+            list: list
+        })
+
+        const showElemsBtn = component.find('.showElems').at(0)
+        try {
+            showElemsBtn.simulate('click', { target: {showElemsBtn} })
+        } catch (e) {
+            expect(e.message).toEqual(
+                'Cannot read property \'getElementsByClassName\' of undefined'
+            )
+        }
     })
 })

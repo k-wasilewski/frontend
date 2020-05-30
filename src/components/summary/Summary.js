@@ -87,7 +87,7 @@ export class Summary extends Component {
                     <li>
                         Imię: {name}<br/>
                         Wiek: {age}<br/>
-                        <button onClick={this.showOrderList}>Elementy</button> <br/>
+                        <button className='showElems' onClick={this.showOrderList}>Elementy</button> <br/>
                         <div className='orderItems' style={{display: 'none'}}>
                             <ol start='1'>{itemsTransformed}</ol><br/>
                         </div>
@@ -106,7 +106,7 @@ export class Summary extends Component {
 
     showOrderList = (event) => {
         let $this = event.target
-        let list = $this.nextSibling.nextSibling.nextSibling
+        let list = $this.parentElement.getElementsByClassName('orderItems')[0]
         if (list.style.display==='none') list.style.display = 'block'
         else list.style.display = 'none'
     }
