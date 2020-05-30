@@ -21,13 +21,33 @@ describe("ItemList specification", () => {
         expect(tree.children[1].props.start).toBe('1')
     })
 
-    it('fewfewfwef', () => {
+    it('should pass props to redux', () => {
         configure({ adapter: new Adapter() });
+        const item = ['sample item']
 
+        let mockSetItems = jest.fn()
         const component = shallow(
-            <ItemList items = {[]}/>
+            <ItemList items={[item]} setItems={mockSetItems}/>
         )
 
+        component.instance().UNSAFE_componentWillReceiveProps({
+            item: item,
+        })
 
+        expect(mockSetItems).toHaveBeenCalled()
+    })
+
+    it('translateItems() should translate color and size to polish', () => {
+        configure({ adapter: new Adapter() });
+        const items = [[0, 'blue', 's'], [1, 'lightblue', 'xl']]
+
+        const component = shallow(
+            <ItemList items={[]}/>
+        )
+
+        const translatedItems = component.instance().translateItems(items)
+
+        expect(translatedItems).toEqual([[],
+            [undefined, 'Niebieski', 'S'], [undefined, 'Błękitny', 'XL']])
     })
 })
