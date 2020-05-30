@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NewOrderStep1 specification should render a form with two inputs 1`] = `
+<div
+  className="main"
+>
+  <form
+    onSubmit={[Function]}
+  >
+    <div
+      className="form"
+    >
+      <p
+        className="resp"
+      />
+      <h2>
+        Nowe zamówienie
+      </h2>
+      <p
+        id="nameAgeError"
+      >
+        
+      </p>
+      <div
+        className="col1"
+      >
+        <p>
+          Imię:
+        </p>
+        <p>
+          Wiek:
+        </p>
+        <button>
+          Dalej
+        </button>
+      </div>
+      <div
+        className="col2"
+      >
+        <p>
+          <input
+            id="nameInput"
+            name="name"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </p>
+        <p>
+          <input
+            id="ageInput"
+            name="age"
+            onChange={[Function]}
+            type="number"
+            value=""
+          />
+        </p>
+      </div>
+    </div>
+  </form>
+</div>
+`;

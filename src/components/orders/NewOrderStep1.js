@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { setAge, setName, setItems } from "../../redux/actions";
 import  { Redirect } from 'react-router-dom'
 
-class NewOrderStep1 extends Component {
+export class NewOrderStep1 extends Component {
     constructor(props) {
         super(props);
         this.state = {
