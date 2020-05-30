@@ -7,7 +7,7 @@ import Adapter from "enzyme-adapter-react-16";
 import ConnectedItemList, { ItemList } from "../../../src/components/orders/ItemList";
 
 describe("ItemList specification", () => {
-    it('renders edwede', () => {
+    it('renders header and ordered list', () => {
         const component = renderer.create(
             <Provider store={store}>
                 <ConnectedItemList />
@@ -16,7 +16,9 @@ describe("ItemList specification", () => {
         let tree = component.toJSON();
         expect(tree).toMatchSnapshot();
 
-
+        expect(tree.children[0].children[0]).toEqual('Lista zamówień')
+        expect(tree.children[1].type).toBe('ol')
+        expect(tree.children[1].props.start).toBe('1')
     })
 
     it('fewfewfwef', () => {
