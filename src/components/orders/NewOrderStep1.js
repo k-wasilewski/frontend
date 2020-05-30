@@ -85,7 +85,7 @@ export class NewOrderStep1 extends Component {
         }
     }
 
-    getResponse = () => {
+    getResponse() {
         let resp
 
         let notAvailRegex = new RegExp('error: (.*)', 'g')
@@ -95,7 +95,7 @@ export class NewOrderStep1 extends Component {
         return resp
     }
 
-    getError = () => {
+    getError() {
         let error = this.state.error
         if (error!=='') document.getElementById('nameAgeError').
             style.display = 'block'

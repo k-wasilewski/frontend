@@ -32,8 +32,8 @@ describe("Summary specification", () => {
             <Summary />
         )
 
-        component.instance().doGetList = jest.fn();
-        component.update();
+        component.instance().doGetList = jest.fn()
+        component.update()
         let mockClick = () => component.find('.col2').find('button').simulate('click')
         mockClick()
 

@@ -5,6 +5,7 @@ import {Provider} from "react-redux";
 import {configure, shallow} from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
 import ConnectedNewOrderStep1, { NewOrderStep1 } from "../../../src/components/orders/NewOrderStep1";
+import {Summary} from "../../../src/components/summary/Summary";
 
 describe("NewOrderStep1 specification", () => {
     it('should render a form with two inputs', () => {
@@ -32,19 +33,29 @@ describe("NewOrderStep1 specification", () => {
         expect(ageInput.props).toHaveProperty('name', 'age' )
     })
 
-    it('redux functions setItems, setName, setAge should be invoked on componentDidMount', () => {
+    it('functions getResponse, getError and redux functions setItems, setName, setAge ' +
+        'should be invoked on componentDidMount', () => {
         configure({ adapter: new Adapter() });
 
         let mockSetItems = jest.fn()
         let mockSetName = jest.fn()
         let mockSetAge = jest.fn()
 
+        const getResponse = jest.spyOn(NewOrderStep1.prototype, 'getResponse');
+        const getError = jest.spyOn(NewOrderStep1.prototype, 'getError');
+
         const component = shallow(
             <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge}/>
         )
 
+        component.instance().getResponse = jest.fn()
+        component.instance().getError = jest.fn()
+        component.update()
+
         expect(mockSetItems).toHaveBeenCalled()
         expect(mockSetName).toHaveBeenCalled()
         expect(mockSetAge).toHaveBeenCalled()
+        expect(getResponse).toHaveBeenCalled()
+        expect(getError).toHaveBeenCalled()
     })
 })
