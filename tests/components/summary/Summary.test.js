@@ -41,6 +41,9 @@ describe("Summary specification", () => {
     })
 
     it('doGetList() sends a request to server', (done) => {
+        const error = console.error;
+        console.error = jest.fn();
+
         let axiosConfig = {
             headers: {
                 "Access-Control-Allow-Origin": "*",
@@ -62,6 +65,7 @@ describe("Summary specification", () => {
 
         setTimeout(function () {
             expect(component.instance().state.list).toEqual(resp)
+            console.error = error
             done()
         }, 4000)
     })
