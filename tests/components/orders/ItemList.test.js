@@ -22,13 +22,13 @@ describe("ItemList specification", () => {
         expect(tree.children[1].props.start).toBe('1')
     })
 
-    it('should pass props to redux', () => {
+    it('should pass props to redux on componentWillReceiveProps', () => {
         configure({ adapter: new Adapter() });
-        const item = ['sample item']
+        const item = [43, 'blue', 's']
 
         let mockSetItems = jest.fn()
         const component = shallow(
-            <ItemList items={[item]} setItems={mockSetItems}/>
+            <ItemList items={[]} setItems={mockSetItems}/>
         )
 
         component.instance().UNSAFE_componentWillReceiveProps({
@@ -49,12 +49,12 @@ describe("ItemList specification", () => {
         const translatedItems = component.instance().translateItems(items)
 
         expect(translatedItems).toEqual([[],
-            [undefined, 'Niebieski', 'S'], [undefined, 'Błękitny', 'XL']])
+            [0, 'Niebieski', 'S'], [1, 'Błękitny', 'XL']])
     })
 
     it('mapItems() should map array elements to html list elements', () => {
         configure({ adapter: new Adapter() });
-        const items = [[], [undefined, 'Niebieski', 'S']]
+        const items = [[], [1, 'Niebieski', 'S']]
 
         const component = shallow(
             <ItemList items={[]}/>
@@ -64,10 +64,10 @@ describe("ItemList specification", () => {
 
         let result = []
         const elem = (
-            <li key='0'>
+            <li key='4234'>
                 Kolor: Niebieski<br/>
                 Rozmiar: S<br/>
-                <InListVisualization size='S' color='Niebieski'/>
+                <InListVisualization key='33452' size='S' color='Niebieski'/>
             </li>
         )
         result.push(elem)

@@ -16,7 +16,7 @@ export class ItemList extends Component {
         if (nextProps.item !== this.props.item) {
             var updatedItems = this.state.items
             updatedItems.push(nextProps.item);
-            this.setState({ item: updatedItems })
+            this.setState({ items: updatedItems })
             this.props.setItems(updatedItems)
         }
     }
@@ -25,6 +25,7 @@ export class ItemList extends Component {
         let n = [[]]
         items.forEach((o) => {
             let nn = []
+            nn[0] = o[0]
             if (o[1]==='blue') nn[1] = 'Niebieski'
             else if (o[1]==='lightblue') nn[1] = 'Błękitny'
             else if (o[1]==='darkblue') nn[1] = 'Granatowy'
@@ -49,7 +50,7 @@ export class ItemList extends Component {
                     <li key={o[0]}>
                         Kolor: {o[1]}<br/>
                         Rozmiar: {o[2]}<br/>
-                        <InListVisualization size={o[2]} color={o[1]}/>
+                        <InListVisualization key={o[0]} size={o[2]} color={o[1]}/>
                     </li>
                 )
             })
@@ -59,14 +60,14 @@ export class ItemList extends Component {
     }
 
     render() {
-        const items = this.props.items
+        const items = this.state.items
         const translatedItems = this.translateItems(items)
         const mappedItems = this.mapItems(translatedItems)
 
         return (
             <div className="main">
                 <h3>Lista zamówień</h3>
-                <ol start='1'>
+                <ol key='2' start='1'>
                     {mappedItems}
                 </ol>
             </div>

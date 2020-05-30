@@ -48,7 +48,7 @@ describe("Summary specification", () => {
         };
 
         var mock = new MockAdapter(axios);
-        const resp = true
+        const resp = []
         mock.onGet(
             'http://localhost:8081/list',
             axiosConfig
