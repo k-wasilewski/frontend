@@ -155,4 +155,115 @@ describe("NewOrderStep1 specification", () => {
         let result = component.instance().getResponse()
         expect(result).toEqual('sample resp')
     })
+
+    it('handleSubmit() should set error when (age===\'\')', () => {
+        configure({ adapter: new Adapter() });
+
+        let mockSetItems = jest.fn()
+        let mockSetName = jest.fn()
+        let mockSetAge = jest.fn()
+
+        const component = shallow(
+            <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge}
+                age=''/>
+        )
+
+        component.instance().getError = jest.fn()
+        component.update()
+
+        component.instance().handleSubmit()
+
+        expect(component.state('error')).toEqual('Należy podać wymagane dane')
+    })
+
+    it('handleSubmit() should set error when name is empty', () => {
+        configure({ adapter: new Adapter() });
+
+        let mockSetItems = jest.fn()
+        let mockSetName = jest.fn()
+        let mockSetAge = jest.fn()
+
+        const component = shallow(
+            <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge}
+                           name=''/>
+        )
+
+        component.instance().getError = jest.fn()
+        component.update()
+
+        component.instance().handleSubmit()
+
+        expect(component.state('error')).toEqual('Należy podać wymagane dane')
+    })
+
+    it('handleSubmit() should set error when age is empty', () => {
+        configure({ adapter: new Adapter() });
+
+        let mockSetItems = jest.fn()
+        let mockSetName = jest.fn()
+        let mockSetAge = jest.fn()
+
+        const component = shallow(
+            <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge}
+                           age=''/>
+        )
+
+        component.instance().getError = jest.fn()
+        component.update()
+
+        component.instance().handleSubmit()
+
+        expect(component.state('error')).toEqual('Należy podać wymagane dane')
+    })
+
+    it('handleSubmit() should set error when age is invalid', () => {
+        configure({ adapter: new Adapter() });
+
+        let mockSetItems = jest.fn()
+        let mockSetName = jest.fn()
+        let mockSetAge = jest.fn()
+
+        const component = shallow(
+            <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge} />
+        )
+
+        component.instance().getError = jest.fn()
+        component.update()
+
+        component.setState({
+            name: 'Kuba',
+            age: 12,
+            nameValid: true,
+            ageValid: false
+        })
+        component.instance().handleSubmit()
+
+        expect(component.state('error')).toEqual('Należy podać wiek w przedziale 18-100')
+    })
+
+    it('handleSubmit() should set error when name is invalid', () => {
+        configure({ adapter: new Adapter() });
+
+        let mockSetItems = jest.fn()
+        let mockSetName = jest.fn()
+        let mockSetAge = jest.fn()
+
+        const component = shallow(
+            <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge} />
+        )
+
+        component.instance().getError = jest.fn()
+        component.update()
+
+        component.setState({
+            name: 'hi28*73*^',
+            age: 32,
+            ageValid: true,
+            nameValid: false
+        })
+        component.instance().handleSubmit()
+
+        expect(component.state('error')).toEqual('Imię może zawierać tylko jeden wyraz, ' +
+            'musi być pisane z wielkiej litery, bez cyfr i znaków specjalnych')
+    })
 })
