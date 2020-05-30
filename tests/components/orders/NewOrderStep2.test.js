@@ -122,4 +122,50 @@ describe("NewOrderStep2 specification", () => {
 
         expect(component.instance().translateColor(input)).toEqual(expected)
     })
+
+    it('resetForm()', () => {
+        configure({adapter: new Adapter()});
+
+        const component = shallow(
+            <NewOrderStep2/>
+        )
+
+        component.setState({
+            color: 'sample color',
+            size: 'sample size'
+        })
+        expect(component.state('color')).toEqual('sample color')
+        expect(component.state('size')).toEqual('sample size')
+
+        component.instance().resetForm()
+        expect(component.state('color')).toEqual('')
+        expect(component.state('size')).toEqual('')
+    })
+
+    it('sendData() without props', () => {
+        configure({adapter: new Adapter()});
+
+        const component = shallow(
+            <NewOrderStep2 items={[]}/>
+        )
+
+        component.instance().sendData()
+        expect(component.state('error'))
+            .toEqual('Należy złożyć conajmniej jedno zamówienie')
+    })
+
+    it('sendData() with props', () => {
+        configure({adapter: new Adapter()});
+
+        const component = shallow(
+            <NewOrderStep2 items={['sample item']} />
+        )
+
+        component.instance().doAddOrder = jest.fn();
+        component.update();
+
+        component.instance().sendData()
+
+        expect(component.instance().doAddOrder).toBeCalled();
+    })
 })

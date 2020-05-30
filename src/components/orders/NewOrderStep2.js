@@ -146,7 +146,7 @@ export class NewOrderStep2 extends Component {
         }
     }
 
-    doAddOrder = () => {
+    doAddOrder() {
         axios.post('http://localhost:8081/add',
             "name=" + this.props.name + "&"
             + "age=" + this.props.age + "&" + "items=" +this.props.items,
