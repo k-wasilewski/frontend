@@ -96,4 +96,30 @@ describe("NewOrderStep2 specification", () => {
         sizeInputS.simulate('change', event)
         expect(component.state('size')).toEqual('some value')
     })
+
+    it('translateSize()', () => {
+        configure({adapter: new Adapter()});
+
+        const component = shallow(
+            <NewOrderStep2/>
+        )
+
+        const input = '[blue,s]'
+        const expected = '[blue,S]'
+
+        expect(component.instance().translateSize(input)).toEqual(expected)
+    })
+
+    it('translateColor()', () => {
+        configure({adapter: new Adapter()});
+
+        const component = shallow(
+            <NewOrderStep2/>
+        )
+
+        const input = '[blue,s]'
+        const expected = '[Niebieski,s]'
+
+        expect(component.instance().translateColor(input)).toEqual(expected)
+    })
 })
