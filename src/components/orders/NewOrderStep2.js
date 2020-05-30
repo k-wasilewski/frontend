@@ -19,7 +19,8 @@ export class NewOrderStep2 extends Component {
             redirect: false,
             error: '',
 
-            checking: ''
+            checking: '',
+            added: []
         };
 
         this.colorOnChange = this.colorOnChange.bind(this);
@@ -125,7 +126,7 @@ export class NewOrderStep2 extends Component {
             response.substring(sIndex + 1)
     }
 
-    handleResponse = (resp) => {
+    handleResponse(resp) {
         this.props.setResp(resp.data)
 
         let notAvailRegex = new RegExp('error: (.*)', 'g')
@@ -156,6 +157,11 @@ export class NewOrderStep2 extends Component {
             this.getAxiosConfig()
         ).then(resp => {
             this.handleResponse(resp)
+            let added = this.state.added
+            added.push(this.props.name+this.props.age+this.props.items)
+            this.setState({
+                added: added
+            })
         }).catch(error => {
             this.props.setResp('Błąd serwera')
         });

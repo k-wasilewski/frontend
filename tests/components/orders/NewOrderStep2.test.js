@@ -7,6 +7,7 @@ import Adapter from "enzyme-adapter-react-16";
 import ConnectedNewOrderStep2, { NewOrderStep2 } from "../../../src/components/orders/NewOrderStep2";
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
+import {Summary} from "../../../src/components/summary/Summary";
 
 describe("NewOrderStep2 specification", () => {
     it('should render a form with select, radio, and two buttons', () => {
@@ -332,6 +333,7 @@ describe("NewOrderStep2 specification", () => {
 
         setTimeout(function () {
             expect(mockSetResp).toHaveBeenCalled()
+            console.error = error
             done()
         }, 4000)
     })
@@ -372,6 +374,7 @@ describe("NewOrderStep2 specification", () => {
 
         setTimeout(function () {
             expect(mockAddItem).toHaveBeenCalled()
+            console.error = error
             done()
         }, 4000)
     })
@@ -412,6 +415,48 @@ describe("NewOrderStep2 specification", () => {
 
         setTimeout(function () {
             expect(component.state('error')).toEqual('Towar chwilowo niedostępny')
+            console.error = error
+            done()
+        }, 4000)
+    })
+
+    it('doAddOrder()', (done) => {
+        configure({adapter: new Adapter()});
+
+        const error = console.error;
+        console.error = jest.fn();
+
+        let axiosConfig = {
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+            }
+        };
+
+        var mock = new MockAdapter(axios);
+        const resp = 'sample resp'
+        mock.onPost().reply(200, resp);
+
+        let mockSetResp = jest.fn()
+        let mockSetName = jest.fn()
+        let mockSetAge = jest.fn()
+        let mockSetItems = jest.fn()
+        let mockAddItem = jest.fn()
+
+        const name = 'Kuba'
+        const age = 30
+        const items = [[0, 'blue', 's'], [1, 'lightblue', 'm']]
+
+        const component = shallow(
+            <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
+                           setItems={mockSetItems} addItem={mockAddItem} name={name}
+                    age={age} items={items}/>
+        )
+
+        component.instance().doAddOrder()
+
+        setTimeout(function () {
+            expect(component.state('added')).toEqual([name+age+items])
+            console.error = error
             done()
         }, 4000)
     })
