@@ -3,13 +3,13 @@ import * as actions from "../../src/redux/actions"
 import setRespReducer from "../../src/redux/setRespReducer";
 
 describe("setRespReducer specification", () => {
-    it('should return the initial state', () => {
+    it('returns the initial state when no action has been called', () => {
         expect(setRespReducer(undefined, {})).toEqual({
             resp: []
         })
     })
 
-    it('should handle setName', () => {
+    it('returns state with resp when setResp(resp) action has been called', () => {
         const resp = 'sample resp'
         expect(setRespReducer([], actions.setResp(resp))).toEqual({
             resp: resp

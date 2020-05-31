@@ -3,7 +3,7 @@ import rootReducer from "../../src/redux/rootReducer";
 import { createStore } from 'redux';
 
 describe("rootReducer specification", () => {
-    it('should combine all the reducers', () => {
+    it('combines all the reducers', () => {
         const store = createStore(rootReducer);
 
         expect(store.getState().newItemReducer).toHaveProperty('item')

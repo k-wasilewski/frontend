@@ -113,7 +113,7 @@ describe("Summary specification", () => {
         expect(JSON.stringify(transformedItems[0])).toContain(sizePL)
     })
 
-    it('button "Elementy" should invoke showOrderList()', () => {
+    it('button "Elementy" invokes showOrderList() onClick', () => {
         configure({ adapter: new Adapter() });
 
         const name = 'Kuba'

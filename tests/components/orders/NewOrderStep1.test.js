@@ -7,7 +7,7 @@ import Adapter from "enzyme-adapter-react-16";
 import ConnectedNewOrderStep1, { NewOrderStep1 } from "../../../src/components/orders/NewOrderStep1";
 
 describe("NewOrderStep1 specification", () => {
-    it('should render a form with two inputs', () => {
+    it('renders a form with two inputs', () => {
         const component = renderer.create(
             <Provider store={store}>
                 <ConnectedNewOrderStep1 />
@@ -32,8 +32,8 @@ describe("NewOrderStep1 specification", () => {
         expect(ageInput.props).toHaveProperty('name', 'age' )
     })
 
-    it('functions getResponse, getError and redux functions setItems, setName, setAge ' +
-        'should be invoked on componentDidMount', () => {
+    it('functions getResponse(), getError() and redux functions setItems(), setName(), ' +
+        'setAge() are invoked when componentDidMount', () => {
         configure({ adapter: new Adapter() });
 
         let mockSetItems = jest.fn()
@@ -54,7 +54,7 @@ describe("NewOrderStep1 specification", () => {
         expect(getError).toHaveBeenCalled()
     })
 
-    it('nameOnChange is invoked on nameInput value change', () => {
+    it('nameOnChange() is invoked when nameInput value changes', () => {
         configure({ adapter: new Adapter() });
 
         const event = {
@@ -79,7 +79,7 @@ describe("NewOrderStep1 specification", () => {
         }
     })
 
-    it('ageOnChange is invoked on ageInput value change', () => {
+    it('ageOnChange() is invoked when ageInput value changes', () => {
         configure({ adapter: new Adapter() });
 
         const event = {
@@ -104,7 +104,8 @@ describe("NewOrderStep1 specification", () => {
         }
     })
 
-    it('getError()', () => {
+    it('getError() is invoked when state value: error changes and changes the ' +
+        'error paragraph style: display to block', () => {
         configure({ adapter: new Adapter() });
 
         let mockSetItems = jest.fn()
@@ -124,7 +125,8 @@ describe("NewOrderStep1 specification", () => {
         }
     })
 
-    it('getResponse() with error', () => {
+    it('getResponse() returns the errorMsg when the prop: resp contains string ' +
+        'error', () => {
         configure({ adapter: new Adapter() });
 
         let mockSetItems = jest.fn()
@@ -140,7 +142,8 @@ describe("NewOrderStep1 specification", () => {
         expect(result).toEqual('sample resp')
     })
 
-    it('getResponse() without error', () => {
+    it('getResponse() returns the prop: resp when it doesnt contain string ' +
+        'error', () => {
         configure({ adapter: new Adapter() });
 
         let mockSetItems = jest.fn()
@@ -156,7 +159,7 @@ describe("NewOrderStep1 specification", () => {
         expect(result).toEqual('sample resp')
     })
 
-    it('handleSubmit() should set error when (age===\'\')', () => {
+    it('handleSubmit() sets state value: error to errorMsg when age is empty', () => {
         configure({ adapter: new Adapter() });
 
         let mockSetItems = jest.fn()
@@ -176,7 +179,7 @@ describe("NewOrderStep1 specification", () => {
         expect(component.state('error')).toEqual('Należy podać wymagane dane')
     })
 
-    it('handleSubmit() should set error when name is empty', () => {
+    it('handleSubmit() sets state value: error to errorMsg when name is empty', () => {
         configure({ adapter: new Adapter() });
 
         let mockSetItems = jest.fn()
@@ -196,27 +199,7 @@ describe("NewOrderStep1 specification", () => {
         expect(component.state('error')).toEqual('Należy podać wymagane dane')
     })
 
-    it('handleSubmit() should set error when age is empty', () => {
-        configure({ adapter: new Adapter() });
-
-        let mockSetItems = jest.fn()
-        let mockSetName = jest.fn()
-        let mockSetAge = jest.fn()
-
-        const component = shallow(
-            <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge}
-                           age=''/>
-        )
-
-        component.instance().getError = jest.fn()
-        component.update()
-
-        component.instance().handleSubmit()
-
-        expect(component.state('error')).toEqual('Należy podać wymagane dane')
-    })
-
-    it('handleSubmit() should set error when age is invalid', () => {
+    it('handleSubmit() sets state value: error to errorMsg when age is invalid', () => {
         configure({ adapter: new Adapter() });
 
         let mockSetItems = jest.fn()
@@ -241,7 +224,7 @@ describe("NewOrderStep1 specification", () => {
         expect(component.state('error')).toEqual('Należy podać wiek w przedziale 18-100')
     })
 
-    it('handleSubmit() should set error when name is invalid', () => {
+    it('handleSubmit() sets state value: error to errorMsg when name is invalid', () => {
         configure({ adapter: new Adapter() });
 
         let mockSetItems = jest.fn()

@@ -7,10 +7,9 @@ import Adapter from "enzyme-adapter-react-16";
 import ConnectedNewOrderStep2, { NewOrderStep2 } from "../../../src/components/orders/NewOrderStep2";
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import {Summary} from "../../../src/components/summary/Summary";
 
 describe("NewOrderStep2 specification", () => {
-    it('should render a form with select, radio, and two buttons', () => {
+    it('renders a form with select, radio, and two buttons', () => {
         const component = renderer.create(
             <Provider store={store}>
                 <ConnectedNewOrderStep2 />
@@ -53,7 +52,7 @@ describe("NewOrderStep2 specification", () => {
         expect(radio10.props).toHaveProperty('name', 'size' )
     })
 
-    it('colorOnChange is invoked and changes state on colorInput value change', () => {
+    it('colorOnChange() is invoked and changes state when colorInput value changes', () => {
         configure({ adapter: new Adapter() });
 
         const event = {
@@ -72,7 +71,7 @@ describe("NewOrderStep2 specification", () => {
         expect(component.state('color')).toEqual('some value')
     })
 
-    it('sizeOnChange is invoked and changes state on sizeInput value change', () => {
+    it('sizeOnChange is invoked and changes state when sizeInput value changes', () => {
         configure({ adapter: new Adapter() });
 
         const event = {
@@ -99,7 +98,7 @@ describe("NewOrderStep2 specification", () => {
         expect(component.state('size')).toEqual('some value')
     })
 
-    it('translateSize()', () => {
+    it('translateSize() returns size in uppercase', () => {
         configure({adapter: new Adapter()});
 
         const component = shallow(
@@ -112,7 +111,7 @@ describe("NewOrderStep2 specification", () => {
         expect(component.instance().translateSize(input)).toEqual(expected)
     })
 
-    it('translateColor()', () => {
+    it('translateColor() returns translated color, starting with uppercase', () => {
         configure({adapter: new Adapter()});
 
         const component = shallow(
@@ -125,7 +124,7 @@ describe("NewOrderStep2 specification", () => {
         expect(component.instance().translateColor(input)).toEqual(expected)
     })
 
-    it('resetForm()', () => {
+    it('resetForm() restores state values: color, size to default', () => {
         configure({adapter: new Adapter()});
 
         const component = shallow(
@@ -144,7 +143,8 @@ describe("NewOrderStep2 specification", () => {
         expect(component.state('size')).toEqual('')
     })
 
-    it('sendData() without props', () => {
+    it('sendData() sets state value: error to errorMsg when prop items' +
+        ' is empty', () => {
         configure({adapter: new Adapter()});
 
         const component = shallow(
@@ -156,7 +156,7 @@ describe("NewOrderStep2 specification", () => {
             .toEqual('Należy złożyć conajmniej jedno zamówienie')
     })
 
-    it('sendData() with props', () => {
+    it('sendData() calls doAddOrder() when there is non-empty prop items', () => {
         configure({adapter: new Adapter()});
 
         const component = shallow(
@@ -171,7 +171,8 @@ describe("NewOrderStep2 specification", () => {
         expect(component.instance().doAddOrder).toBeCalled();
     })
 
-    it('handleResponse() with error', () => {
+    it('handleResponse() sets state value: error to errorMsg when there is ' +
+        'error string present in passed string value', () => {
         configure({ adapter: new Adapter() });
 
         const msg = '[blue,s]'
@@ -195,7 +196,8 @@ describe("NewOrderStep2 specification", () => {
         expect(component.state('error')).toEqual(msgPL)
     })
 
-    it('handleResponse() without error', () => {
+    it('handleResponse() restores order values and redirects when there is ' +
+        'no error string present in passed string value', () => {
         configure({ adapter: new Adapter() });
 
         const msg = '[blue,s]'
@@ -223,7 +225,8 @@ describe("NewOrderStep2 specification", () => {
         expect(component.state('redirect')).toEqual(true)
     })
 
-    it('addToList()', () => {
+    it('addToList() handles name, age errors and invokes doCheckAvailability() ' +
+        'when there is no error', () => {
         configure({ adapter: new Adapter() });
 
         let mockSetResp = jest.fn()
@@ -260,7 +263,8 @@ describe("NewOrderStep2 specification", () => {
         expect(component.state('checking')).toEqual('sblue')
     })
 
-    it('componentWillUnmount()', (done) => {
+    it('componentWillUnmount() makes a request to restore temporaryCounts to ' +
+        'according permanent counts', (done) => {
         configure({adapter: new Adapter()});
 
         const error = console.error;
@@ -294,7 +298,8 @@ describe("NewOrderStep2 specification", () => {
         done()
     })
 
-    it('doCheckAvailability() with error', (done) => {
+    it('doCheckAvailability() invokes setResp() when server response contains ' +
+        'error', (done) => {
         configure({adapter: new Adapter()});
 
         const error = console.error;
@@ -338,7 +343,8 @@ describe("NewOrderStep2 specification", () => {
         }, 4000)
     })
 
-    it('doCheckAvailability() with success response', (done) => {
+    it('doCheckAvailability() invokes addItem() when server response ' +
+        'is success', (done) => {
         configure({adapter: new Adapter()});
 
         const error = console.error;
@@ -379,7 +385,8 @@ describe("NewOrderStep2 specification", () => {
         }, 4000)
     })
 
-    it('doCheckAvailability() with fail response', (done) => {
+    it('doCheckAvailability() sets state value: error to errorMsg when server response ' +
+        'is fail', (done) => {
         configure({adapter: new Adapter()});
 
         const error = console.error;
@@ -420,7 +427,7 @@ describe("NewOrderStep2 specification", () => {
         }, 4000)
     })
 
-    it('doAddOrder()', (done) => {
+    it('doAddOrder() sends data to server', (done) => {
         configure({adapter: new Adapter()});
 
         const error = console.error;

@@ -5,7 +5,7 @@ import Orders from "../../../src/components/orders/Orders";
 import {Provider} from "react-redux";
 
 describe("Orders specification", () => {
-    it('Orders renders NewOrderStep2 and ItemList components', () => {
+    it('renders NewOrderStep2 and ItemList components', () => {
         const component = renderer.create(
             <Provider store={store}>
                 <Orders />

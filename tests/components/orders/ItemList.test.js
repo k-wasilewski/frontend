@@ -22,7 +22,7 @@ describe("ItemList specification", () => {
         expect(tree.children[1].props.start).toBe('1')
     })
 
-    it('should pass props to redux on componentWillReceiveProps', () => {
+    it('passes props to redux when componentWillReceiveProps', () => {
         configure({ adapter: new Adapter() });
         const item = [43, 'blue', 's']
 
@@ -38,7 +38,7 @@ describe("ItemList specification", () => {
         expect(mockSetItems).toHaveBeenCalled()
     })
 
-    it('translateItems() should translate color and size to polish', () => {
+    it('translateItems() translates color and size to polish', () => {
         configure({ adapter: new Adapter() });
         const items = [[0, 'blue', 's'], [1, 'lightblue', 'xl']]
 
@@ -52,7 +52,7 @@ describe("ItemList specification", () => {
             [0, 'Niebieski', 'S'], [1, 'Błękitny', 'XL']])
     })
 
-    it('mapItems() should map array elements to html list elements', () => {
+    it('mapItems() maps array of elements to html list of elements', () => {
         configure({ adapter: new Adapter() });
         const items = [[], [1, 'Niebieski', 'S']]
 
