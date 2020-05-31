@@ -19,8 +19,7 @@ describe("Visualization specification", () => {
         expect(tree.children[0]).toEqual('\u00a0')
     })
 
-    it('should invoke style-changing functions when componentWillReceiveProps() ' +
-        'is invoked', () => {
+    it('style-changing functions are invoked when componentWillReceiveProps', () => {
         configure({ adapter: new Adapter() });
 
         const component = shallow(
