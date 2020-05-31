@@ -20,6 +20,8 @@ export class NewOrderStep1 extends Component {
         };
 
         this.errorRef = React.createRef()
+        this.nameRef = React.createRef()
+        this.ageRef = React.createRef()
         this.nameOnChange = this.nameOnChange.bind(this);
         this.ageOnChange = this.ageOnChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -64,10 +66,10 @@ export class NewOrderStep1 extends Component {
 
         let nameValidationRegex = new RegExp('^[A-Z]([a-z]*)$')
         if (name.includes(' ') || nameValidationRegex.exec(name)===null) {
-            document.getElementById('nameInput').style.color = 'red'
+            this.nameRef.current.style.color = 'red'
             this.setState({nameValid: false})
         } else {
-            document.getElementById('nameInput').style.color = 'black'
+            this.nameRef.current.style.color = 'black'
             this.setState({nameValid: true})
         }
     }
@@ -77,11 +79,11 @@ export class NewOrderStep1 extends Component {
         this.setState({age: age});
 
         if (age<18 || age>100) {
-            document.getElementById('ageInput').style.color = 'red'
+            this.ageRef.current.style.color = 'red'
             this.setState({ageValid: false})
         }
         else {
-            document.getElementById('ageInput').style.color = 'black'
+            this.ageRef.current.style.color = 'black'
             this.setState({ageValid: true})
         }
     }
@@ -121,9 +123,11 @@ export class NewOrderStep1 extends Component {
                         </div>
                         <div className='col2'>
                             <p><input type='text' name='name' value= {this.state.name}
-                                      id='nameInput' onChange={this.nameOnChange}/></p>
+                                      id='nameInput' onChange={this.nameOnChange}
+                                      ref={this.nameRef}/></p>
                             <p><input type='number' name='age' onChange={this.ageOnChange}
-                                      id='ageInput' value= {this.state.age}/></p>
+                                      id='ageInput' value= {this.state.age}
+                                      ref={this.ageRef}/></p>
                         </div>
                     </div>
                 </form>

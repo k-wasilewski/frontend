@@ -54,7 +54,7 @@ describe("NewOrderStep1 specification", () => {
         expect(getError).toHaveBeenCalled()
     })
 
-    it('nameOnChange() is invoked when nameInput value changes', () => {
+    it('style-changing nameOnChange() is invoked when nameInput value changes', () => {
         configure({ adapter: new Adapter() });
 
         const event = {
@@ -79,7 +79,7 @@ describe("NewOrderStep1 specification", () => {
         }
     })
 
-    it('ageOnChange() is invoked when ageInput value changes', () => {
+    it('style-changing ageOnChange() is invoked when ageInput value changes', () => {
         configure({ adapter: new Adapter() });
 
         const event = {

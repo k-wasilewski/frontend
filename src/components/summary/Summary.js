@@ -123,7 +123,7 @@ export class Summary extends Component {
                         <p>{list}</p>
                     </div>
                     <div className='col2'>
-                        <button onClick={this.doGetList}>Szukaj</button>
+                        <button id='showElems' onClick={this.doGetList}>Szukaj</button>
                     </div>
                 </div>
             </div>

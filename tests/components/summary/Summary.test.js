@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import store from "../../../src/redux/store";
 import {Provider} from "react-redux";
-import {configure, shallow} from 'enzyme';
+import {configure, shallow, mount} from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
 import ConnectedSummary, { Summary } from "../../../src/components/summary/Summary"
 import axios from 'axios';
@@ -113,7 +113,7 @@ describe("Summary specification", () => {
         expect(JSON.stringify(transformedItems[0])).toContain(sizePL)
     })
 
-    it('button "Elementy" invokes showOrderList() onClick', () => {
+    it('button "Elementy" invokes style-changing showOrderList() onClick', () => {
         configure({ adapter: new Adapter() });
 
         const name = 'Kuba'
@@ -121,7 +121,7 @@ describe("Summary specification", () => {
         const datetime = '2020-05-29 18:37:23.458'
         const list = '[<'+name+', '+age+', '+datetime+': [[blue, s]]>]'
 
-        const component = shallow(
+        const component = mount(
             <Summary />
         )
 
@@ -129,13 +129,13 @@ describe("Summary specification", () => {
             list: list
         })
 
-        const showElemsBtn = component.find('.showElems').at(0)
+        const showElemsBtn = component.find('#showElems').at(0)
 
         try {
             showElemsBtn.simulate('click', { target: {showElemsBtn} })
         } catch (e) {
             expect(e.message).toEqual(
-                'Cannot read property \'getElementsByClassName\' of undefined'
+                'Cannot read property \'style\' of null'
             )
         }
     })
