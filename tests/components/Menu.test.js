@@ -38,8 +38,8 @@ describe("Menu specification", () => {
         )
 
         let mockClick = () => component.find('#menu-btn').simulate('click')
-        
-        expect(mockClick()).toThrow(TypeError)
+
+        expect(mockClick).toThrow(TypeError)
 
         try {
             mockClick()

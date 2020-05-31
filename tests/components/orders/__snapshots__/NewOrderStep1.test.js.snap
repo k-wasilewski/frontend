@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`NewOrderStep1 specification should render a form with two inputs 1`] = `
+exports[`NewOrderStep1 specification renders a form with two inputs 1`] = `
 <div
   className="main"
 >

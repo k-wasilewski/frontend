@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Orders specification Orders renders NewOrderStep2 and ItemList components 1`] = `
+exports[`Orders specification renders NewOrderStep2 and ItemList components 1`] = `
 <div>
   <div
     className="main"
