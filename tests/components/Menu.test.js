@@ -6,7 +6,6 @@ import Menu from "../../src/components/Menu";
 import {BrowserRouter} from "react-router-dom";
 import {configure, shallow} from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
-import {Summary} from "../../src/components/summary/Summary";
 
 describe("Menu specification", () => {
     it('renders two menu items and a menu btn', () => {
@@ -30,7 +29,7 @@ describe("Menu specification", () => {
         expect(menuBtn.props.id).toContain('menu-btn')
     })
 
-    it('toggleMenuVisibility() adds "hidden" to menu classList', () => {
+    it('toggleMenuVisibility() toggles "hidden" class at menu classList', () => {
         configure({ adapter: new Adapter() });
 
         const component = shallow(
@@ -44,7 +43,7 @@ describe("Menu specification", () => {
         try {
             mockClick()
         } catch (e) {
-            expect(e.message).toBe("Cannot read property 'classList' of undefined");
+            expect(e.message).toBe("Cannot read property 'classList' of null");
         }
     })
 })

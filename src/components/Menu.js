@@ -4,15 +4,20 @@ import {NavLink} from "react-router-dom";
 import img from '../img/menu-btn.svg'
 
 class Menu extends Component {
+    constructor(props) {
+        super(props)
+
+        this.menuRef = React.createRef()
+    }
 
     toggleMenuVisibility = () => {
-        document.getElementsByClassName('menu')[0].classList.toggle('hidden');
+        this.menuRef.current.classList.toggle('hidden')
     }
 
     render() {
         return (
             <header>
-                <div className="menu hidden">
+                <div className="menu hidden" ref={this.menuRef}>
                     <nav>
                         <NavLink exact to={`/`} className="menu-item">
                             <button className='menu-item'>

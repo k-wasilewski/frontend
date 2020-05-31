@@ -130,6 +130,7 @@ describe("Summary specification", () => {
         })
 
         const showElemsBtn = component.find('.showElems').at(0)
+
         try {
             showElemsBtn.simulate('click', { target: {showElemsBtn} })
         } catch (e) {

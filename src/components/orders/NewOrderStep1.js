@@ -19,6 +19,7 @@ export class NewOrderStep1 extends Component {
             error: ''
         };
 
+        this.errorRef = React.createRef()
         this.nameOnChange = this.nameOnChange.bind(this);
         this.ageOnChange = this.ageOnChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -95,7 +96,7 @@ export class NewOrderStep1 extends Component {
 
     getError() {
         let error = this.state.error
-        if (error!=='') document.getElementById('nameAgeError').
+        if (error!=='') this.errorRef.current.
             style.display = 'block'
 
         return error
@@ -112,7 +113,7 @@ export class NewOrderStep1 extends Component {
                     <div className='form'>
                         <p className='resp'>{resp}</p>
                         <h2>Nowe zamówienie</h2>
-                        <p id='nameAgeError'>{error}</p>
+                        <p id='nameAgeError' ref={this.errorRef}>{error}</p>
                         <div className='col1'>
                             <p>Imię:</p>
                             <p>Wiek:</p>

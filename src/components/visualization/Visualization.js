@@ -10,6 +10,8 @@ export class Visualization extends Component {
             size: '',
             color: ''
         };
+
+        this.visualizationRef = React.createRef()
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -20,24 +22,24 @@ export class Visualization extends Component {
 
     displayVisualization = (nextProps) => {
         if (nextProps.size!=='' && nextProps.color!=='') {
-            document.getElementById('visualization').style.display = 'block'
+            this.visualizationRef.current.style.display = 'block'
         }
     }
 
     paintVisualizationSize = (nextProps) => {
         if (nextProps.size !== this.props.size) {
             if (nextProps.size==='s' || nextProps.size==='S') {
-                document.getElementById('visualization').style.width = '25px'
-                document.getElementById('visualization').style.height = '25px'
+                this.visualizationRef.current.style.width = '25px'
+                this.visualizationRef.current.style.height = '25px'
             } else if (nextProps.size==='m' || nextProps.size==='M') {
-                document.getElementById('visualization').style.width = '50px'
-                document.getElementById('visualization').style.height = '50px'
+                this.visualizationRef.current.style.width = '50px'
+                this.visualizationRef.current.style.height = '50px'
             } else if (nextProps.size==='l' || nextProps.size==='L') {
-                document.getElementById('visualization').style.width = '75px'
-                document.getElementById('visualization').style.height = '75px'
+                this.visualizationRef.current.style.width = '75px'
+                this.visualizationRef.current.style.height = '75px'
             } else if (nextProps.size==='xl' || nextProps.size==='XL') {
-                document.getElementById('visualization').style.width = '100px'
-                document.getElementById('visualization').style.height = '100px'
+                this.visualizationRef.current.style.width = '100px'
+                this.visualizationRef.current.style.height = '100px'
             } else document.getElementById('visualization').style.display
                 = 'none'
         }
@@ -46,16 +48,16 @@ export class Visualization extends Component {
     paintVisualizationColor = (nextProps) => {
         if (nextProps.color !== this.props.color) {
             if (nextProps.color==='lightblue' || nextProps.color==='Błękitny') {
-                document.getElementById('visualization').style.backgroundColor
+                this.visualizationRef.current.style.backgroundColor
                     = 'lightblue'
             } else if (nextProps.color==='darkblue' || nextProps.color==='Granatowy') {
-                document.getElementById('visualization').style.backgroundColor
+                this.visualizationRef.current.style.backgroundColor
                     = 'darkblue'
             } else if (nextProps.color==='blue' || nextProps.color==='Niebieski') {
-                document.getElementById('visualization').style.backgroundColor
+                this.visualizationRef.current.style.backgroundColor
                     = 'blue'
             } else {
-                document.getElementById('visualization').style.display
+                this.visualizationRef.current.style.display
                     = 'none'
             }
         }
@@ -63,7 +65,7 @@ export class Visualization extends Component {
 
     render() {
         return (
-            <div id='visualization'>
+            <div id='visualization' ref={this.visualizationRef}>
                 &nbsp;
             </div>
         );
