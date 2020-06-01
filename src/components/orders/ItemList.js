@@ -6,10 +6,10 @@ import InListVisualization from "../visualization/InListVisualization";
 
 export class ItemList extends Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             items: []
-        };
+        }
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {

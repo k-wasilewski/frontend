@@ -31,12 +31,12 @@ export class NewOrderStep1 extends Component {
         this.props.setItems([])
         this.props.setName('')
         this.props.setAge('')
-    }
+    };
 
     handleSubmit(event) {
-        var age = (this.state.age);
+        var age = (this.state.age)
         this.props.setAge(age)
-        var name = (this.state.name);
+        var name = (this.state.name)
         this.props.setName(name)
 
         if (age==='' || name==='') {
@@ -58,7 +58,7 @@ export class NewOrderStep1 extends Component {
         }
 
         if (event!==undefined) event.preventDefault();
-    }
+    };
 
     nameOnChange = (event) => {
         let name = event.target.value
@@ -72,7 +72,7 @@ export class NewOrderStep1 extends Component {
             this.nameRef.current.style.color = 'black'
             this.setState({nameValid: true})
         }
-    }
+    };
 
     ageOnChange = (event) => {
         let age = event.target.value
@@ -86,7 +86,7 @@ export class NewOrderStep1 extends Component {
             this.ageRef.current.style.color = 'black'
             this.setState({ageValid: true})
         }
-    }
+    };
 
     getResponse() {
         let notAvailRegex = new RegExp('error: (.*)', 'g')
@@ -94,7 +94,7 @@ export class NewOrderStep1 extends Component {
         if (match===null) return this.props.resp
 
         return match[1]
-    }
+    };
 
     getError() {
         let error = this.state.error
@@ -102,7 +102,7 @@ export class NewOrderStep1 extends Component {
             style.display = 'block'
 
         return error
-    }
+    };
 
     render() {
         let resp = this.getResponse()
@@ -135,7 +135,7 @@ export class NewOrderStep1 extends Component {
         );
         else {
             this.setState({redirect: false})
-            return <Redirect to='/step2'  />
+            return <Redirect to='/step2'  />;
         }
     }
 }

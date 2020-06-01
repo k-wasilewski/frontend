@@ -32,7 +32,7 @@ export class NewOrderStep2 extends Component {
         axios.post('http://localhost:8081/restore',
             this.getAxiosConfig()
         )
-    }
+    };
 
     getAxiosConfig = () => {
         return {
@@ -60,7 +60,7 @@ export class NewOrderStep2 extends Component {
         }).catch(error => {
             this.props.setResp('Błąd serwera')
         });
-    }
+    };
 
     addToList(event) {
         var newItem = [];
@@ -82,22 +82,22 @@ export class NewOrderStep2 extends Component {
 
         this.resetForm()
         if (event!==undefined) event.preventDefault();
-    }
+    };
 
     resetForm = () => {
         this.setState({
             color: '',
             size: '',
         })
-    }
+    };
 
     colorOnChange = (event) => {
         this.setState({color: event.target.value});
-    }
+    };
 
     sizeOnChange = (event) => {
         this.setState({size: event.target.value});
-    }
+    };
 
     translateColor = (response) => {
         let colorRegex = new RegExp('\\[(.*),', 'g')
@@ -109,7 +109,7 @@ export class NewOrderStep2 extends Component {
         else if (c==='darkblue') cPL = 'Granatowy'
 
         return response.replace(c, cPL)
-    }
+    };
 
     translateSize = (response) => {
         let sizeRegex = new RegExp(',(.*)\\]', 'g')
@@ -124,7 +124,7 @@ export class NewOrderStep2 extends Component {
 
         return response.substring(0, sIndex) + sPL +
             response.substring(sIndex + 1)
-    }
+    };
 
     handleResponse(resp) {
         this.props.setResp(resp.data)
@@ -148,7 +148,7 @@ export class NewOrderStep2 extends Component {
                 redirect: true
             })
         }
-    }
+    };
 
     doAddOrder() {
         axios.post('http://localhost:8081/add',
@@ -164,8 +164,8 @@ export class NewOrderStep2 extends Component {
             })
         }).catch(error => {
             this.props.setResp('Błąd serwera')
-        });
-    }
+        })
+    };
 
     sendData = (event) => {
         if (this.props.items.length===0) {
@@ -177,7 +177,7 @@ export class NewOrderStep2 extends Component {
         }
 
         if (event!==undefined) event.preventDefault();
-    }
+    };
 
     render() {
         const name = this.props.name

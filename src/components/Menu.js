@@ -8,11 +8,11 @@ class Menu extends Component {
         super(props)
 
         this.menuRef = React.createRef()
-    }
+    };
 
     toggleMenuVisibility = () => {
         this.menuRef.current.classList.toggle('hidden')
-    }
+    };
 
     render() {
         return (
@@ -37,4 +37,4 @@ class Menu extends Component {
     }
 }
 
-export default Menu;
+export default Menu
