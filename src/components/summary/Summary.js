@@ -9,7 +9,6 @@ export class Summary extends Component {
             list: '',
         };
 
-        this.orderItemsRef = React.createRef();
         this.doGetList = this.doGetList.bind(this);
     };
 
@@ -89,7 +88,7 @@ export class Summary extends Component {
                         Imię: {name}<br/>
                         Wiek: {age}<br/>
                         <button className='showElems' onClick={this.showOrderList}>Elementy</button> <br/>
-                        <div className='orderItems' style={{display: 'none'}} ref={this.orderItemsRef}>
+                        <div className='orderItems' style={{display: 'none'}}>
                             <ol start='1'>{itemsTransformed}</ol><br/>
                         </div>
                         Data utworzenia: {created}
@@ -106,7 +105,8 @@ export class Summary extends Component {
     };
 
     showOrderList = (event) => {
-        let list = this.orderItemsRef.current;
+        let $this = event.target
+        let list = $this.parentElement.getElementsByClassName('orderItems')[0]
         if (list.style.display==='none') list.style.display = 'block';
         else list.style.display = 'none';
     };
