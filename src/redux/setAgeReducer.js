@@ -13,5 +13,5 @@ export default function setAgeReducer(state = initialState, action) {
             };
         default:
             return state;
-    }
-}
+    };
+};

@@ -9,9 +9,9 @@ export class Summary extends Component {
             list: '',
         };
 
-        this.orderItemsRef = React.createRef()
+        this.orderItemsRef = React.createRef();
         this.doGetList = this.doGetList.bind(this);
-    }
+    };
 
     doGetList() {
         let axiosConfig = {
@@ -23,66 +23,66 @@ export class Summary extends Component {
         axios.get('http://localhost:8081/list',
             axiosConfig
         ).then(resp => {
-            this.setState({list: resp.data})
+            this.setState({list: resp.data});
         }).catch(error => {
-            this.setState({list:('Błąd serwera')})  //TODO
+            this.setState({list:('Błąd serwera')});
         });
     }
 
     formatItems = (items) => {
-        let itemsTransformed = []
+        let itemsTransformed = [];
 
         items.forEach(function(item) {
-            let colorRegex = new RegExp('\\[(.*),')
-            let color = colorRegex.exec(item)[1]
-            let sizeRegex = new RegExp(',(.*)\\]')
-            let size = sizeRegex.exec(item)[1]
+            let colorRegex = new RegExp('\\[(.*),');
+            let color = colorRegex.exec(item)[1];
+            let sizeRegex = new RegExp(',(.*)\\]');
+            let size = sizeRegex.exec(item)[1];
 
-            if (color==='blue') color='Niebieski'
-            else if (color==='darkblue') color='Granatowy'
-            else if (color==='lightblue') color='Błękitny'
+            if (color==='blue') color='Niebieski';
+            else if (color==='darkblue') color='Granatowy';
+            else if (color==='lightblue') color='Błękitny';
 
-            size = size.toUpperCase()
+            size = size.toUpperCase();
 
             itemsTransformed.push(
                 <li key={itemsTransformed.length}>
                     Kolor: {color}<br/>
                     Rozmiar: {size}<br/>
                 </li>
-            )
+            );
         })
 
         return itemsTransformed
-    }
+    };
 
     formatList = (list) => {
-        let transformedList = []
+        let transformedList = [];
 
-        let nameRegex = new RegExp('<(\\w)+', 'g')
-        let name = nameRegex.exec(list)
-        let ageRegex = new RegExp('\\d+,', 'g')
-        let age = ageRegex.exec(list)
-        let createdRegex = new RegExp('\\d+,.+?(?=\\:): ', 'g')
-        let created = createdRegex.exec(list)
-        let createdRegex2 = new RegExp(', (.*):')
-        let itemRegex = new RegExp('\\[(\\w)*, (\\w)*\\]', 'g')
-        let items = []
-        let item = itemRegex.exec(list)
+        let nameRegex = new RegExp('<(\\w)+', 'g');
+        let name = nameRegex.exec(list);
+        let ageRegex = new RegExp('\\d+,', 'g');
+        let age = ageRegex.exec(list);
+        let createdRegex = new RegExp('\\d+,.+?(?=\\:): ', 'g');
+        let created = createdRegex.exec(list);
+        let createdRegex2 = new RegExp(', (.*):');
+        let itemRegex = new RegExp('\\[(\\w)*, (\\w)*\\]', 'g');
+        let items = [];
+        let item = itemRegex.exec(list);
 
         while (name!==null) {
-            name=name[0].substr(1)
-            age=age.toString().substr(0, age.toString().length-1)
-            created = created[0]
-            if (created!==null) created = createdRegex2.exec(created)[1]
+            name=name[0].substr(1);
+            age=age.toString().substr(0, age.toString().length-1);
+            created = created[0];
+            if (created!==null) created = createdRegex2.exec(created)[1];
 
             while (item!==null) {
-                items.push(item[0])
-                item = itemRegex.exec(list)
+                items.push(item[0]);
+                item = itemRegex.exec(list);
             }
 
-            let itemsTransformed = this.formatItems(items)
+            let itemsTransformed = this.formatItems(items);
 
-            let key = name+age+created
+            let key = name+age+created;
             transformedList.push((
                 <ul key={key}>
                     <li id='itemList'>
@@ -95,25 +95,25 @@ export class Summary extends Component {
                         Data utworzenia: {created}
                     </li>
                 </ul>
-            ))
+            ));
 
-            name = nameRegex.exec(list)
-            age = ageRegex.exec(list)
-            created = createdRegex.exec(list)
+            name = nameRegex.exec(list);
+            age = ageRegex.exec(list);
+            created = createdRegex.exec(list);
         }
 
-        return transformedList
-    }
+        return transformedList;
+    };
 
     showOrderList = (event) => {
-        let list = this.orderItemsRef.current
-        if (list.style.display==='none') list.style.display = 'block'
-        else list.style.display = 'none'
-    }
+        let list = this.orderItemsRef.current;
+        if (list.style.display==='none') list.style.display = 'block';
+        else list.style.display = 'none';
+    };
 
     render() {
-        let list = this.state.list
-        list = this.formatList(list)
+        let list = this.state.list;
+        list = this.formatList(list);
 
         return (
             <div className="main">
@@ -128,7 +128,7 @@ export class Summary extends Component {
                 </div>
             </div>
         );
-    }
+    };
 }
 
 export default Summary;

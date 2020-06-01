@@ -12,7 +12,7 @@ class Orders extends Component {
                 <ItemList />
             </div>
         );
-    }
+    };
 }
 
 export default Orders;

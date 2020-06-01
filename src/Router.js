@@ -15,6 +15,6 @@ const Router = () => {
             <p id='copyright'> &copy; Kuba Wasilewski, 2020 </p>
         </div>
     );
-}
+};
 
 export default Router;

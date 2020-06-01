@@ -13,5 +13,5 @@ export default function setNameReducer(state = initialState, action) {
             };
         default:
             return state;
-    }
-}
+    };
+};

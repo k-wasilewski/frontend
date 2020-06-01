@@ -26,12 +26,12 @@ export class NewOrderStep2 extends Component {
         this.colorOnChange = this.colorOnChange.bind(this);
         this.sizeOnChange = this.sizeOnChange.bind(this);
         this.addToList = this.addToList.bind(this);
-    }
+    };
 
     componentWillUnmount() {
         axios.post('http://localhost:8081/restore',
             this.getAxiosConfig()
-        )
+        );
     };
 
     getAxiosConfig = () => {
@@ -40,7 +40,7 @@ export class NewOrderStep2 extends Component {
                 "Access-Control-Allow-Origin": "*",
             }
         };
-    }
+    };
 
     doCheckAvailability(color, size, newItem, id) {
         axios.post('http://localhost:8081/check',
@@ -48,17 +48,17 @@ export class NewOrderStep2 extends Component {
             this.getAxiosConfig()
         ).then(resp => {
             if (resp.data==='success') {
-                this.props.addItem(newItem)
+                this.props.addItem(newItem);
                 this.setState({
                     id: id+1,
-                })
+                });
             } else if (resp.data==='fail') {
                 this.setState({
                     error: 'Towar chwilowo niedostępny'
-                })
+                });
             }
         }).catch(error => {
-            this.props.setResp('Błąd serwera')
+            this.props.setResp('Błąd serwera');
         });
     };
 
@@ -67,20 +67,20 @@ export class NewOrderStep2 extends Component {
         var id = (this.state.id);
         var size = (this.state.size);
         var color = (this.state.color);
-        newItem.push(id)
+        newItem.push(id);
         newItem.push(color);
         newItem.push(size);
 
         if (size==='' || color==='') {
             this.setState({
                 error: 'Należy wybrać kolor i rozmiar'
-            })
+            });
         } else {
-            this.setState({checking: size+color})
-            this.doCheckAvailability(color, size, newItem, id)
+            this.setState({checking: size+color});
+            this.doCheckAvailability(color, size, newItem, id);
         }
 
-        this.resetForm()
+        this.resetForm();
         if (event!==undefined) event.preventDefault();
     };
 
@@ -88,7 +88,7 @@ export class NewOrderStep2 extends Component {
         this.setState({
             color: '',
             size: '',
-        })
+        });
     };
 
     colorOnChange = (event) => {
@@ -100,53 +100,53 @@ export class NewOrderStep2 extends Component {
     };
 
     translateColor = (response) => {
-        let colorRegex = new RegExp('\\[(.*),', 'g')
-        let c = colorRegex.exec(response)[1]
-        let cPL
+        let colorRegex = new RegExp('\\[(.*),', 'g');
+        let c = colorRegex.exec(response)[1];
+        let cPL;
 
-        if (c==='blue') cPL = 'Niebieski'
-        else if (c==='lightblue') cPL = 'Błękitny'
-        else if (c==='darkblue') cPL = 'Granatowy'
+        if (c==='blue') cPL = 'Niebieski';
+        else if (c==='lightblue') cPL = 'Błękitny';
+        else if (c==='darkblue') cPL = 'Granatowy';
 
-        return response.replace(c, cPL)
+        return response.replace(c, cPL);
     };
 
     translateSize = (response) => {
-        let sizeRegex = new RegExp(',(.*)\\]', 'g')
-        let s = sizeRegex.exec(response)[1]
-        let sPL = s.toUpperCase()
-        let sIndex = response.indexOf(']')-1
+        let sizeRegex = new RegExp(',(.*)\\]', 'g');
+        let s = sizeRegex.exec(response)[1];
+        let sPL = s.toUpperCase();
+        let sIndex = response.indexOf(']')-1;
 
         if (response.charAt(sIndex-1)==='x') {
-            sIndex--
-            response=response.replace('l]', ']')
+            sIndex--;
+            response=response.replace('l]', ']');
         }
 
         return response.substring(0, sIndex) + sPL +
-            response.substring(sIndex + 1)
+            response.substring(sIndex + 1);
     };
 
     handleResponse(resp) {
-        this.props.setResp(resp.data)
+        this.props.setResp(resp.data);
 
-        let notAvailRegex = new RegExp('error: (.*)', 'g')
-        let match = notAvailRegex.exec(resp.data)
+        let notAvailRegex = new RegExp('error: (.*)', 'g');
+        let match = notAvailRegex.exec(resp.data);
         if (match!==null) {
-            let response = match[1]
-            response = this.translateColor(response)
-            response = this.translateSize(response)
+            let response = match[1];
+            response = this.translateColor(response);
+            response = this.translateSize(response);
 
             this.setState({
                 error: response
-            })
+            });
         } else {
-            this.props.setItems([])
-            this.props.setName('')
-            this.props.setAge('')
+            this.props.setItems([]);
+            this.props.setName('');
+            this.props.setAge('');
             this.setState({
                 id: 0,
                 redirect: true
-            })
+            });
         }
     };
 
@@ -156,14 +156,14 @@ export class NewOrderStep2 extends Component {
             + "age=" + this.props.age + "&" + "items=" +this.props.items,
             this.getAxiosConfig()
         ).then(resp => {
-            this.handleResponse(resp)
-            let added = this.state.added
-            added.push(this.props.name+this.props.age+this.props.items)
+            this.handleResponse(resp);
+            let added = this.state.added;
+            added.push(this.props.name+this.props.age+this.props.items);
             this.setState({
                 added: added
-            })
+            });
         }).catch(error => {
-            this.props.setResp('Błąd serwera')
+            this.props.setResp('Błąd serwera');
         })
     };
 
@@ -171,17 +171,17 @@ export class NewOrderStep2 extends Component {
         if (this.props.items.length===0) {
             this.setState({
                 error: 'Należy złożyć conajmniej jedno zamówienie'
-            })
+            });
         } else {
-            this.doAddOrder()
+            this.doAddOrder();
         }
 
         if (event!==undefined) event.preventDefault();
     };
 
     render() {
-        const name = this.props.name
-        const age = this.props.age
+        const name = this.props.name;
+        const age = this.props.age;
 
         if (!this.state.redirect) return (
             <div className="main">
@@ -224,10 +224,10 @@ export class NewOrderStep2 extends Component {
             </div>
         );
         else {
-            this.setState({redirect: false})
-            return <Redirect to='/'  />
+            this.setState({redirect: false});
+            return (<Redirect to='/' />);
         }
-    }
+    };
 }
 
 function mapStateToProps(state) {
@@ -236,7 +236,7 @@ function mapStateToProps(state) {
         name: state.setNameReducer.name,
         age: state.setAgeReducer.age
     };
-}
+};
 
 const mapDispatchToProps = {
     addItem,

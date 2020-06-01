@@ -13,5 +13,5 @@ export default function setRespReducer(state = initialState, action) {
             };
         default:
             return state;
-    }
-}
+    };
+};

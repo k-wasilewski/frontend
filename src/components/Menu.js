@@ -5,13 +5,13 @@ import img from '../img/menu-btn.svg'
 
 class Menu extends Component {
     constructor(props) {
-        super(props)
+        super(props);
 
-        this.menuRef = React.createRef()
+        this.menuRef = React.createRef();
     };
 
     toggleMenuVisibility = () => {
-        this.menuRef.current.classList.toggle('hidden')
+        this.menuRef.current.classList.toggle('hidden');
     };
 
     render() {
@@ -34,7 +34,7 @@ class Menu extends Component {
                 <img id='menu-btn' alt='menu button' onClick={this.toggleMenuVisibility} src={img} />
             </header>
         );
-    }
+    };
 }
 
-export default Menu
+export default Menu;

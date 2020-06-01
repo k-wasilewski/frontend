@@ -13,5 +13,5 @@ export default function setItemsReducer(state = initialState, action) {
             };
         default:
             return state;
-    }
-}
+    };
+};

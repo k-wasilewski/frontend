@@ -6,45 +6,45 @@ import InListVisualization from "../visualization/InListVisualization";
 
 export class ItemList extends Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             items: []
-        }
-    }
+        };
+    };
 
     UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.item !== this.props.item) {
-            var updatedItems = this.state.items
+            var updatedItems = this.state.items;
             updatedItems.push(nextProps.item);
-            this.setState({ items: updatedItems })
-            this.props.setItems(updatedItems)
+            this.setState({ items: updatedItems });
+            this.props.setItems(updatedItems);
         }
     }
 
     translateItems = (items) => {
-        let n = [[]]
+        let n = [[]];
         items.forEach((o) => {
-            let nn = []
-            nn[0] = o[0]
-            if (o[1]==='blue') nn[1] = 'Niebieski'
-            else if (o[1]==='lightblue') nn[1] = 'Błękitny'
-            else if (o[1]==='darkblue') nn[1] = 'Granatowy'
-            else nn[1] = 'brak'
+            let nn = [];
+            nn[0] = o[0];
+            if (o[1]==='blue') nn[1] = 'Niebieski';
+            else if (o[1]==='lightblue') nn[1] = 'Błękitny';
+            else if (o[1]==='darkblue') nn[1] = 'Granatowy';
+            else nn[1] = 'brak';
 
-            if (o[2]==='s') nn[2] = 'S'
-            else if (o[2]==='m') nn[2] = 'M'
-            else if (o[2]==='l') nn[2] = 'L'
-            else if (o[2]==='xl') nn[2] = 'XL'
-            else nn[2] = 'brak'
+            if (o[2]==='s') nn[2] = 'S';
+            else if (o[2]==='m') nn[2] = 'M';
+            else if (o[2]==='l') nn[2] = 'L';
+            else if (o[2]==='xl') nn[2] = 'XL';
+            else nn[2] = 'brak';
 
-            n.push(nn)
-        })
-        return n
-    }
+            n.push(nn);
+        });
+        return n;
+    };
 
     mapItems = (items) => {
         if (items.length!==1) {
-            let n = []
+            let n = [];
             items.forEach(function (o) {
                 if (items.indexOf(o)!==0) n.push(
                     <li key={o[0]}>
@@ -52,17 +52,17 @@ export class ItemList extends Component {
                         Rozmiar: {o[2]}<br/>
                         <InListVisualization key={o[0]} size={o[2]} color={o[1]}/>
                     </li>
-                )
+                );
             })
 
-            return n
-        } else return undefined
-    }
+            return n;
+        } else return undefined;
+    };
 
     render() {
-        const items = this.state.items
-        const translatedItems = this.translateItems(items)
-        const mappedItems = this.mapItems(translatedItems)
+        const items = this.state.items;
+        const translatedItems = this.translateItems(items);
+        const mappedItems = this.mapItems(translatedItems);
 
         return (
             <div className="main">
@@ -72,7 +72,7 @@ export class ItemList extends Component {
                 </ol>
             </div>
         );
-    }
+    };
 }
 
 function mapStateToProps(state) {
