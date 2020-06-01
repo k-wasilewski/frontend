@@ -5,7 +5,7 @@ import {BrowserRouter} from "react-router-dom";
 import App from "../src/App";
 import {Provider} from "react-redux";
 
-describe("App specification", () => {
+describe("App rendering specification", () => {
     it('App is rendered', () => {
         const component = renderer.create(
             <Provider store={store}>
@@ -16,5 +16,5 @@ describe("App specification", () => {
         );
         let tree = component.toJSON();
         expect(tree).toMatchSnapshot();
-    })
-})
+    });
+});

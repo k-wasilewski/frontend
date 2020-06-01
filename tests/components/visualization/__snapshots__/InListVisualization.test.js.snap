@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`InListVisualization specification renders empty div 1`] = `
+exports[`InListVisualization rendering specification renders empty div 1`] = `
 <div>
   <div
     style={

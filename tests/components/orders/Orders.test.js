@@ -4,7 +4,7 @@ import store from "../../../src/redux/store";
 import Orders from "../../../src/components/orders/Orders";
 import {Provider} from "react-redux";
 
-describe("Orders specification", () => {
+describe("Orders rendering specification", () => {
     it('renders NewOrderStep2 and ItemList components', () => {
         const component = renderer.create(
             <Provider store={store}>

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Menu specification renders two menu items and a menu btn 1`] = `
+exports[`Menu rendering specification renders two menu items and a menu btn 1`] = `
 <header>
   <div
     className="menu hidden"

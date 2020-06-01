@@ -4,24 +4,33 @@ import store from "../../../src/redux/store";
 import {Provider} from "react-redux";
 import {configure, shallow} from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
-import ConnectedSummary, { Summary } from "../../../src/components/summary/Summary"
+import ConnectedSummary, { Summary } from "../../../src/components/summary/Summary";
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
-describe("Summary specification", () => {
+describe("Summary rendering specification", () => {
     it('renders a title and a button initially', () => {
         const component = renderer.create(
             <Provider store={store}>
-                <ConnectedSummary />
+                <ConnectedSummary/>
             </Provider>
         );
         let tree = component.toJSON();
         expect(tree).toMatchSnapshot();
 
-        const summary = tree.children[0]
-        expect(summary.children[0].children[0]).toEqual('Podsumowanie')
-        expect(summary.children[2].children[0].children[0]).toEqual('Szukaj')
+        const summary = tree.children[0];
+        expect(summary.children[0].children[0]).toEqual('Podsumowanie');
+        expect(summary.children[2].children[0].children[0]).toEqual('Szukaj');
     })
+})
+
+
+describe("Summary2 specification", () => {
+    let axiosConfig = {
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+        }
+    };
 
     it('doGetList() is invoked when search btn is clicked', () => {
         configure({ adapter: new Adapter() });
@@ -30,28 +39,23 @@ describe("Summary specification", () => {
 
         const component = shallow(
             <Summary />
-        )
+        );
 
-        component.instance().doGetList = jest.fn()
-        component.update()
-        let mockClick = () => component.find('.col2').find('button').simulate('click')
-        mockClick()
+        component.instance().doGetList = jest.fn();
+        component.update();
+        let mockClick = () => component.find('.col2').find('button').simulate('click');
+        mockClick();
 
-        expect(doGetList).toHaveBeenCalled()
+        expect(doGetList).toHaveBeenCalled();
+        //component.unmount();
     })
 
     it('doGetList() sends a request to server', (done) => {
         const error = console.error;
         console.error = jest.fn();
 
-        let axiosConfig = {
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-            }
-        };
-
         var mock = new MockAdapter(axios);
-        const resp = []
+        const resp = [];
         mock.onGet(
             'http://localhost:8081/list',
             axiosConfig
@@ -59,90 +63,98 @@ describe("Summary specification", () => {
 
         const component = shallow(
             <Summary />
-        )
+        );
 
-        component.instance().doGetList()
+        component.instance().doGetList();
 
         setTimeout(function () {
-            expect(component.instance().state.list).toEqual(resp)
-            console.error = error
-            done()
+            expect(component.instance().state.list).toEqual(resp);
+            console.error = error;
+
+            component.unmount();
+            done();
         }, 4000)
-    })
+    });
 
     it('formatList() transforms string to list elements', () => {
         configure({ adapter: new Adapter() });
 
-        const name = 'Kuba'
-        const age = '30'
-        const datetime = '2020-05-29 18:37:23.458'
-        const list = '[<'+name+', '+age+', '+datetime+': [[blue, s]]>]'
+        const name = 'Kuba';
+        const age = '30';
+        const datetime = '2020-05-29 18:37:23.458';
+        const list = '[<'+name+', '+age+', '+datetime+': [[blue, s]]>]';
 
         const component = shallow(
             <Summary />
-        )
+        );
 
-        const transformedList = component.instance().formatList(list)
+        const transformedList = component.instance().formatList(list);
 
-        expect(transformedList[0].type).toEqual('ul')
-        expect(transformedList[0].key).toEqual(name+age+datetime)
+        expect(transformedList[0].type).toEqual('ul');
+        expect(transformedList[0].key).toEqual(name+age+datetime);
+
+        component.unmount();
     })
 
     it('formatItems() transforms array elements to list elements', () => {
         configure({ adapter: new Adapter() });
 
-        const size = 's'
-        const color = 'blue'
-        const sizePL = 'S'
-        const colorPL = 'Niebieski'
+        const size = 's';
+        const color = 'blue';
+        const sizePL = 'S';
+        const colorPL = 'Niebieski';
 
-        let items = []
-        let item = '['+color+','+size+']'
-        items.push(item)
+        let items = [];
+        let item = '['+color+','+size+']';
+        items.push(item);
 
         const component = shallow(
             <Summary />
-        )
+        );
 
-        const transformedItems = component.instance().formatItems(items)
+        const transformedItems = component.instance().formatItems(items);
 
-        expect(transformedItems[0].type).toEqual('li')
-        expect(transformedItems[0].key).toEqual('0')
+        expect(transformedItems[0].type).toEqual('li');
+        expect(transformedItems[0].key).toEqual('0');
 
-        expect(JSON.stringify(transformedItems[0])).toContain(colorPL)
-        expect(JSON.stringify(transformedItems[0])).toContain(sizePL)
+        expect(JSON.stringify(transformedItems[0])).toContain(colorPL);
+        expect(JSON.stringify(transformedItems[0])).toContain(sizePL);
+
+        component.unmount();
     })
 
     it('button "Elementy" toggles item list display onClick', () => {
         configure({ adapter: new Adapter() });
 
-        const mockOrderItemsRef = jest.spyOn(React, 'createRef')
+        const mockOrderItemsRef = jest.spyOn(React, 'createRef');
 
-        const name = 'Kuba'
-        const age = '30'
-        const datetime = '2020-05-29 18:37:23.458'
-        const list = '[<'+name+', '+age+', '+datetime+': [[blue, s]]>]'
+        const name = 'Kuba';
+        const age = '30';
+        const datetime = '2020-05-29 18:37:23.458';
+        const list = '[<'+name+', '+age+', '+datetime+': [[blue, s]]>]';
 
         const component = shallow(
             <Summary />
-        )
+        );
 
-        const mockItemList = <li style={{display: 'none'}} />
+        const mockItemList = (<li style={{display: 'none'}} />);
         mockOrderItemsRef.mockReturnValueOnce({
             current: mockItemList
-        })
+        });
 
-        const showElemsBtn = component.find('#showElems')
+        const showElemsBtn = component.find('#showElems');
 
         component.instance().setState({
             list: list
-        })
+        });
 
-        showElemsBtn.simulate('click', { target: {showElemsBtn} })
-        expect(mockOrderItemsRef).toHaveBeenCalled()
-        expect(mockItemList.props.style.display==='block')
-        showElemsBtn.simulate('click', { target: {showElemsBtn} })
-        expect(mockOrderItemsRef).toHaveBeenCalled()
-        expect(mockItemList.props.style.display==='none')
-    })
-})
+        showElemsBtn.simulate('click', { target: {showElemsBtn} });
+        expect(mockOrderItemsRef).toHaveBeenCalled();
+        expect(mockItemList.props.style.display==='block');
+        showElemsBtn.simulate('click', { target: {showElemsBtn} });
+        expect(mockOrderItemsRef).toHaveBeenCalled();
+        expect(mockItemList.props.style.display==='none');
+
+        component.unmount();
+    });
+});

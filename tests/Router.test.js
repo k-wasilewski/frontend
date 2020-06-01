@@ -9,14 +9,22 @@ import App from "../src/App";
 import {mount, configure} from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
 
-describe("Router specification", () => {
-    it('component "NewOrderStep1" is displayed when "/" url is passed', () => {
+describe("Router rendering specification", () => {
+    let component;
+    const root = document.createElement('div');
+
+    beforeEach(() => {
         configure({ adapter: new Adapter() });
 
-        const root = document.createElement('div');
         document.body.appendChild(root);
+    });
 
-        const component = mount(
+    afterEach(() => {
+        component.unmount();
+    });
+
+    it('component "NewOrderStep1" is displayed when "/" url is passed', () => {
+        component = mount(
             <Provider store={store}>
                 <MemoryRouter initialEntries={['/']}>
                     <App />
@@ -25,15 +33,10 @@ describe("Router specification", () => {
         );
 
         expect(component.find(NewOrderStep1)).toHaveLength(1);
-    })
+    });
 
     it('component "Orders" is displayed when "/step2" url is passed', () => {
-        configure({ adapter: new Adapter() });
-
-        const root = document.createElement('div');
-        document.body.appendChild(root);
-
-        const component = mount(
+        component = mount(
             <Provider store={store}>
                 <MemoryRouter initialEntries={['/step2']}>
                     <App />
@@ -42,15 +45,10 @@ describe("Router specification", () => {
         );
 
         expect(component.find(Orders)).toHaveLength(1);
-    })
+    });
 
     it('component "Summary" is displayed when "/summary" url is passed', () => {
-        configure({ adapter: new Adapter() });
-
-        const root = document.createElement('div');
-        document.body.appendChild(root);
-
-        const component = mount(
+        component = mount(
             <Provider store={store}>
                 <MemoryRouter initialEntries={['/summary']}>
                     <App />
@@ -59,5 +57,5 @@ describe("Router specification", () => {
         );
 
         expect(component.find(Summary)).toHaveLength(1);
-    })
-})
+    });
+});

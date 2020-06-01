@@ -8,53 +8,63 @@ import ConnectedNewOrderStep2, { NewOrderStep2 } from "../../../src/components/o
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
-describe("NewOrderStep2 specification", () => {
+describe("NewOrderStep2 rendering specification", () => {
     it('renders a form with select, radio, and two buttons', () => {
         const component = renderer.create(
             <Provider store={store}>
-                <ConnectedNewOrderStep2 />
+                <ConnectedNewOrderStep2/>
             </Provider>
         );
         let tree = component.toJSON();
         expect(tree).toMatchSnapshot();
 
-        const form = tree.children[0]
-        expect(form.type).toEqual('form')
+        const form = tree.children[0];
+        expect(form.type).toEqual('form');
 
-        const col1 = form.children[1].children[0]
+        const col1 = form.children[1].children[0];
 
-        const btn1 = col1.children[5]
-        expect(btn1.children[0]).toEqual('Zapisz')
-        const btn2 = col1.children[6]
-        expect(btn2.children[0]).toEqual('Wyślij')
+        const btn1 = col1.children[5];
+        expect(btn1.children[0]).toEqual('Zapisz');
+        const btn2 = col1.children[6];
+        expect(btn2.children[0]).toEqual('Wyślij');
 
-        const col2 = form.children[1].children[1]
+        const col2 = form.children[1].children[1];
 
-        const select = col2.children[0].children[0]
-        expect(select.props).toHaveProperty('id', 'color' )
-        expect(select.props).toHaveProperty('name', 'color' )
+        const select = col2.children[0].children[0];
+        expect(select.props).toHaveProperty('id', 'color');
+        expect(select.props).toHaveProperty('name', 'color');
 
-        const radio1 = col2.children[1]
-        expect(radio1.props).toHaveProperty('id', 's' )
-        expect(radio1.props).toHaveProperty('type', 'radio' )
-        expect(radio1.props).toHaveProperty('name', 'size' )
-        const radio4 = col2.children[4]
-        expect(radio4.props).toHaveProperty('id', 'm' )
-        expect(radio4.props).toHaveProperty('type', 'radio' )
-        expect(radio4.props).toHaveProperty('name', 'size' )
-        const radio7 = col2.children[7]
-        expect(radio7.props).toHaveProperty('id', 'l' )
-        expect(radio7.props).toHaveProperty('type', 'radio' )
-        expect(radio7.props).toHaveProperty('name', 'size' )
-        const radio10 = col2.children[10]
-        expect(radio10.props).toHaveProperty('id', 'xl' )
-        expect(radio10.props).toHaveProperty('type', 'radio' )
-        expect(radio10.props).toHaveProperty('name', 'size' )
-    })
+        const radio1 = col2.children[1];
+        expect(radio1.props).toHaveProperty('id', 's');
+        expect(radio1.props).toHaveProperty('type', 'radio');
+        expect(radio1.props).toHaveProperty('name', 'size');
+        const radio4 = col2.children[4];
+        expect(radio4.props).toHaveProperty('id', 'm');
+        expect(radio4.props).toHaveProperty('type', 'radio');
+        expect(radio4.props).toHaveProperty('name', 'size');
+        const radio7 = col2.children[7];
+        expect(radio7.props).toHaveProperty('id', 'l');
+        expect(radio7.props).toHaveProperty('type', 'radio');
+        expect(radio7.props).toHaveProperty('name', 'size');
+        const radio10 = col2.children[10];
+        expect(radio10.props).toHaveProperty('id', 'xl');
+        expect(radio10.props).toHaveProperty('type', 'radio');
+        expect(radio10.props).toHaveProperty('name', 'size');
+    });
+});
+
+describe("NewOrderStep2 functional specification", () => {
+    beforeEach(() => {
+        configure({adapter: new Adapter()});
+    });
+
+    let axiosConfig = {
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+        }
+    };
 
     it('colorOnChange() is invoked and changes state when colorInput value changes', () => {
-        configure({ adapter: new Adapter() });
-
         const event = {
             preventDefault() {},
             target: { value: 'some value' }
@@ -62,18 +72,17 @@ describe("NewOrderStep2 specification", () => {
 
         const component = shallow(
             <NewOrderStep2 />
-        )
+        );
 
-        const colorInput = component.find('#color')
+        const colorInput = component.find('#color');
 
-        expect(component.state('color')).toEqual('')
-        colorInput.simulate('change', event)
-        expect(component.state('color')).toEqual('some value')
-    })
+        expect(component.state('color')).toEqual('');
+        colorInput.simulate('change', event);
+        expect(component.state('color')).toEqual('some value');
+        //component.unmount();
+    });
 
     it('sizeOnChange is invoked and changes state when sizeInput value changes', () => {
-        configure({ adapter: new Adapter() });
-
         const event = {
             preventDefault() {},
             target: { value: 'some value' }
@@ -81,235 +90,221 @@ describe("NewOrderStep2 specification", () => {
 
         const component = shallow(
             <NewOrderStep2 />
-        )
+        );
 
-        expect(component.state('size')).toEqual('')
-        const sizeInputS = component.find('#s')
-        sizeInputS.simulate('change', event)
-        expect(component.state('size')).toEqual('some value')
-        const sizeInputM = component.find('#m')
-        sizeInputS.simulate('change', event)
-        expect(component.state('size')).toEqual('some value')
-        const sizeInputL = component.find('#l')
-        sizeInputS.simulate('change', event)
-        expect(component.state('size')).toEqual('some value')
-        const sizeInputXL = component.find('#xl')
-        sizeInputS.simulate('change', event)
-        expect(component.state('size')).toEqual('some value')
-    })
+        expect(component.state('size')).toEqual('');
+        const sizeInputS = component.find('#s');
+        sizeInputS.simulate('change', event);
+        expect(component.state('size')).toEqual('some value');
+        const sizeInputM = component.find('#m');
+        sizeInputS.simulate('change', event);
+        expect(component.state('size')).toEqual('some value');
+        const sizeInputL = component.find('#l');
+        sizeInputS.simulate('change', event);
+        expect(component.state('size')).toEqual('some value');
+        const sizeInputXL = component.find('#xl');
+        sizeInputS.simulate('change', event);
+        expect(component.state('size')).toEqual('some value');
+
+        //component.unmount();
+    });
 
     it('translateSize() returns size in uppercase', () => {
-        configure({adapter: new Adapter()});
-
         const component = shallow(
             <NewOrderStep2/>
-        )
+        );
 
-        const input = '[blue,s]'
-        const expected = '[blue,S]'
+        const input = '[blue,s]';
+        const expected = '[blue,S]';
 
-        expect(component.instance().translateSize(input)).toEqual(expected)
-    })
+        expect(component.instance().translateSize(input)).toEqual(expected);
+
+        //component.unmount();
+    });
 
     it('translateColor() returns translated color, starting with uppercase', () => {
-        configure({adapter: new Adapter()});
-
         const component = shallow(
             <NewOrderStep2/>
-        )
+        );
 
-        const input = '[blue,s]'
-        const expected = '[Niebieski,s]'
+        const input = '[blue,s]';
+        const expected = '[Niebieski,s]';
 
-        expect(component.instance().translateColor(input)).toEqual(expected)
-    })
+        expect(component.instance().translateColor(input)).toEqual(expected);
+
+        //component.unmount();
+    });
 
     it('resetForm() restores state values: color, size to default', () => {
-        configure({adapter: new Adapter()});
-
         const component = shallow(
             <NewOrderStep2/>
-        )
+        );
 
         component.setState({
             color: 'sample color',
             size: 'sample size'
-        })
-        expect(component.state('color')).toEqual('sample color')
-        expect(component.state('size')).toEqual('sample size')
+        });
+        expect(component.state('color')).toEqual('sample color');
+        expect(component.state('size')).toEqual('sample size');
 
-        component.instance().resetForm()
-        expect(component.state('color')).toEqual('')
-        expect(component.state('size')).toEqual('')
-    })
+        component.instance().resetForm();
+        expect(component.state('color')).toEqual('');
+        expect(component.state('size')).toEqual('');
+
+        //component.unmount();
+    });
 
     it('sendData() sets state value: error to errorMsg when prop items' +
         ' is empty', () => {
-        configure({adapter: new Adapter()});
-
         const component = shallow(
             <NewOrderStep2 items={[]}/>
-        )
+        );
 
-        component.instance().sendData()
+        component.instance().sendData();
         expect(component.state('error'))
-            .toEqual('Należy złożyć conajmniej jedno zamówienie')
-    })
+            .toEqual('Należy złożyć conajmniej jedno zamówienie');
+
+        //component.unmount();
+    });
 
     it('sendData() calls doAddOrder() when there is non-empty prop items', () => {
-        configure({adapter: new Adapter()});
-
         const component = shallow(
             <NewOrderStep2 items={['sample item']} />
-        )
+        );
 
         component.instance().doAddOrder = jest.fn();
         component.update();
 
-        component.instance().sendData()
+        component.instance().sendData();
 
         expect(component.instance().doAddOrder).toBeCalled();
-    })
+
+        //component.unmount();
+    });
 
     it('handleResponse() sets state value: error to errorMsg when there is ' +
         'error string present in passed string value', () => {
-        configure({ adapter: new Adapter() });
+        const msg = '[blue,s]';
+        const msgPL = '[Niebieski,S]';
+        const data = 'error: '+msg;
 
-        const msg = '[blue,s]'
-        const msgPL = '[Niebieski,S]'
-        const data = 'error: '+msg
+        const resp = {data: data};
 
-        const resp = {data: data}
-
-        let mockSetResp = jest.fn()
-        let mockSetName = jest.fn()
-        let mockSetAge = jest.fn()
-        let mockSetItems = jest.fn()
+        let mockSetResp = jest.fn();
+        let mockSetName = jest.fn();
+        let mockSetAge = jest.fn();
+        let mockSetItems = jest.fn();
 
         const component = shallow(
             <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
                            setItems={mockSetItems}/>
-        )
+        );
 
-        component.instance().handleResponse(resp)
-        expect(mockSetResp).toHaveBeenCalled()
-        expect(component.state('error')).toEqual(msgPL)
-    })
+        component.instance().handleResponse(resp);
+        expect(mockSetResp).toHaveBeenCalled();
+        expect(component.state('error')).toEqual(msgPL);
+
+        //component.unmount();
+    });
 
     it('handleResponse() restores order values and redirects when there is ' +
         'no error string present in passed string value', () => {
-        configure({ adapter: new Adapter() });
+        const msg = '[blue,s]';
+        const msgPL = '[Niebieski,S]';
+        const data = msg;
 
-        const msg = '[blue,s]'
-        const msgPL = '[Niebieski,S]'
-        const data = msg
+        const resp = {data: data};
 
-        const resp = {data: data}
-
-        let mockSetResp = jest.fn()
-        let mockSetName = jest.fn()
-        let mockSetAge = jest.fn()
-        let mockSetItems = jest.fn()
+        let mockSetResp = jest.fn();
+        let mockSetName = jest.fn();
+        let mockSetAge = jest.fn();
+        let mockSetItems = jest.fn();
 
         const component = shallow(
             <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
                            setItems={mockSetItems}/>
-        )
+        );
 
-        component.instance().handleResponse(resp)
-        expect(mockSetResp).toHaveBeenCalled()
-        expect(mockSetItems).toHaveBeenCalled()
-        expect(mockSetAge).toHaveBeenCalled()
-        expect(mockSetName).toHaveBeenCalled()
-        expect(component.state('id')).toEqual(0)
-        expect(component.state('redirect')).toEqual(true)
-    })
+        component.instance().handleResponse(resp);
+        expect(mockSetResp).toHaveBeenCalled();
+        expect(mockSetItems).toHaveBeenCalled();
+        expect(mockSetAge).toHaveBeenCalled();
+        expect(mockSetName).toHaveBeenCalled();
+        expect(component.state('id')).toEqual(0);
+        expect(component.state('redirect')).toEqual(true);
+
+        //component.unmount();
+    });
 
     it('addToList() handles name, age errors and invokes doCheckAvailability() ' +
         'when there is no error', () => {
-        configure({ adapter: new Adapter() });
-
-        let mockSetResp = jest.fn()
-        let mockSetName = jest.fn()
-        let mockSetAge = jest.fn()
-        let mockSetItems = jest.fn()
+        let mockSetResp = jest.fn();
+        let mockSetName = jest.fn();
+        let mockSetAge = jest.fn();
+        let mockSetItems = jest.fn();
 
         const component = shallow(
             <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
                            setItems={mockSetItems}/>
-        )
+        );
 
         component.setState({
             size: '',
             color: 'blue'
-        })
-        component.instance().addToList()
-        expect(component.state('error')).toEqual('Należy wybrać kolor i rozmiar')
+        });
+        component.instance().addToList();
+        expect(component.state('error')).toEqual('Należy wybrać kolor i rozmiar');
 
         component.setState({
             size: 's',
             color: ''
-        })
-        component.instance().addToList()
-        expect(component.state('error')).toEqual('Należy wybrać kolor i rozmiar')
-
-
+        });
+        component.instance().addToList();
+        expect(component.state('error')).toEqual('Należy wybrać kolor i rozmiar');
 
         component.setState({
             size: 's',
             color: 'blue'
-        })
-        component.instance().addToList()
-        expect(component.state('checking')).toEqual('sblue')
+        });
+        component.instance().addToList();
+        expect(component.state('checking')).toEqual('sblue');
+
+        //component.unmount();
     })
 
     it('componentWillUnmount() makes a request to restore temporaryCounts to ' +
         'according permanent counts', (done) => {
-        configure({adapter: new Adapter()});
-
         const error = console.error;
         console.error = jest.fn();
 
-        let axiosConfig = {
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-            }
-        };
-
         var mock = new MockAdapter(axios);
-        const resp = []
+        const resp = [];
         mock.onPost(
             'http://localhost:8081/restore',
             axiosConfig
         ).reply(200, resp);
 
-        let mockSetResp = jest.fn()
-        let mockSetName = jest.fn()
-        let mockSetAge = jest.fn()
-        let mockSetItems = jest.fn()
+        let mockSetResp = jest.fn();
+        let mockSetName = jest.fn();
+        let mockSetAge = jest.fn();
+        let mockSetItems = jest.fn();
 
         const component = shallow(
             <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
                            setItems={mockSetItems}/>
-        )
+        );
 
-        component.instance().componentWillUnmount()
-        console.error = error
-        done()
-    })
+        component.instance().componentWillUnmount();
+        console.error = error;
+
+        //component.unmount();
+        done();
+    });
 
     it('doCheckAvailability() invokes setResp() when server response contains ' +
         'error', (done) => {
-        configure({adapter: new Adapter()});
-
         const error = console.error;
         console.error = jest.fn();
-
-        let axiosConfig = {
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-            }
-        };
 
         var mock = new MockAdapter(axios);
         const resp = {data: 'success'}
@@ -318,153 +313,137 @@ describe("NewOrderStep2 specification", () => {
             axiosConfig
         ).reply(200, resp);
 
-        let mockSetResp = jest.fn()
-        let mockSetName = jest.fn()
-        let mockSetAge = jest.fn()
-        let mockSetItems = jest.fn()
-        let mockAddItem = jest.fn()
+        let mockSetResp = jest.fn();
+        let mockSetName = jest.fn();
+        let mockSetAge = jest.fn();
+        let mockSetItems = jest.fn();
+        let mockAddItem = jest.fn();
 
         const component = shallow(
             <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
                            setItems={mockSetItems} addItem={mockAddItem}/>
-        )
+        );
 
-        const color = 'blue'
-        const size = 's'
-        const id = 0
-        const item = [id, color, size]
+        const color = 'blue';
+        const size = 's';
+        const id = 0;
+        const item = [id, color, size];
 
-        component.instance().doCheckAvailability(color, size, item, id)
+        component.instance().doCheckAvailability(color, size, item, id);
 
         setTimeout(function () {
-            expect(mockSetResp).toHaveBeenCalled()
-            console.error = error
-            done()
-        }, 4000)
-    })
+            expect(mockSetResp).toHaveBeenCalled();
+            console.error = error;
+
+            //component.unmount();
+            done();
+        }, 4000);
+    });
 
     it('doCheckAvailability() invokes addItem() when server response ' +
         'is success', (done) => {
-        configure({adapter: new Adapter()});
-
         const error = console.error;
         console.error = jest.fn();
 
-        let axiosConfig = {
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-            }
-        };
-
         var mock = new MockAdapter(axios);
-        const resp = 'success'
+        const resp = 'success';
         mock.onPost().reply(200, resp);
 
-        let mockSetResp = jest.fn()
-        let mockSetName = jest.fn()
-        let mockSetAge = jest.fn()
-        let mockSetItems = jest.fn()
-        let mockAddItem = jest.fn()
+        let mockSetResp = jest.fn();
+        let mockSetName = jest.fn();
+        let mockSetAge = jest.fn();
+        let mockSetItems = jest.fn();
+        let mockAddItem = jest.fn();
 
         const component = shallow(
             <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
                            setItems={mockSetItems} addItem={mockAddItem}/>
-        )
+        );
 
-        const color = 'blue'
-        const size = 's'
-        const id = 0
-        const item = [id, color, size]
+        const color = 'blue';
+        const size = 's';
+        const id = 0;
+        const item = [id, color, size];
 
-        component.instance().doCheckAvailability(color, size, item, id)
+        component.instance().doCheckAvailability(color, size, item, id);
 
         setTimeout(function () {
-            expect(mockAddItem).toHaveBeenCalled()
-            console.error = error
-            done()
-        }, 4000)
-    })
+            expect(mockAddItem).toHaveBeenCalled();
+            console.error = error;
+
+            //component.unmount();
+            done();
+        }, 4000);
+    });
 
     it('doCheckAvailability() sets state value: error to errorMsg when server response ' +
         'is fail', (done) => {
-        configure({adapter: new Adapter()});
-
         const error = console.error;
         console.error = jest.fn();
 
-        let axiosConfig = {
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-            }
-        };
-
         var mock = new MockAdapter(axios);
-        const resp = 'fail'
+        const resp = 'fail';
         mock.onPost().reply(200, resp);
 
-        let mockSetResp = jest.fn()
-        let mockSetName = jest.fn()
-        let mockSetAge = jest.fn()
-        let mockSetItems = jest.fn()
-        let mockAddItem = jest.fn()
+        let mockSetResp = jest.fn();
+        let mockSetName = jest.fn();
+        let mockSetAge = jest.fn();
+        let mockSetItems = jest.fn();
+        let mockAddItem = jest.fn();
 
         const component = shallow(
             <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
                            setItems={mockSetItems} addItem={mockAddItem}/>
-        )
+        );
 
-        const color = 'blue'
-        const size = 's'
-        const id = 0
-        const item = [id, color, size]
+        const color = 'blue';
+        const size = 's';
+        const id = 0;
+        const item = [id, color, size];
 
-        component.instance().doCheckAvailability(color, size, item, id)
+        component.instance().doCheckAvailability(color, size, item, id);
 
         setTimeout(function () {
-            expect(component.state('error')).toEqual('Towar chwilowo niedostępny')
-            console.error = error
-            done()
-        }, 4000)
-    })
+            expect(component.state('error')).toEqual('Towar chwilowo niedostępny');
+            console.error = error;
+
+            //component.unmount();
+            done();
+        }, 4000);
+    });
 
     it('doAddOrder() sends data to server', (done) => {
-        configure({adapter: new Adapter()});
-
         const error = console.error;
         console.error = jest.fn();
 
-        let axiosConfig = {
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-            }
-        };
-
         var mock = new MockAdapter(axios);
-        const resp = 'sample resp'
+        const resp = 'sample resp';
         mock.onPost().reply(200, resp);
 
-        let mockSetResp = jest.fn()
-        let mockSetName = jest.fn()
-        let mockSetAge = jest.fn()
-        let mockSetItems = jest.fn()
-        let mockAddItem = jest.fn()
+        let mockSetResp = jest.fn();
+        let mockSetName = jest.fn();
+        let mockSetAge = jest.fn();
+        let mockSetItems = jest.fn();
+        let mockAddItem = jest.fn();
 
-        const name = 'Kuba'
-        const age = 30
-        const items = [[0, 'blue', 's'], [1, 'lightblue', 'm']]
+        const name = 'Kuba';
+        const age = 30;
+        const items = [[0, 'blue', 's'], [1, 'lightblue', 'm']];
 
         const component = shallow(
             <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
                            setItems={mockSetItems} addItem={mockAddItem} name={name}
-                    age={age} items={items}/>
-        )
+                           age={age} items={items}/>
+        );
 
-        component.instance().doAddOrder()
+        component.instance().doAddOrder();
 
         setTimeout(function () {
-            expect(component.state('added')).toEqual([name+age+items])
-            console.error = error
-            done()
-        }, 4000)
-    })
-})
+            expect(component.state('added')).toEqual([name+age+items]);
+            console.error = error;
+
+            component.unmount();
+            done();
+        }, 4000);
+    });
+});

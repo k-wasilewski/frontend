@@ -6,13 +6,13 @@ describe("setItemsReducer specification", () => {
     it('returns the initial state when no action has been called', () => {
         expect(setItemsReducer(undefined, {})).toEqual({
             items: []
-        })
-    })
+        });
+    });
 
     it('returns state with items when setItems(items) action has been called', () => {
         const items = 'sample items'
         expect(setItemsReducer([], actions.setItems(items))).toEqual({
             items: items
-        })
-    })
-})
+        });
+    });
+});
