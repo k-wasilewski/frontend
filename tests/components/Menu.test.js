@@ -29,21 +29,27 @@ describe("Menu specification", () => {
         expect(menuBtn.props.id).toContain('menu-btn')
     })
 
-    it('toggleMenuVisibility() toggles "hidden" class at menu classList', () => {
+    it('menu button toggles menu display when clicked', () => {
         configure({ adapter: new Adapter() });
+
+        const mockMenuRef = jest.spyOn(React, 'createRef')
 
         const component = shallow(
             <Menu />
         )
 
+        const mockMenu = <div className={'menu hidden'} />
+        mockMenuRef.mockReturnValue({
+            current: mockMenu
+        })
+
         let mockClick = () => component.find('#menu-btn').simulate('click')
 
-        expect(mockClick).toThrow(TypeError)
-
-        try {
+        setTimeout(function () {
             mockClick()
-        } catch (e) {
-            expect(e.message).toBe("Cannot read property 'classList' of null");
-        }
+            expect(mockMenu.classList).toEqual('menu')
+            mockClick()
+            expect(mockMenu.classList).toEqual('menu hidden')
+        }, 4000)
     })
 })

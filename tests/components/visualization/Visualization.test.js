@@ -19,20 +19,29 @@ describe("Visualization specification", () => {
         expect(tree.children[0]).toEqual('\u00a0')
     })
 
-    it('style-changing functions are invoked when componentWillReceiveProps', () => {
+    it('visualization div changes accordingly when componentWillReceiveProps', () => {
         configure({ adapter: new Adapter() });
+
+        const mockVisualizationRef = jest.spyOn(React, 'createRef')
 
         const component = shallow(
             <Visualization />
         )
 
-        try {
+        const mockVisualization = <div id='visualization' />
+        mockVisualizationRef.mockReturnValue({
+            current: mockVisualization
+        })
+
+        setTimeout(function () {
+            expect(mockVisualization.style.display = 'none')
             component.instance().UNSAFE_componentWillReceiveProps({
-                size: 'mock size',
-                color: 'mock color'
+                size: 's',
+                color: 'blue'
             })
-        } catch (e) {
-            expect(e.message).toBe("Cannot read property 'style' of null");
-        }
+            expect(mockVisualization.style.width = '25px')
+            expect(mockVisualization.style.height = '25px')
+            expect(mockVisualization.style.backgroundColor = 'blue')
+        }, 4000)
     })
 })

@@ -85,7 +85,7 @@ export class Summary extends Component {
             let key = name+age+created
             transformedList.push((
                 <ul key={key}>
-                    <li>
+                    <li id='itemList'>
                         Imię: {name}<br/>
                         Wiek: {age}<br/>
                         <button className='showElems' onClick={this.showOrderList}>Elementy</button> <br/>

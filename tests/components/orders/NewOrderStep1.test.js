@@ -54,12 +54,19 @@ describe("NewOrderStep1 specification", () => {
         expect(getError).toHaveBeenCalled()
     })
 
-    it('style-changing nameOnChange() is invoked when nameInput value changes', () => {
+    it('name input changes color to red when value is incorrect', () => {
         configure({ adapter: new Adapter() });
 
-        const event = {
+        const mockNameRef = jest.spyOn(React, 'createRef')
+
+        const correctInputEvent = {
             preventDefault() {},
-            target: { value: 'some value' }
+            target: { value: 'Kuba' }
+        };
+
+        const incorrectInputEvent = {
+            preventDefault() {},
+            target: { value: 'jfu876vVJH$^*d' }
         };
 
         let mockSetItems = jest.fn()
@@ -67,20 +74,41 @@ describe("NewOrderStep1 specification", () => {
         let mockSetAge = jest.fn()
 
         const component = shallow(
-            <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge} />
+            <NewOrderStep1 setItems={mockSetItems} setName={mockSetName}
+                           setAge={mockSetAge} />
         )
+
+        const mockNameInput = <input type='text' />
+        mockNameRef.mockReturnValue({
+            current: mockNameInput
+        })
 
         const nameInput = component.find('#nameInput')
 
-        try {
-            nameInput.simulate('change', event)
-        } catch (e) {
-            expect(e.message).toEqual('Cannot read property \'style\' of null')
-        }
+        setTimeout(function () {
+            nameInput.simulate('change', incorrectInputEvent)
+            expect(mockNameRef).toHaveBeenCalled()
+            expect(mockNameInput.props.style.color==='red')
+            nameInput.simulate('change', correctInputEvent)
+            expect(mockNameRef).toHaveBeenCalled()
+            expect(mockNameInput.props.style.color==='black')
+        }, 4000)
     })
 
-    it('style-changing ageOnChange() is invoked when ageInput value changes', () => {
+    it('age input changes color to red when value is incorrect', () => {
         configure({ adapter: new Adapter() });
+
+        const mockAgeRef = jest.spyOn(React, 'createRef')
+
+        const correctInputEvent = {
+            preventDefault() {},
+            target: { value: '30' }
+        };
+
+        const incorrectInputEvent = {
+            preventDefault() {},
+            target: { value: '11' }
+        };
 
         const event = {
             preventDefault() {},
@@ -95,18 +123,27 @@ describe("NewOrderStep1 specification", () => {
             <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge} />
         )
 
+        const mockAgeInput = <input type='number' />
+        mockAgeRef.mockReturnValue({
+            current: mockAgeInput
+        })
+
         const ageInput = component.find('#ageInput')
 
-        try {
-            ageInput.simulate('change', event)
-        } catch (e) {
-            expect(e.message).toEqual('Cannot read property \'style\' of null')
-        }
+        setTimeout(function () {
+            ageInput.simulate('change', incorrectInputEvent)
+            expect(mockAgeRef).toHaveBeenCalled()
+            expect(mockAgeInput.props.style.color==='red')
+            ageInput.simulate('change', correctInputEvent)
+            expect(mockAgeRef).toHaveBeenCalled()
+            expect(mockAgeInput.props.style.color==='black')
+        }, 4000)
     })
 
-    it('getError() is invoked when state value: error changes and changes the ' +
-        'error paragraph style: display to block', () => {
+    it('errorMsg is displayed when state value: error is present', () => {
         configure({ adapter: new Adapter() });
+
+        const mockErrorRef = jest.spyOn(React, 'createRef')
 
         let mockSetItems = jest.fn()
         let mockSetName = jest.fn()
@@ -116,13 +153,18 @@ describe("NewOrderStep1 specification", () => {
             <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge} />
         )
 
-        try {
+        const mockErrorMsg = <p id='nameAgeError' />
+        mockErrorRef.mockReturnValue({
+            current: mockErrorMsg
+        })
+
+        setTimeout(function () {
             component.setState({
                 error: 'sample error'
             })
-        } catch (e) {
-            expect(e.message).toEqual('Cannot read property \'style\' of null')
-        }
+            expect(mockErrorRef).toHaveBeenCalled()
+            expect(mockErrorMsg.props.style.display==='block')
+        }, 4000)
     })
 
     it('getResponse() returns the errorMsg when the prop: resp contains string ' +
