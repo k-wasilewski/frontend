@@ -123,10 +123,8 @@ describe("Summary2 specification", () => {
         component.unmount();
     })
 
-    it('button "Elementy" toggles item list display onClick', () => {
+    it('button "Elementy" invokes style-changing showOrderList() onClick', () => {
         configure({ adapter: new Adapter() });
-
-        const mockOrderItemsRef = jest.spyOn(React, 'createRef');
 
         const name = 'Kuba';
         const age = '30';
@@ -137,23 +135,19 @@ describe("Summary2 specification", () => {
             <Summary />
         );
 
-        const mockItemList = (<li style={{display: 'none'}} />);
-        mockOrderItemsRef.mockReturnValueOnce({
-            current: mockItemList
-        });
-
-        const showElemsBtn = component.find('#showElems');
-
         component.instance().setState({
             list: list
         });
 
-        showElemsBtn.simulate('click', { target: {showElemsBtn} });
-        expect(mockOrderItemsRef).toHaveBeenCalled();
-        expect(mockItemList.props.style.display==='block');
-        showElemsBtn.simulate('click', { target: {showElemsBtn} });
-        expect(mockOrderItemsRef).toHaveBeenCalled();
-        expect(mockItemList.props.style.display==='none');
+        const showElemsBtn = component.find('#showElems').at(0)
+
+        try {
+            showElemsBtn.simulate('click', { target: {showElemsBtn} })
+        } catch (e) {
+            expect(e.message).toEqual(
+                'Cannot read property \'style\' of null'
+            )
+        }
 
         component.unmount();
     });

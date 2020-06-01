@@ -9,7 +9,6 @@ export class Summary extends Component {
             list: '',
         };
 
-        this.orderItemsRef = React.createRef();
         this.doGetList = this.doGetList.bind(this);
     };
 
@@ -55,7 +54,7 @@ export class Summary extends Component {
         return itemsTransformed
     };
 
-    formatList = (list) => {
+    formatList = (list) => {    //[<Kuba, 23, 2020-06-01 17:20:44.865: [[blue, s]]>, <Pawel, 32, 2020-06-01 17:21:00.571: [[darkblue, l]]>]
         let transformedList = [];
 
         let nameRegex = new RegExp('<(\\w)+', 'g');
@@ -65,22 +64,27 @@ export class Summary extends Component {
         let createdRegex = new RegExp('\\d+,.+?(?=\\:): ', 'g');
         let created = createdRegex.exec(list);
         let createdRegex2 = new RegExp(', (.*):');
-        let itemRegex = new RegExp('\\[(\\w)*, (\\w)*\\]', 'g');
-        let items = [];
-        let item = itemRegex.exec(list);
 
         while (name!==null) {
+            let items = [];
+
             name=name[0].substr(1);
             age=age.toString().substr(0, age.toString().length-1);
             created = created[0];
             if (created!==null) created = createdRegex2.exec(created)[1];
 
+            let personRegex = new RegExp(name+',(.*?)>', 'g');
+            let person = personRegex.exec(list);
+            let itemRegex = new RegExp('\\[(\\w)*, (\\w)*\\]', 'g');
+            let item = itemRegex.exec(person)
+
             while (item!==null) {
                 items.push(item[0]);
-                item = itemRegex.exec(list);
+                item = itemRegex.exec(person);
             }
 
             let itemsTransformed = this.formatItems(items);
+            console.log(items)
 
             let key = name+age+created;
             transformedList.push((
@@ -89,7 +93,7 @@ export class Summary extends Component {
                         Imię: {name}<br/>
                         Wiek: {age}<br/>
                         <button className='showElems' onClick={this.showOrderList}>Elementy</button> <br/>
-                        <div className='orderItems' style={{display: 'none'}} ref={this.orderItemsRef}>
+                        <div className='orderItems' style={{display: 'none'}}>
                             <ol start='1'>{itemsTransformed}</ol><br/>
                         </div>
                         Data utworzenia: {created}
@@ -106,7 +110,8 @@ export class Summary extends Component {
     };
 
     showOrderList = (event) => {
-        let list = this.orderItemsRef.current;
+        let $this = event.target
+        let list = $this.parentElement.getElementsByClassName('orderItems')[0]
         if (list.style.display==='none') list.style.display = 'block';
         else list.style.display = 'none';
     };
