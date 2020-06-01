@@ -76,11 +76,11 @@ export class Summary extends Component {
             let personRegex = new RegExp(name+',(.*?)>', 'g');
             let person = personRegex.exec(list);
             let itemRegex = new RegExp('\\[(\\w)*, (\\w)*\\]', 'g');
-            let item = itemRegex.exec(person)
-
+            let item = itemRegex.exec(person[0])
+            
             while (item!==null) {
                 items.push(item[0]);
-                item = itemRegex.exec(person);
+                item = itemRegex.exec(person[0]);
             }
 
             let itemsTransformed = this.formatItems(items);
