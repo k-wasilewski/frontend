@@ -51,6 +51,7 @@ export class NewOrderStep2 extends Component {
                 this.props.addItem(newItem);
                 this.setState({
                     id: id+1,
+                    error: ''
                 });
             } else if (resp.data==='fail') {
                 this.setState({
