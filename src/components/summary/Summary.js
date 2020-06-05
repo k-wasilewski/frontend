@@ -54,7 +54,7 @@ export class Summary extends Component {
         return itemsTransformed
     };
 
-    formatList = (list) => {    //[<Kuba, 23, 2020-06-01 17:20:44.865: [[blue, s]]>, <Pawel, 32, 2020-06-01 17:21:00.571: [[darkblue, l]]>]
+    formatList = (list) => {
         let transformedList = [];
 
         let nameRegex = new RegExp('<(\\w)+', 'g');
@@ -93,7 +93,7 @@ export class Summary extends Component {
                         Imię: {name}<br/>
                         Wiek: {age}<br/>
                         <button className='showElems' onClick={this.showOrderList}>Elementy</button> <br/>
-                        <div className='orderItems' style={{display: 'none'}}>
+                        <div className='orderItems hidden'>
                             <ol start='1'>{itemsTransformed}</ol><br/>
                         </div>
                         Data utworzenia: {created}
@@ -110,10 +110,9 @@ export class Summary extends Component {
     };
 
     showOrderList = (event) => {
-        let $this = event.target
-        let list = $this.parentElement.getElementsByClassName('orderItems')[0]
-        if (list.style.display==='none') list.style.display = 'block';
-        else list.style.display = 'none';
+        let $this = event.target;
+        let list = $this.parentElement.getElementsByClassName('orderItems')[0];
+        list.classList.toggle('hidden');
     };
 
     render() {
