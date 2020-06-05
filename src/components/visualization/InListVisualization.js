@@ -10,90 +10,83 @@ export class InListVisualization extends Component {
             size: 0,
             color: ''
         };
+
+        this.visualizationRef = React.createRef();
     };
 
-    setWidth = (size) => {
-        let width;
-
-        if (size==='S') {
-            width = '25px';
-        } else if (size==='M') {
-            width = '50px';
-        } else if (size==='L') {
-            width = '75px';
-        } else if (size==='XL') {
-            width = '100px';
-        }
-
-        return width;
-    };
-
-    setHeight = (size) => {
-        let height;
-
-        if (size==='S') {
-            height = '25px';
-        } else if (size==='M') {
-            height = '50px';
-        } else if (size==='L') {
-            height = '75px';
-        } else if (size==='XL') {
-            height = '100px';
-        }
-
-        return height;
+    componentDidMount() {
+        this.visualizationRef.current = this.renderVisualization()
     }
 
-    setVisibility = (size, color) => {
-        let visibility = 'visible';
+    setSize = (size) => {
+        if (size==='s' || size==='S') {
+            this.visualizationRef.current.classList.add('small');
+            this.visualizationRef.current.classList.remove('medium');
+            this.visualizationRef.current.classList.remove('large');
+            this.visualizationRef.current.classList.remove('extralarge');
+        } else if (size==='m' || size==='M') {
+            this.visualizationRef.current.classList.remove('small');
+            this.visualizationRef.current.classList.add('medium');
+            this.visualizationRef.current.classList.remove('large');
+            this.visualizationRef.current.classList.remove('extralarge');
+        } else if (size==='l' || size==='L') {
+            this.visualizationRef.current.classList.remove('small');
+            this.visualizationRef.current.classList.remove('medium');
+            this.visualizationRef.current.classList.add('large');
+            this.visualizationRef.current.classList.remove('extralarge');
+        } else if (size==='xl' || size==='XL') {
+            this.visualizationRef.current.classList.remove('small');
+            this.visualizationRef.current.classList.remove('medium');
+            this.visualizationRef.current.classList.remove('large');
+            this.visualizationRef.current.classList.add('extralarge');
+        }
+    };
 
+    setVisibility = (size, color) => {
         if (size!=='S' && size!=='M' && size!=='L' && size!=='XL') {
-            visibility = 'hidden';
+            this.visualizationRef.current.classList.remove('visible');
+            this.visualizationRef.current.classList.add('hidden');
         }
         if (color!=='Błękitny' && color!=='Niebieski' && color!=='Granatowy') {
-            visibility = 'hidden';
+            this.visualizationRef.current.classList.remove('visible');
+            this.visualizationRef.current.classList.add('hidden');
         }
-
-        return visibility;
     }
 
     setCol = (color) => {
-        let col;
-
-        if (color==='Błękitny') {
-            col = 'lightblue';
-        } else if (color==='Granatowy') {
-            col = 'darkblue';
-        } else if (color==='Niebieski') {
-            col = 'blue';
+        if (color==='lightblue' || color==='Błękitny') {
+            this.visualizationRef.current.classList.remove('blue');
+            this.visualizationRef.current.classList.add('lightblue');
+            this.visualizationRef.current.classList.remove('darkblue');
+        } else if (color==='darkblue' || color==='Granatowy') {
+            this.visualizationRef.current.classList.remove('blue');
+            this.visualizationRef.current.classList.remove('lightblue');
+            this.visualizationRef.current.classList.add('darkblue');
+        } else if (color==='blue' || color==='Niebieski') {
+            this.visualizationRef.current.classList.add('blue');
+            this.visualizationRef.current.classList.remove('lightblue');
+            this.visualizationRef.current.classList.remove('darkblue');
         }
-
-        return col;
     }
 
     renderVisualization = () => {
         let size = this.props.size;
         let color = this.props.color;
 
-        let visibility = this.setVisibility(size, color);
-        let width = this.setWidth(size);
-        let height = this.setHeight(size);
-        let col = this.setCol(color);
+        this.setVisibility(size, color);
+        this.setSize(size);
+        this.setCol(color);
 
         return (
-            <div style={{width: width, height: height, backgroundColor: col, visibility: visibility}}>
+            <React.Fragment>
                 &nbsp;
-            </div>
+            </React.Fragment>
         );
     };
 
     render() {
-        let viz = this.renderVisualization()
-
         return (
-            <div>
-                {viz}
-            </div>
+            <div ref={this.visualizationRef} className='visible' />
         );
     };
 }
