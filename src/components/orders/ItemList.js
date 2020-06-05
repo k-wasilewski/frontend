@@ -25,12 +25,12 @@ export class ItemList extends Component {
     mapItems = (items) => {
         if (items.length!==0) {
             let n = [];
-            items.forEach(function (o) {
+            items.forEach(function (item) {
                 n.push(
-                    <li key={o[0]}>
-                        Kolor: {o[1]}<br/>
-                        Rozmiar: {o[2]}<br/>
-                        <InListVisualization key={o[0]} size={o[2]} color={o[1]}/>
+                    <li key={item.id}>
+                        Kolor: {item.color}<br/>
+                        Rozmiar: {item.size}<br/>
+                        <InListVisualization key={item.id} size={item.size} color={item.color}/>
                     </li>
                 );
             })

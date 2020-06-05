@@ -66,13 +66,14 @@ export class NewOrderStep2 extends Component {
     };
 
     addToList(event) {
-        var newItem = [];
         var id = (this.state.id);
         var size = (this.state.size);
         var color = (this.state.color);
-        newItem.push(id);
-        newItem.push(color);
-        newItem.push(size);
+        const newItem = {
+            id: id,
+            color: color,
+            size: size
+        }
 
         if (size==='' || color==='') {
             this.setState({
@@ -127,7 +128,8 @@ export class NewOrderStep2 extends Component {
 
     doAddOrder() {
         let items = this.props.items;
-        UntranslateItems(items)
+        UntranslateItems(items) //-> json
+        alert(JSON.stringify(items))
         axios.post('http://localhost:8081/add',
             "name=" + this.props.name + "&"
             + "age=" + this.props.age + "&" + "items=" +items,

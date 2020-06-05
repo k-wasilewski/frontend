@@ -10,16 +10,13 @@ function untranslateColor(response) {
     if (items===undefined) items=response;
 
     items.map(item => {
-        if (item[1]==='Niebieski' || item.color==='Niebieski') {
-            item[1] = 'blue';
+        if (item.color==='Niebieski') {
             item.color = 'blue';
         }
-        else if (item[1]==='Błękitny' || item.color==='Błękitny') {
-            item[1] = 'lightblue';
+        else if (item.color==='Błękitny') {
             item.color = 'lightblue';
         }
-        else if (item[1]==='Granatowy' || item.color==='Granatowy') {
-            item[1] = 'darkblue';
+        else if (item.color==='Granatowy') {
             item.color = 'darkblue';
         }
     })
@@ -30,7 +27,6 @@ function untranslateSize(response) {
     if (items===undefined) items=response;
 
     items.map(item => {
-        if (item.size!==undefined) item.size = item.size.toLowerCase();
-        else item[2] = item[2].toLowerCase();
+        item.size = item.size.toLowerCase();
     })
 };
