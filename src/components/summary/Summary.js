@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import '../../css/App.css';
 import axios from "axios";
+import TranslateItems from "../../func/TranslateItems";
 
 export class Summary extends Component {
     constructor(props) {
@@ -31,20 +32,12 @@ export class Summary extends Component {
     formatItems = (items) => {
         let itemsTransformed = [];
 
+        TranslateItems(items)
         items.forEach(function(item) {
-            let color = item.color
-            let size = item.size
-
-            if (color==='blue') color='Niebieski';
-            else if (color==='darkblue') color='Granatowy';
-            else if (color==='lightblue') color='Błękitny';
-
-            size = size.toUpperCase();
-
             itemsTransformed.push(
                 <li key={itemsTransformed.length}>
-                    Kolor: {color}<br/>
-                    Rozmiar: {size}<br/>
+                    Kolor: {item.color}<br/>
+                    Rozmiar: {item.size}<br/>
                 </li>
             );
         })

@@ -5,7 +5,8 @@ import { addItem, setItems, setName, setAge, setResp } from "../../redux/actions
 import axios from 'axios';
 import {Redirect} from "react-router-dom";
 import Visualization from "../visualization/Visualization";
-import UntranslateFunction from "../../UntranslateFunction";
+import UntranslateItems from "../../func/UntranslateItems";
+import TranslateItems from "../../func/TranslateItems";
 
 export class NewOrderStep2 extends Component {
     constructor(props) {
@@ -101,33 +102,6 @@ export class NewOrderStep2 extends Component {
         this.setState({size: event.target.value});
     };
 
-    translateColor = (response) => {
-        let colorRegex = new RegExp('\\[(.*),', 'g');
-        let c = colorRegex.exec(response)[1];
-        let cPL;
-
-        if (c==='blue') cPL = 'Niebieski';
-        else if (c==='lightblue') cPL = 'Błękitny';
-        else if (c==='darkblue') cPL = 'Granatowy';
-
-        return response.replace(c, cPL);
-    };
-
-    translateSize = (response) => {
-        let sizeRegex = new RegExp(',(.*)\\]', 'g');
-        let s = sizeRegex.exec(response)[1];
-        let sPL = s.toUpperCase();
-        let sIndex = response.indexOf(']')-1;
-
-        if (response.charAt(sIndex-1)==='x') {
-            sIndex--;
-            response=response.replace('l]', ']');
-        }
-
-        return response.substring(0, sIndex) + sPL +
-            response.substring(sIndex + 1);
-    };
-
     handleResponse(resp) {
         this.props.setResp(resp.data);
 
@@ -135,8 +109,7 @@ export class NewOrderStep2 extends Component {
         let match = notAvailRegex.exec(resp.data);
         if (match!==null) {
             let response = match[1];
-            response = this.translateColor(response);
-            response = this.translateSize(response);
+            TranslateItems(response)
 
             this.setState({
                 error: response
@@ -154,7 +127,7 @@ export class NewOrderStep2 extends Component {
 
     doAddOrder() {
         let items = this.props.items;
-        UntranslateFunction(items)
+        UntranslateItems(items)
         axios.post('http://localhost:8081/add',
             "name=" + this.props.name + "&"
             + "age=" + this.props.age + "&" + "items=" +items,

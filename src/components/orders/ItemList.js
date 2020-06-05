@@ -3,7 +3,7 @@ import '../../css/App.css';
 import {connect} from "react-redux";
 import {setItems} from "../../redux/actions";
 import InListVisualization from "../visualization/InListVisualization";
-import TranslateFunction from "../../TranslateFunction";
+import TranslateItems from "../../func/TranslateItems";
 
 export class ItemList extends Component {
     constructor(props) {
@@ -41,7 +41,7 @@ export class ItemList extends Component {
 
     render() {
         const items = this.state.items;
-        TranslateFunction(items);
+        TranslateItems(items);
         const mappedItems = this.mapItems(items);
 
         return (
