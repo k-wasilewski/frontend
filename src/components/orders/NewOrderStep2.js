@@ -5,6 +5,7 @@ import { addItem, setItems, setName, setAge, setResp } from "../../redux/actions
 import axios from 'axios';
 import {Redirect} from "react-router-dom";
 import Visualization from "../visualization/Visualization";
+import UntranslateFunction from "../../UntranslateFunction";
 
 export class NewOrderStep2 extends Component {
     constructor(props) {
@@ -152,14 +153,16 @@ export class NewOrderStep2 extends Component {
     };
 
     doAddOrder() {
+        let items = this.props.items;
+        UntranslateFunction(items)
         axios.post('http://localhost:8081/add',
             "name=" + this.props.name + "&"
-            + "age=" + this.props.age + "&" + "items=" +this.props.items,
+            + "age=" + this.props.age + "&" + "items=" +items,
             this.getAxiosConfig()
         ).then(resp => {
             this.handleResponse(resp);
             let added = this.state.added;
-            added.push(this.props.name+this.props.age+this.props.items);
+            added.push(this.props.name+this.props.age+items);
             this.setState({
                 added: added
             });
