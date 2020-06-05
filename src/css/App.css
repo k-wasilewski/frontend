@@ -39,7 +39,8 @@
 #menu-btn {
   cursor: pointer;
   height: 60px;
-  float: right;
+  right: 0;
+  position: fixed;
 }
 
 .main {

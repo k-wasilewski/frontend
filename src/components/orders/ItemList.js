@@ -44,10 +44,10 @@ export class ItemList extends Component {
     };
 
     mapItems = (items) => {
-        if (items.length!==1) {
+        if (items.length!==0) {
             let n = [];
             items.forEach(function (o) {
-                if (items.indexOf(o)!==0) n.push(
+                n.push(
                     <li key={o[0]}>
                         Kolor: {o[1]}<br/>
                         Rozmiar: {o[2]}<br/>
@@ -62,9 +62,8 @@ export class ItemList extends Component {
 
     render() {
         const items = this.state.items;
-        TranslateFunction(items)
-        let mappedItems;
-        if (items!==undefined) mappedItems = this.mapItems(items);
+        TranslateFunction(items);
+        const mappedItems = this.mapItems(items);
 
         return (
             <div className="main">
