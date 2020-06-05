@@ -32,10 +32,9 @@ export class Summary extends Component {
         let itemsTransformed = [];
 
         items.forEach(function(item) {
-            let colorRegex = new RegExp('\\[(.*),');
-            let color = colorRegex.exec(item)[1];
-            let sizeRegex = new RegExp(',(.*)\\]');
-            let size = sizeRegex.exec(item)[1];
+            let color = JSON.stringify(item.color)
+            let size = JSON.stringify(item.size)
+            alert(color+','+size)
 
             if (color==='blue') color='Niebieski';
             else if (color==='darkblue') color='Granatowy';
@@ -57,34 +56,13 @@ export class Summary extends Component {
     formatList = (list) => {
         let transformedList = [];
 
-        let nameRegex = new RegExp('<(\\w)+', 'g');
-        let name = nameRegex.exec(list);
-        let ageRegex = new RegExp('\\d+,', 'g');
-        let age = ageRegex.exec(list);
-        let createdRegex = new RegExp('\\d+,.+?(?=\\:): ', 'g');
-        let created = createdRegex.exec(list);
-        let createdRegex2 = new RegExp(', (.*):');
+        for (let i=0; i<list.length; i++) {
+            let name = JSON.stringify(list[i].name);
+            let age = JSON.stringify(list[i].age);
+            let created = JSON.stringify(list[i].created);
 
-        while (name!==null) {
-            let items = [];
-
-            name=name[0].substr(1);
-            age=age.toString().substr(0, age.toString().length-1);
-            created = created[0];
-            if (created!==null) created = createdRegex2.exec(created)[1];
-
-            let personRegex = new RegExp(name+',(.*?)>', 'g');
-            let person = personRegex.exec(list);
-            let itemRegex = new RegExp('\\[(\\w)*, (\\w)*\\]', 'g');
-            let item = itemRegex.exec(person[0])
-
-            while (item!==null) {
-                items.push(item[0]);
-                item = itemRegex.exec(person[0]);
-            }
-
+            let items = list[i].items;
             let itemsTransformed = this.formatItems(items);
-            console.log(items)
 
             let key = name+age+created;
             transformedList.push((
@@ -100,10 +78,6 @@ export class Summary extends Component {
                     </li>
                 </ul>
             ));
-
-            name = nameRegex.exec(list);
-            age = ageRegex.exec(list);
-            created = createdRegex.exec(list);
         }
 
         return transformedList;
