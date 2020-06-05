@@ -66,10 +66,12 @@ export class NewOrderStep1 extends Component {
 
         let nameValidationRegex = new RegExp('^[A-Z]([a-z]*)$');
         if (name.includes(' ') || nameValidationRegex.exec(name)===null) {
-            this.nameRef.current.style.color = 'red';
+            this.nameRef.current.classList.add('invalid');
+            this.nameRef.current.classList.remove('valid');
             this.setState({nameValid: false});
         } else {
-            this.nameRef.current.style.color = 'black';
+            this.nameRef.current.classList.add('valid');
+            this.nameRef.current.classList.remove('invalid');
             this.setState({nameValid: true});
         }
     };
@@ -79,11 +81,12 @@ export class NewOrderStep1 extends Component {
         this.setState({age: age});
 
         if (age<18 || age>100) {
-            this.ageRef.current.style.color = 'red';
+            this.ageRef.current.classList.add('invalid');
+            this.ageRef.current.classList.remove('valid');
             this.setState({ageValid: false});
-        }
-        else {
-            this.ageRef.current.style.color = 'black';
+        } else {
+            this.ageRef.current.classList.add('valid');
+            this.ageRef.current.classList.remove('invalid');
             this.setState({ageValid: true});
         }
     };
@@ -98,8 +101,10 @@ export class NewOrderStep1 extends Component {
 
     getError() {
         let error = this.state.error;
-        if (error!=='') this.errorRef.current.
-            style.display = 'block';
+        if (error!=='') {
+            this.errorRef.current.classList.add('visible')
+            this.errorRef.current.classList.remove('hidden')
+        }
 
         return error;
     };
@@ -115,7 +120,7 @@ export class NewOrderStep1 extends Component {
                     <div className='form'>
                         <p className='resp'>{resp}</p>
                         <h2>Nowe zamówienie</h2>
-                        <p id='nameAgeError' ref={this.errorRef}>{error}</p>
+                        <p className='hidden invalid' ref={this.errorRef}>{error}</p>
                         <div className='col1'>
                             <p>Imię:</p>
                             <p>Wiek:</p>

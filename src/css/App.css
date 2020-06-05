@@ -130,13 +130,16 @@
   width: 30%;
 }
 
-#nameAgeError {
-  display: none;
-  color: red;
-}
-
 #copyright {
   bottom: 10px;
   position: fixed;
   right: 10%;
+}
+
+.invalid {
+  color: red;
+}
+
+.valid {
+  color: black
 }
