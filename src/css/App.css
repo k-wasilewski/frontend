@@ -52,6 +52,42 @@
   display: none;
 }
 
+.visible {
+  display: block;
+}
+
+.small {
+  width: 25px;
+  height: 25px;
+}
+
+.medium {
+  width: 50px;
+  height: 50px;
+}
+
+.large {
+  width: 75px;
+  height: 75px;
+}
+
+.extralarge {
+  width: 100px;
+  height: 100px;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.lightblue {
+  background-color: lightblue;
+}
+
+.darkblue {
+  background-color: darkblue;
+}
+
 .form > .col1 {
   width: 15%;
   float: left;
@@ -92,11 +128,6 @@
 .summary > .col2 {
   float: left;
   width: 30%;
-}
-
-#visualization {
-  width: 0;
-  height: 0;
 }
 
 #nameAgeError {

@@ -22,50 +22,64 @@ export class Visualization extends Component {
 
     displayVisualization = (nextProps) => {
         if (nextProps.size!=='' && nextProps.color!=='') {
-            this.visualizationRef.current.style.display = 'block';
+            this.visualizationRef.current.classList.add('visible');
+            this.visualizationRef.current.classList.remove('hidden');
         };
     };
 
     paintVisualizationSize = (nextProps) => {
         if (nextProps.size !== this.props.size) {
             if (nextProps.size==='s' || nextProps.size==='S') {
-                this.visualizationRef.current.style.width = '25px';
-                this.visualizationRef.current.style.height = '25px';
+                this.visualizationRef.current.classList.add('small');
+                this.visualizationRef.current.classList.remove('medium');
+                this.visualizationRef.current.classList.remove('large');
+                this.visualizationRef.current.classList.remove('extralarge');
             } else if (nextProps.size==='m' || nextProps.size==='M') {
-                this.visualizationRef.current.style.width = '50px';
-                this.visualizationRef.current.style.height = '50px';
+                this.visualizationRef.current.classList.remove('small');
+                this.visualizationRef.current.classList.add('medium');
+                this.visualizationRef.current.classList.remove('large');
+                this.visualizationRef.current.classList.remove('extralarge');
             } else if (nextProps.size==='l' || nextProps.size==='L') {
-                this.visualizationRef.current.style.width = '75px';
-                this.visualizationRef.current.style.height = '75px';
+                this.visualizationRef.current.classList.remove('small');
+                this.visualizationRef.current.classList.remove('medium');
+                this.visualizationRef.current.classList.add('large');
+                this.visualizationRef.current.classList.remove('extralarge');
             } else if (nextProps.size==='xl' || nextProps.size==='XL') {
-                this.visualizationRef.current.style.width = '100px';
-                this.visualizationRef.current.style.height = '100px';
-            } else document.getElementById('visualization').style.display
-                = 'none';
+                this.visualizationRef.current.classList.remove('small');
+                this.visualizationRef.current.classList.remove('medium');
+                this.visualizationRef.current.classList.remove('large');
+                this.visualizationRef.current.classList.add('extralarge');
+            } else {
+                this.visualizationRef.current.classList.remove('visible');
+                this.visualizationRef.current.classList.add('hidden');
+            }
         }
     };
 
     paintVisualizationColor = (nextProps) => {
         if (nextProps.color !== this.props.color) {
             if (nextProps.color==='lightblue' || nextProps.color==='Błękitny') {
-                this.visualizationRef.current.style.backgroundColor
-                    = 'lightblue';
+                this.visualizationRef.current.classList.remove('blue');
+                this.visualizationRef.current.classList.add('lightblue');
+                this.visualizationRef.current.classList.remove('darkblue');
             } else if (nextProps.color==='darkblue' || nextProps.color==='Granatowy') {
-                this.visualizationRef.current.style.backgroundColor
-                    = 'darkblue';
+                this.visualizationRef.current.classList.remove('blue');
+                this.visualizationRef.current.classList.remove('lightblue');
+                this.visualizationRef.current.classList.add('darkblue');
             } else if (nextProps.color==='blue' || nextProps.color==='Niebieski') {
-                this.visualizationRef.current.style.backgroundColor
-                    = 'blue';
+                this.visualizationRef.current.classList.add('blue');
+                this.visualizationRef.current.classList.remove('lightblue');
+                this.visualizationRef.current.classList.remove('darkblue');
             } else {
-                this.visualizationRef.current.style.display
-                    = 'none';
+                this.visualizationRef.current.classList.remove('visible');
+                this.visualizationRef.current.classList.add('hidden');
             }
         }
     };
 
     render() {
         return (
-            <div id='visualization' ref={this.visualizationRef}>
+            <div className='hidden' ref={this.visualizationRef}>
                 &nbsp;
             </div>
         );
