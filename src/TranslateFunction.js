@@ -10,9 +10,18 @@ function translateColor(response) {
     if (items===undefined) items=response;
 
     items.map(item => {
-        if (item.color==='blue') item.color = 'Niebieski';
-        else if (item.color==='lightblue') item.color = 'Błękitny';
-        else if (item.color==='darkblue') item.color = 'Granatowy';
+        if (item[1]==='blue' || item.color==='blue') {
+            item[1] = 'Niebieski';
+            item.color = 'Niebieski';
+        }
+        else if (item[1]==='lightblue' || item.color==='lightblue') {
+            item[1] = 'Błękitny';
+            item.color = 'Błękitny';
+        }
+        else if (item[1]==='darkblue' || item.color==='darkblue') {
+            item[1] = 'Granatowy';
+            item.color = 'Granatowy';
+        }
     })
 }
 
@@ -21,6 +30,7 @@ function translateSize(response) {
     if (items===undefined) items=response;
 
     items.map(item => {
-        item.size = item.size.toUpperCase();
+        if (item.size!==undefined) item.size = item.size.toUpperCase();
+        else item[2] = item[2].toUpperCase();
     })
 };

@@ -63,13 +63,14 @@ export class ItemList extends Component {
     render() {
         const items = this.state.items;
         TranslateFunction(items)
-        //const mappedItems = this.mapItems(translatedItems);
+        let mappedItems;
+        if (items!==undefined) mappedItems = this.mapItems(items);
 
         return (
             <div className="main">
                 <h3>Lista zamówień</h3>
                 <ol key='2' start='1'>
-                    {items}
+                    {mappedItems}
                 </ol>
             </div>
         );
