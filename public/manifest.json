@@ -1,6 +1,6 @@
 {
-  "short_name": "Semantive Fullstack",
-  "name": "A recruitment task app for Semantive (Fullstack) by Kuba Wasilewski",
+  "short_name": "Shop",
+  "name": "A sample shop by Kuba Wasilewski",
   "start_url": ".",
   "display": "standalone"
 }
