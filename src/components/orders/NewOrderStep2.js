@@ -44,6 +44,16 @@ export class NewOrderStep2 extends Component {
         };
     };
 
+    getAxiosConfigJson = () => {
+        return {
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Accept": "application/json",
+                "Content-type": "application/json"
+            }
+        };
+    };
+
     doCheckAvailability(color, size, newItem, id) {
         axios.post('http://localhost:8081/check',
             "color=" + color + "&" + "size=" + size,
@@ -131,9 +141,13 @@ export class NewOrderStep2 extends Component {
         UntranslateItems(items) //-> json
         alert(JSON.stringify(items))
         axios.post('http://localhost:8081/add',
-            "name=" + this.props.name + "&"
-            + "age=" + this.props.age + "&" + "items=" +items,
-            this.getAxiosConfig()
+            /*{
+                'name': this.props.name,
+                'age': this.props.age,
+                'items': JSON.stringify(items)
+            },*/
+            JSON.stringify(items),
+            this.getAxiosConfigJson()
         ).then(resp => {
             this.handleResponse(resp);
             let added = this.state.added;
