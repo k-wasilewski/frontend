@@ -3,6 +3,7 @@ import '../../css/App.css';
 import {connect} from "react-redux";
 import {setItems} from "../../redux/actions";
 import InListVisualization from "../visualization/InListVisualization";
+import TranslateFunction from "../../TranslateFunction";
 
 export class ItemList extends Component {
     constructor(props) {
@@ -61,14 +62,14 @@ export class ItemList extends Component {
 
     render() {
         const items = this.state.items;
-        const translatedItems = this.translateItems(items);
-        const mappedItems = this.mapItems(translatedItems);
+        TranslateFunction(items)
+        //const mappedItems = this.mapItems(translatedItems);
 
         return (
             <div className="main">
                 <h3>Lista zamówień</h3>
                 <ol key='2' start='1'>
-                    {mappedItems}
+                    {items}
                 </ol>
             </div>
         );

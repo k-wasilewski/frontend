@@ -32,9 +32,8 @@ export class Summary extends Component {
         let itemsTransformed = [];
 
         items.forEach(function(item) {
-            let color = JSON.stringify(item.color)
-            let size = JSON.stringify(item.size)
-            alert(color+','+size)
+            let color = item.color
+            let size = item.size
 
             if (color==='blue') color='Niebieski';
             else if (color==='darkblue') color='Granatowy';
@@ -57,9 +56,9 @@ export class Summary extends Component {
         let transformedList = [];
 
         for (let i=0; i<list.length; i++) {
-            let name = JSON.stringify(list[i].name);
-            let age = JSON.stringify(list[i].age);
-            let created = JSON.stringify(list[i].created);
+            let name = list[i].name;
+            let age = list[i].age;
+            let created = list[i].created;
 
             let items = list[i].items;
             let itemsTransformed = this.formatItems(items);
