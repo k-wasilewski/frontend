@@ -23,13 +23,13 @@ describe("ItemList rendering specification", () => {
     });
 });
 
-describe("ItemList rendering specification", () => {
+describe("ItemList functional specification", () => {
     beforeEach(() => {
         configure({adapter: new Adapter()});
     });
 
     it('passes props to redux when componentWillReceiveProps', () => {
-        const item = [43, 'blue', 's'];
+        const item = {id: 43, color: 'blue', size: 's'};
 
         let mockSetItems = jest.fn();
         const component = shallow(
@@ -41,21 +41,6 @@ describe("ItemList rendering specification", () => {
         });
 
         expect(mockSetItems).toHaveBeenCalled();
-
-        component.unmount();
-    });
-
-    it('translateItems() translates color and size to polish', () => {
-        const items = [[0, 'blue', 's'], [1, 'lightblue', 'xl']];
-
-        const component = shallow(
-            <ItemList items={[]}/>
-        );
-
-        const translatedItems = component.instance().translateItems(items);
-
-        expect(translatedItems).toEqual([[],
-            [0, 'Niebieski', 'S'], [1, 'Błękitny', 'XL']]);
 
         component.unmount();
     });
