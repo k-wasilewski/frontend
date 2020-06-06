@@ -113,48 +113,44 @@ export class NewOrderStep2 extends Component {
         this.setState({size: event.target.value});
     };
 
-    handleResponse(resp) {
-        this.props.setResp(resp.data);
-
-        let notAvailRegex = new RegExp('error: (.*)', 'g');
-        let match = notAvailRegex.exec(resp.data);
-        if (match!==null) {
-            let response = match[1];
-            TranslateItems(response)
-
-            this.setState({
-                error: response
-            });
-        } else {
-            this.props.setItems([]);
-            this.props.setName('');
-            this.props.setAge('');
-            this.setState({
-                id: 0,
-                redirect: true
-            });
-        }
-    };
-
     doAddOrder() {
         let items = this.props.items;
         UntranslateItems(items) //-> json
-        alert(JSON.stringify(items))
-        axios.post('http://localhost:8081/add',
-            /*{
+        axios.post('http://localhost:8081/addOrder',
+            {
                 'name': this.props.name,
                 'age': this.props.age,
-                'items': JSON.stringify(items)
-            },*/
-            JSON.stringify(items),
+                //'items': JSON.stringify(items)
+            },
+            //JSON.stringify(items),
             this.getAxiosConfigJson()
         ).then(resp => {
-            this.handleResponse(resp);
-            let added = this.state.added;
-            added.push(this.props.name+this.props.age+items);
-            this.setState({
-                added: added
-            });
+            alert('saved id='+resp.data)
+            items = items.map(item => {
+                item.order={'id': resp.data}
+                return item
+            })
+            alert(JSON.stringify(items))
+            axios.post('http://localhost:8081/addItems',
+                JSON.stringify(items),
+                //JSON.stringify(items),
+                this.getAxiosConfigJson()
+            ).then(resp => {
+                let added = this.state.added;
+                added.push(this.props.name+this.props.age+items);
+
+                this.props.setResp(resp.data);
+                this.props.setItems([]);
+                this.props.setName('');
+                this.props.setAge('');
+                this.setState({
+                    id: 0,
+                    redirect: true,
+                    added: added
+                });
+            }).catch(error => {
+                this.props.setResp('Błąd serwera');
+            })
         }).catch(error => {
             this.props.setResp('Błąd serwera');
         })
