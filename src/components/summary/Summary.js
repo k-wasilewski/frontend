@@ -54,7 +54,8 @@ export class Summary extends Component {
             let created = list[i].created;
 
             let items = list[i].items;
-            let itemsTransformed = this.formatItems(items);
+            let itemsTransformed;
+            if (items!==undefined) itemsTransformed = this.formatItems(items);
 
             let key = name+age+created;
             transformedList.push((

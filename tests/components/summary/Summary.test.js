@@ -25,7 +25,7 @@ describe("Summary rendering specification", () => {
 })
 
 
-describe("Summary2 specification", () => {
+describe("Summary functional specification", () => {
     let axiosConfig = {
         headers: {
             "Access-Control-Allow-Origin": "*",
@@ -55,7 +55,10 @@ describe("Summary2 specification", () => {
         console.error = jest.fn();
 
         var mock = new MockAdapter(axios);
-        const resp = [];
+        const resp = [{name:'Kuba', age:30, items: [{id:0, color:'blue', size:'s'},
+            {id:1, color:'lightblue', size:'m'}]}];
+        const translatedResp = [{name:'Kuba', age:30, items: [{id:0, color:'Niebieski', size:'S'},
+                {id:1, color:'Błękitny', size:'M'}]}];
         mock.onGet(
             'http://localhost:8081/list',
             axiosConfig
@@ -68,7 +71,7 @@ describe("Summary2 specification", () => {
         component.instance().doGetList();
 
         setTimeout(function () {
-            expect(component.instance().state.list).toEqual(resp);
+            expect(component.instance().state.list).toEqual(translatedResp);
             console.error = error;
 
             component.unmount();
@@ -76,13 +79,18 @@ describe("Summary2 specification", () => {
         }, 4000)
     });
 
-    it('formatList() transforms string to list elements', () => {
+    it('formatList() transforms json list element to html li', () => {
         configure({ adapter: new Adapter() });
 
         const name = 'Kuba';
         const age = '30';
         const datetime = '2020-05-29 18:37:23.458';
-        const list = '[<'+name+', '+age+', '+datetime+': [[blue, s]]>]';
+        const items = [{id:0, color:'blue', size:'s'}];
+        const list = [{
+            name: name,
+            age: age,
+            created: datetime
+        }];
 
         const component = shallow(
             <Summary />
@@ -105,7 +113,11 @@ describe("Summary2 specification", () => {
         const colorPL = 'Niebieski';
 
         let items = [];
-        let item = '['+color+','+size+']';
+        let item = {
+            id: 0,
+            color: color,
+            size: size
+        }
         items.push(item);
 
         const component = shallow(

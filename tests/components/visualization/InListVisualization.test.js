@@ -11,8 +11,16 @@ describe("InListVisualization rendering specification", () => {
         const component = renderer.create(
             <Provider store={store}>
                 <ConnectedInListVisualization/>
-            </Provider>
+            </Provider>,
+            {
+                createNodeMock: (element) => {
+                    return (
+                        <div className='visible' />
+                    );
+                }
+            }
         );
+
         let tree = component.toJSON();
         expect(tree).toMatchSnapshot();
 
