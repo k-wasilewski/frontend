@@ -135,7 +135,7 @@ exports[`NewOrderStep2 rendering specification renders a form with select, radio
         className="col2"
       >
         <div
-          id="visualization"
+          className="hidden"
         >
            
         </div>

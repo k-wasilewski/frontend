@@ -136,7 +136,7 @@ exports[`Orders rendering specification renders NewOrderStep2 and ItemList compo
           className="col2"
         >
           <div
-            id="visualization"
+            className="hidden"
           >
              
           </div>

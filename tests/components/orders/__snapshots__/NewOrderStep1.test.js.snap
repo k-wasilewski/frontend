@@ -17,7 +17,7 @@ exports[`NewOrderStep1 rendering specification renders a form with two inputs 1`
         Nowe zamówienie
       </h2>
       <p
-        id="nameAgeError"
+        className="hidden invalid"
       >
         
       </p>

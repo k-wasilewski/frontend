@@ -80,7 +80,6 @@ export class NewOrderStep2 extends Component {
         var size = (this.state.size);
         var color = (this.state.color);
         const newItem = {
-            id: id,
             color: color,
             size: size
         }
@@ -115,25 +114,20 @@ export class NewOrderStep2 extends Component {
 
     doAddOrder() {
         let items = this.props.items;
-        UntranslateItems(items) //-> json
+        UntranslateItems(items);
         axios.post('http://localhost:8081/addOrder',
             {
                 'name': this.props.name,
                 'age': this.props.age,
-                //'items': JSON.stringify(items)
             },
-            //JSON.stringify(items),
             this.getAxiosConfigJson()
         ).then(resp => {
-            alert('saved id='+resp.data)
             items = items.map(item => {
                 item.order={'id': resp.data}
                 return item
-            })
-            alert(JSON.stringify(items))
+            });
             axios.post('http://localhost:8081/addItems',
                 JSON.stringify(items),
-                //JSON.stringify(items),
                 this.getAxiosConfigJson()
             ).then(resp => {
                 let added = this.state.added;

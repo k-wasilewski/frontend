@@ -70,7 +70,7 @@ exports[`App rendering specification App is rendered 1`] = `
             Nowe zamówienie
           </h2>
           <p
-            id="nameAgeError"
+            className="hidden invalid"
           >
             
           </p>
