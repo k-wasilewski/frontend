@@ -6,7 +6,6 @@ import axios from 'axios';
 import {Redirect} from "react-router-dom";
 import Visualization from "../visualization/Visualization";
 import UntranslateItems from "../../func/UntranslateItems";
-import TranslateItems from "../../func/TranslateItems";
 
 export class NewOrderStep2 extends Component {
     constructor(props) {

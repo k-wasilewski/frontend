@@ -109,32 +109,6 @@ describe("NewOrderStep2 functional specification", () => {
         //component.unmount();
     });
 
-    it('translateSize() returns size in uppercase', () => {
-        const component = shallow(
-            <NewOrderStep2/>
-        );
-
-        const input = '[blue,s]';
-        const expected = '[blue,S]';
-
-        expect(component.instance().translateSize(input)).toEqual(expected);
-
-        //component.unmount();
-    });
-
-    it('translateColor() returns translated color, starting with uppercase', () => {
-        const component = shallow(
-            <NewOrderStep2/>
-        );
-
-        const input = '[blue,s]';
-        const expected = '[Niebieski,s]';
-
-        expect(component.instance().translateColor(input)).toEqual(expected);
-
-        //component.unmount();
-    });
-
     it('resetForm() restores state values: color, size to default', () => {
         const component = shallow(
             <NewOrderStep2/>
@@ -182,58 +156,45 @@ describe("NewOrderStep2 functional specification", () => {
         //component.unmount();
     });
 
-    it('handleResponse() sets state value: error to errorMsg when there is ' +
-        'error string present in passed string value', () => {
-        const msg = '[blue,s]';
-        const msgPL = '[Niebieski,S]';
-        const data = 'error: '+msg;
+    it('doAddOrder() restores order values and redirects when ' +
+        'request is successfull', () => {
+        const error = console.error;
+        console.error = jest.fn();
 
-        const resp = {data: data};
-
-        let mockSetResp = jest.fn();
-        let mockSetName = jest.fn();
-        let mockSetAge = jest.fn();
-        let mockSetItems = jest.fn();
-
-        const component = shallow(
-            <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
-                           setItems={mockSetItems}/>
-        );
-
-        component.instance().handleResponse(resp);
-        expect(mockSetResp).toHaveBeenCalled();
-        expect(component.state('error')).toEqual(msgPL);
-
-        //component.unmount();
-    });
-
-    it('handleResponse() restores order values and redirects when there is ' +
-        'no error string present in passed string value', () => {
-        const msg = '[blue,s]';
-        const msgPL = '[Niebieski,S]';
-        const data = msg;
-
-        const resp = {data: data};
+        var mock = new MockAdapter(axios);
+        const resp = 'sample resp';
+        mock.onPost().reply(200, resp);
 
         let mockSetResp = jest.fn();
         let mockSetName = jest.fn();
         let mockSetAge = jest.fn();
         let mockSetItems = jest.fn();
+        let mockAddItem = jest.fn();
+
+        const name = 'Kuba';
+        const age = 30;
+        const items = [{id: 0, color: 'blue', size: 's'},
+            {id: 1, color: 'lightblue', size: 'm'}];
 
         const component = shallow(
             <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
-                           setItems={mockSetItems}/>
+                           setItems={mockSetItems} addItem={mockAddItem} name={name}
+                           age={age} items={items}/>
         );
 
-        component.instance().handleResponse(resp);
-        expect(mockSetResp).toHaveBeenCalled();
-        expect(mockSetItems).toHaveBeenCalled();
-        expect(mockSetAge).toHaveBeenCalled();
-        expect(mockSetName).toHaveBeenCalled();
-        expect(component.state('id')).toEqual(0);
-        expect(component.state('redirect')).toEqual(true);
+        component.instance().doAddOrder();
 
-        //component.unmount();
+        setTimeout(function () {
+            expect(mockSetResp).toHaveBeenCalled();
+            expect(mockSetItems).toHaveBeenCalled();
+            expect(mockSetAge).toHaveBeenCalled();
+            expect(mockSetName).toHaveBeenCalled();
+            expect(component.state('id')).toEqual(0);
+            expect(component.state('redirect')).toEqual(true);
+
+            console.error = error;
+            component.unmount();
+        }, 4000);
     });
 
     it('addToList() handles name, age errors and invokes doCheckAvailability() ' +
@@ -299,45 +260,6 @@ describe("NewOrderStep2 functional specification", () => {
 
         //component.unmount();
         done();
-    });
-
-    it('doCheckAvailability() invokes setResp() when server response contains ' +
-        'error', (done) => {
-        const error = console.error;
-        console.error = jest.fn();
-
-        var mock = new MockAdapter(axios);
-        const resp = {data: 'success'}
-        mock.onPost(
-            'http://localhost:8081/sdfsdf',
-            axiosConfig
-        ).reply(200, resp);
-
-        let mockSetResp = jest.fn();
-        let mockSetName = jest.fn();
-        let mockSetAge = jest.fn();
-        let mockSetItems = jest.fn();
-        let mockAddItem = jest.fn();
-
-        const component = shallow(
-            <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
-                           setItems={mockSetItems} addItem={mockAddItem}/>
-        );
-
-        const color = 'blue';
-        const size = 's';
-        const id = 0;
-        const item = [id, color, size];
-
-        component.instance().doCheckAvailability(color, size, item, id);
-
-        setTimeout(function () {
-            expect(mockSetResp).toHaveBeenCalled();
-            console.error = error;
-
-            //component.unmount();
-            done();
-        }, 4000);
     });
 
     it('doCheckAvailability() invokes addItem() when server response ' +
@@ -428,7 +350,8 @@ describe("NewOrderStep2 functional specification", () => {
 
         const name = 'Kuba';
         const age = 30;
-        const items = [[0, 'blue', 's'], [1, 'lightblue', 'm']];
+        const items = [{id: 0, color: 'blue', size: 's'},
+            {id: 1, color: 'lightblue', size: 'm'}];
 
         const component = shallow(
             <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
