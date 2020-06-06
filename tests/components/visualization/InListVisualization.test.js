@@ -14,17 +14,18 @@ describe("InListVisualization rendering specification", () => {
             </Provider>,
             {
                 createNodeMock: (element) => {
-                    return (
-                        <div className='visible' />
-                    );
+                    if (element.type === 'div') {
+                        return (
+                            document.createElement('div')
+                        );
+                    }
+                    return null;
                 }
             }
         );
 
         let tree = component.toJSON();
         expect(tree).toMatchSnapshot();
-
-        expect(tree.children[0].children[0]).toEqual('\u00a0');
     });
 });
 
@@ -34,20 +35,27 @@ describe("InListVisualization functional specification", () => {
         let size = 'mock size';
         let color = 'mock color';
 
+        const mockVisualizationRef = jest.spyOn(React, 'createRef');
+        const mockComponentDidMount = jest.spyOn(InListVisualization.prototype, 'componentDidMount');
+        mockComponentDidMount.mockReturnValue({});
+
         const component = shallow(
             <InListVisualization size={size} color={color} />
         );
 
-        component.instance().setWidth = jest.fn();
-        component.instance().setHeight = jest.fn();
+        const mockVisualization = (<div className='visible' />);
+        mockVisualizationRef.mockReturnValue({
+            current: mockVisualization
+        });
+
+        component.instance().setSize = jest.fn();
         component.instance().setVisibility = jest.fn();
         component.instance().setCol = jest.fn();
         component.update();
 
         component.instance().renderVisualization();
 
-        expect(component.instance().setWidth).toBeCalledWith(size);
-        expect(component.instance().setHeight).toBeCalledWith(size);
+        expect(component.instance().setSize).toBeCalledWith(size);
         expect(component.instance().setVisibility).toBeCalledWith(size, color);
         expect(component.instance().setCol).toBeCalledWith(color);
 
