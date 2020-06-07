@@ -118,32 +118,23 @@ export class NewOrderStep2 extends Component {
             {
                 'name': this.props.name,
                 'age': this.props.age,
+                'items': items
             },
             this.getAxiosConfigJson()
         ).then(resp => {
-            items = items.map(item => {
-                item.order={'id': resp.data}
-                return item
-            });
-            axios.post('http://localhost:8081/addItems',
-                JSON.stringify(items),
-                this.getAxiosConfigJson()
-            ).then(resp => {
-                let added = this.state.added;
-                added.push(this.props.name+this.props.age+items);
+            let added = this.state.added;
+            added.push(this.props.name+this.props.age+items);
 
-                this.props.setResp(resp.data);
-                this.props.setItems([]);
-                this.props.setName('');
-                this.props.setAge('');
-                this.setState({
-                    id: 0,
-                    redirect: true,
-                    added: added
-                });
-            }).catch(error => {
-                this.props.setResp('Błąd serwera');
-            })
+            this.props.setResp(resp.data);
+            this.props.setItems([]);
+            this.props.setName('');
+            this.props.setAge('');
+
+            this.setState({
+                id: 0,
+                redirect: true,
+                added: added
+            });
         }).catch(error => {
             this.props.setResp('Błąd serwera');
         })
