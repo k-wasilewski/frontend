@@ -128,7 +128,7 @@ describe("NewOrderStep2 functional specification", () => {
         //component.unmount();
     });
 
-    it('sendData() sets state value: error to errorMsg when prop items' +
+    it('sendData() sets state value: error to errorMsg when prop: items' +
         ' is empty', () => {
         const component = shallow(
             <NewOrderStep2 items={[]}/>
@@ -141,7 +141,7 @@ describe("NewOrderStep2 functional specification", () => {
         //component.unmount();
     });
 
-    it('sendData() calls doAddOrder() when there is non-empty prop items', () => {
+    it('sendData() calls doAddOrder() when there is non-empty prop: items', () => {
         const component = shallow(
             <NewOrderStep2 items={['sample item']} />
         );
@@ -197,7 +197,7 @@ describe("NewOrderStep2 functional specification", () => {
         }, 4000);
     });
 
-    it('addToList() handles name, age errors and invokes doCheckAvailability() ' +
+    it('addToList() handles size, color errors and invokes doCheckAvailability() ' +
         'when there is no error', () => {
         let mockSetResp = jest.fn();
         let mockSetName = jest.fn();

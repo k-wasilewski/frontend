@@ -140,8 +140,7 @@ describe("Summary functional specification", () => {
 
         const name = 'Kuba';
         const age = '30';
-        const datetime = '2020-05-29 18:37:23.458';
-        const list = '[<'+name+', '+age+', '+datetime+': [[blue, s]]>]';
+        const list = {name: name, age: age, items: [{id: 0, color: 'blue', size: 's'}]}
 
         const component = shallow(
             <Summary />
@@ -151,16 +150,10 @@ describe("Summary functional specification", () => {
             list: list
         });
 
-        const showElemsBtn = component.find('#showElems').at(0)
-
-        try {
+        setTimeout(function () {
+            const showElemsBtn = component.find('.showElems').at(0)
             showElemsBtn.simulate('click', { target: {showElemsBtn} })
-        } catch (e) {
-            expect(e.message).toEqual(
-                'Cannot read property \'style\' of null'
-            )
-        }
-
-        component.unmount();
+            component.unmount();
+        }, 4000)
     });
 });

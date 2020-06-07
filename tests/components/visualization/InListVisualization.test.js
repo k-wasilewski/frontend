@@ -30,7 +30,8 @@ describe("InListVisualization rendering specification", () => {
 });
 
 describe("InListVisualization functional specification", () => {
-    it('should invoke style-changing functions when rendered', () => {
+    it('renderVisualization() invokes setSize(), setVisibility(), setCol() ' +
+        'functions', () => {
         configure({ adapter: new Adapter() });
         let size = 'mock size';
         let color = 'mock color';
@@ -60,5 +61,34 @@ describe("InListVisualization functional specification", () => {
         expect(component.instance().setCol).toBeCalledWith(color);
 
         component.unmount();
-    })
+    });
+
+    it('renderVisualization() is invoked when componentDidMount', () => {
+        configure({ adapter: new Adapter() });
+        let size = 'mock size';
+        let color = 'mock color';
+
+        const mockVisualizationRef = jest.spyOn(React, 'createRef');
+
+        const component = shallow(
+            <InListVisualization size={size} color={color} />
+        );
+
+        const mockVisualization = (<div className='visible' />);
+        mockVisualizationRef.mockReturnValue({
+            current: mockVisualization
+        });
+
+        component.instance().setSize = jest.fn();
+        component.instance().setVisibility = jest.fn();
+        component.instance().setCol = jest.fn();
+        component.instance().renderVisualization = jest.fn();
+        component.update();
+
+        setTimeout(function () {
+            expect(component.instance().renderVisualization).toHaveBeenCalled();
+        }, 4000);
+
+        component.unmount();
+    });
 })

@@ -54,9 +54,9 @@ describe("NewOrderStep1 functional specification", () => {
             <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge}/>
         );
 
-        expect(mockSetItems).toHaveBeenCalled();
-        expect(mockSetName).toHaveBeenCalled();
-        expect(mockSetAge).toHaveBeenCalled();
+        expect(mockSetItems).toHaveBeenCalledWith([]);
+        expect(mockSetName).toHaveBeenCalledWith('');
+        expect(mockSetAge).toHaveBeenCalledWith('');
         expect(getResponse).toHaveBeenCalled();
         expect(getError).toHaveBeenCalled();
 
@@ -261,6 +261,29 @@ describe("NewOrderStep1 functional specification", () => {
 
         expect(component.state('error')).toEqual('Imię może zawierać tylko jeden wyraz, ' +
             'musi być pisane z wielkiej litery, bez cyfr i znaków specjalnych');
+
+        component.unmount();
+    });
+
+    it('handleSubmit() sets state value: redirect to true when name and age' +
+        ' are valid', () => {
+        const component = shallow(
+            <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge} />
+        );
+
+        component.instance().getError = jest.fn();
+        component.update();
+
+        component.setState({
+            name: 'Kuba',
+            age: 32,
+            ageValid: true,
+            nameValid: true,
+            redirect: false
+        });
+        component.instance().handleSubmit();
+
+        expect(component.state('redirect')).toEqual(true);
 
         component.unmount();
     });

@@ -19,7 +19,6 @@ exports[`Summary rendering specification renders a title and a button initially 
       className="col2"
     >
       <button
-        id="showElems"
         onClick={[Function]}
       >
         Szukaj
