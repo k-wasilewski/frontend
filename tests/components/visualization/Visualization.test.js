@@ -36,14 +36,13 @@ describe("Visualization functional specification", () => {
         });
 
         setTimeout(function () {
-            expect(mockVisualization.style.display = 'none');
+            expect(mockVisualization.classList).toContain('hidden');
             component.instance().UNSAFE_componentWillReceiveProps({
                 size: 's',
                 color: 'blue'
             });
-            expect(mockVisualization.style.width = '25px');
-            expect(mockVisualization.style.height = '25px');
-            expect(mockVisualization.style.backgroundColor = 'blue');
+            expect(mockVisualization.classList).toContain('small');
+            expect(mockVisualization.classList).toContain('blue');
 
             component.unmount();
         }, 4000);
