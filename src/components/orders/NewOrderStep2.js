@@ -55,7 +55,7 @@ export class NewOrderStep2 extends Component {
 
     doCheckAvailability(color, size, newItem, id) {
         axios.post('http://localhost:8081/check',
-            "color=" + color + "&" + "size=" + size,
+            `color=${color}&size=${size}`,
             this.getAxiosConfig()
         ).then(resp => {
             if (resp.data==='success') {
