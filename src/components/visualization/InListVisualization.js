@@ -70,8 +70,8 @@ export class InListVisualization extends Component {
     }
 
     renderVisualization = () => {
-        let size = this.props.size;
-        let color = this.props.color;
+        const size = this.props.size;
+        const color = this.props.color;
 
         this.setVisibility(size, color);
         this.setSize(size);

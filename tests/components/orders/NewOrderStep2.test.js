@@ -15,7 +15,7 @@ describe("NewOrderStep2 rendering specification", () => {
                 <ConnectedNewOrderStep2/>
             </Provider>
         );
-        let tree = component.toJSON();
+        const tree = component.toJSON();
         expect(tree).toMatchSnapshot();
 
         const form = tree.children[0];
@@ -58,7 +58,7 @@ describe("NewOrderStep2 functional specification", () => {
         configure({adapter: new Adapter()});
     });
 
-    let axiosConfig = {
+    const axiosConfig = {
         headers: {
             "Access-Control-Allow-Origin": "*",
         }
@@ -165,11 +165,11 @@ describe("NewOrderStep2 functional specification", () => {
         const resp = 'sample resp';
         mock.onPost().reply(200, resp);
 
-        let mockSetResp = jest.fn();
-        let mockSetName = jest.fn();
-        let mockSetAge = jest.fn();
-        let mockSetItems = jest.fn();
-        let mockAddItem = jest.fn();
+        const mockSetResp = jest.fn();
+        const mockSetName = jest.fn();
+        const mockSetAge = jest.fn();
+        const mockSetItems = jest.fn();
+        const mockAddItem = jest.fn();
 
         const name = 'Kuba';
         const age = 30;
@@ -199,10 +199,10 @@ describe("NewOrderStep2 functional specification", () => {
 
     it('addToList() handles size, color errors and invokes doCheckAvailability() ' +
         'when there is no error', () => {
-        let mockSetResp = jest.fn();
-        let mockSetName = jest.fn();
-        let mockSetAge = jest.fn();
-        let mockSetItems = jest.fn();
+        const mockSetResp = jest.fn();
+        const mockSetName = jest.fn();
+        const mockSetAge = jest.fn();
+        const mockSetItems = jest.fn();
 
         const component = shallow(
             <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
@@ -245,10 +245,10 @@ describe("NewOrderStep2 functional specification", () => {
             axiosConfig
         ).reply(200, resp);
 
-        let mockSetResp = jest.fn();
-        let mockSetName = jest.fn();
-        let mockSetAge = jest.fn();
-        let mockSetItems = jest.fn();
+        const mockSetResp = jest.fn();
+        const mockSetName = jest.fn();
+        const mockSetAge = jest.fn();
+        const mockSetItems = jest.fn();
 
         const component = shallow(
             <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
@@ -271,11 +271,11 @@ describe("NewOrderStep2 functional specification", () => {
         const resp = 'success';
         mock.onPost().reply(200, resp);
 
-        let mockSetResp = jest.fn();
-        let mockSetName = jest.fn();
-        let mockSetAge = jest.fn();
-        let mockSetItems = jest.fn();
-        let mockAddItem = jest.fn();
+        const mockSetResp = jest.fn();
+        const mockSetName = jest.fn();
+        const mockSetAge = jest.fn();
+        const mockSetItems = jest.fn();
+        const mockAddItem = jest.fn();
 
         const component = shallow(
             <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
@@ -307,11 +307,11 @@ describe("NewOrderStep2 functional specification", () => {
         const resp = 'fail';
         mock.onPost().reply(200, resp);
 
-        let mockSetResp = jest.fn();
-        let mockSetName = jest.fn();
-        let mockSetAge = jest.fn();
-        let mockSetItems = jest.fn();
-        let mockAddItem = jest.fn();
+        const mockSetResp = jest.fn();
+        const mockSetName = jest.fn();
+        const mockSetAge = jest.fn();
+        const mockSetItems = jest.fn();
+        const mockAddItem = jest.fn();
 
         const component = shallow(
             <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
@@ -342,11 +342,11 @@ describe("NewOrderStep2 functional specification", () => {
         const resp = 'sample resp';
         mock.onPost().reply(200, resp);
 
-        let mockSetResp = jest.fn();
-        let mockSetName = jest.fn();
-        let mockSetAge = jest.fn();
-        let mockSetItems = jest.fn();
-        let mockAddItem = jest.fn();
+        const mockSetResp = jest.fn();
+        const mockSetName = jest.fn();
+        const mockSetAge = jest.fn();
+        const mockSetItems = jest.fn();
+        const mockAddItem = jest.fn();
 
         const name = 'Kuba';
         const age = 30;

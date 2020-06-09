@@ -24,7 +24,7 @@ describe("InListVisualization rendering specification", () => {
             }
         );
 
-        let tree = component.toJSON();
+        const tree = component.toJSON();
         expect(tree).toMatchSnapshot();
     });
 });
@@ -33,8 +33,8 @@ describe("InListVisualization functional specification", () => {
     it('renderVisualization() invokes setSize(), setVisibility(), setCol() ' +
         'functions', () => {
         configure({ adapter: new Adapter() });
-        let size = 'mock size';
-        let color = 'mock color';
+        const size = 'mock size';
+        const color = 'mock color';
 
         const mockVisualizationRef = jest.spyOn(React, 'createRef');
         const mockComponentDidMount = jest.spyOn(InListVisualization.prototype, 'componentDidMount');
@@ -65,8 +65,8 @@ describe("InListVisualization functional specification", () => {
 
     it('renderVisualization() is invoked when componentDidMount', () => {
         configure({ adapter: new Adapter() });
-        let size = 'mock size';
-        let color = 'mock color';
+        const size = 'mock size';
+        const color = 'mock color';
 
         const mockVisualizationRef = jest.spyOn(React, 'createRef');
 

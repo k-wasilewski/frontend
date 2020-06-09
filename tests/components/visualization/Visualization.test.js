@@ -13,7 +13,7 @@ describe("Visualization rendering specification", () => {
                 <ConnectedVisualization/>
             </Provider>
         );
-        let tree = component.toJSON();
+        const tree = component.toJSON();
         expect(tree).toMatchSnapshot();
 
         expect(tree.children[0]).toEqual('\u00a0');

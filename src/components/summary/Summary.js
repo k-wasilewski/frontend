@@ -14,7 +14,7 @@ export class Summary extends Component {
     };
 
     doGetList() {
-        let axiosConfig = {
+        const axiosConfig = {
             headers: {
                 "Access-Control-Allow-Origin": "*",
             }
@@ -49,15 +49,15 @@ export class Summary extends Component {
         let transformedList = [];
 
         for (let i=0; i<list.length; i++) {
-            let name = list[i].name;
-            let age = list[i].age;
-            let created = list[i].created;
+            const name = list[i].name;
+            const age = list[i].age;
+            const created = list[i].created;
 
-            let items = list[i].items;
+            const items = list[i].items;
             let itemsTransformed;
             if (items!==undefined) itemsTransformed = this.formatItems(items);
 
-            let key = name+age+created;
+            const key = name+age+created;
             transformedList.push((
                 <ul key={key}>
                     <li id='itemList'>
@@ -77,8 +77,8 @@ export class Summary extends Component {
     };
 
     showOrderList = (event) => {
-        let $this = event.target;
-        let list = $this.parentElement.getElementsByClassName('orderItems')[0];
+        const $this = event.target;
+        const list = $this.parentElement.getElementsByClassName('orderItems')[0];
         list.classList.toggle('hidden');
     };
 

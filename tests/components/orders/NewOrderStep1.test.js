@@ -13,7 +13,7 @@ describe("NewOrderStep1 rendering specification", () => {
                 <ConnectedNewOrderStep1/>
             </Provider>
         );
-        let tree = component.toJSON();
+        const tree = component.toJSON();
         expect(tree).toMatchSnapshot();
 
         const form = tree.children[0];
@@ -171,7 +171,7 @@ describe("NewOrderStep1 functional specification", () => {
                 resp='error: sample resp' />
         );
 
-        let result = component.instance().getResponse();
+        const result = component.instance().getResponse();
         expect(result).toEqual('sample resp');
 
         component.unmount();
@@ -184,7 +184,7 @@ describe("NewOrderStep1 functional specification", () => {
                            resp='sample resp' />
         );
 
-        let result = component.instance().getResponse();
+        const result = component.instance().getResponse();
         expect(result).toEqual('sample resp');
 
         component.unmount();

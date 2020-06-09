@@ -14,7 +14,7 @@ describe("App rendering specification", () => {
                 </BrowserRouter>
             </Provider>
         );
-        let tree = component.toJSON();
+        const tree = component.toJSON();
         expect(tree).toMatchSnapshot();
     });
 });

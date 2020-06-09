@@ -11,7 +11,7 @@ describe("Orders rendering specification", () => {
                 <Orders />
             </Provider>
         );
-        let tree = component.toJSON();
+        const tree = component.toJSON();
         expect(tree).toMatchSnapshot();
 
         expect((/Kolor:/g).test(JSON.stringify(tree))).toBeTruthy()

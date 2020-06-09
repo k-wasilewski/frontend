@@ -61,10 +61,10 @@ export class NewOrderStep1 extends Component {
     };
 
     nameOnChange = (event) => {
-        let name = event.target.value;
+        const name = event.target.value;
         this.setState({name: name});
 
-        let nameValidationRegex = new RegExp('^[A-Z]([a-z]*)$');
+        const nameValidationRegex = new RegExp('^[A-Z]([a-z]*)$');
         if (name.includes(' ') || nameValidationRegex.exec(name)===null) {
             this.nameRef.current.classList.add('invalid');
             this.nameRef.current.classList.remove('valid');
@@ -77,7 +77,7 @@ export class NewOrderStep1 extends Component {
     };
 
     ageOnChange = (event) => {
-        let age = event.target.value;
+        const age = event.target.value;
         this.setState({age: age});
 
         if (age<18 || age>100) {
@@ -92,15 +92,15 @@ export class NewOrderStep1 extends Component {
     };
 
     getResponse() {
-        let notAvailRegex = new RegExp('error: (.*)', 'g');
-        let match = notAvailRegex.exec(this.props.resp);
+        const notAvailRegex = new RegExp('error: (.*)', 'g');
+        const match = notAvailRegex.exec(this.props.resp);
         if (match===null) return this.props.resp;
 
         return match[1];
     };
 
     getError() {
-        let error = this.state.error;
+        const error = this.state.error;
         if (error!=='') {
             this.errorRef.current.classList.add('visible')
             this.errorRef.current.classList.remove('hidden')
@@ -110,9 +110,9 @@ export class NewOrderStep1 extends Component {
     };
 
     render() {
-        let resp = this.getResponse();
+        const resp = this.getResponse();
 
-        let error = this.getError();
+        const error = this.getError();
 
         if (!this.state.redirect) return (
             <div className="main">

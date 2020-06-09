@@ -16,16 +16,16 @@ describe("Menu rendering specification", () => {
                 </BrowserRouter>
             </Provider>
         );
-        let tree = component.toJSON();
+        const tree = component.toJSON();
         expect(tree).toMatchSnapshot();
 
-        let menuItems = tree.children[0];
-        let newOrderBtn = menuItems.children[0].children[0];
-        let summaryBtn = menuItems.children[0].children[1];
+        const menuItems = tree.children[0];
+        const newOrderBtn = menuItems.children[0].children[0];
+        const summaryBtn = menuItems.children[0].children[1];
         expect(newOrderBtn.children[0].children[0].children[0]).toContain('Nowe zamówienie');
         expect(summaryBtn.children[0].children[0].children[0]).toContain('Podsumowanie');
 
-        let menuBtn = tree.children[1];
+        const menuBtn = tree.children[1];
         expect(menuBtn.props.id).toContain('menu-btn');
     });
 });
@@ -45,7 +45,7 @@ describe("Menu functional specification", () => {
             current: mockMenu
         });
 
-        let mockClick = () => component.find('#menu-btn').simulate('click');
+        const mockClick = () => component.find('#menu-btn').simulate('click');
 
         setTimeout(function () {
             mockClick();

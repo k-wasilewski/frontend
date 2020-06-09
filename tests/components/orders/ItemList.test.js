@@ -14,7 +14,7 @@ describe("ItemList rendering specification", () => {
                 <ConnectedItemList/>
             </Provider>
         );
-        let tree = component.toJSON();
+        const tree = component.toJSON();
         expect(tree).toMatchSnapshot();
 
         expect(tree.children[0].children[0]).toEqual('Lista zamówień');
@@ -31,7 +31,7 @@ describe("ItemList functional specification", () => {
     it('passes props to redux when componentWillReceiveProps', () => {
         const item = {id: 43, color: 'blue', size: 's'};
 
-        let mockSetItems = jest.fn();
+        const mockSetItems = jest.fn();
         const component = shallow(
             <ItemList items={[]} setItems={mockSetItems}/>
         );

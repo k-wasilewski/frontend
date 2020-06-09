@@ -15,7 +15,7 @@ describe("Summary rendering specification", () => {
                 <ConnectedSummary/>
             </Provider>
         );
-        let tree = component.toJSON();
+        const tree = component.toJSON();
         expect(tree).toMatchSnapshot();
 
         const summary = tree.children[0];
@@ -26,7 +26,7 @@ describe("Summary rendering specification", () => {
 
 
 describe("Summary functional specification", () => {
-    let axiosConfig = {
+    const axiosConfig = {
         headers: {
             "Access-Control-Allow-Origin": "*",
         }
@@ -43,7 +43,7 @@ describe("Summary functional specification", () => {
 
         component.instance().doGetList = jest.fn();
         component.update();
-        let mockClick = () => component.find('.col2').find('button').simulate('click');
+        const mockClick = () => component.find('.col2').find('button').simulate('click');
         mockClick();
 
         expect(doGetList).toHaveBeenCalled();
@@ -113,7 +113,7 @@ describe("Summary functional specification", () => {
         const colorPL = 'Niebieski';
 
         let items = [];
-        let item = {
+        const item = {
             id: 0,
             color: color,
             size: size
