@@ -19,6 +19,8 @@ function translateColor(response) {
         else if (item.color==='darkblue') {
             item.color = 'Granatowy';
         }
+
+        return item;
     })
 }
 
@@ -28,5 +30,6 @@ function translateSize(response) {
 
     items.map(item => {
         item.size = item.size.toUpperCase();
+        return item;
     })
 };
