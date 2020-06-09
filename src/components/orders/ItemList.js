@@ -47,7 +47,7 @@ export class ItemList extends Component {
         return (
             <div className="main">
                 <h3>Lista zamówień</h3>
-                <ol key='2' start='1'>
+                <ol start='1'>
                     {mappedItems}
                 </ol>
             </div>

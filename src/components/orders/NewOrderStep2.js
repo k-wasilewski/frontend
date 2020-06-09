@@ -80,6 +80,7 @@ export class NewOrderStep2 extends Component {
         var size = (this.state.size);
         var color = (this.state.color);
         const newItem = {
+            id: id,
             color: color,
             size: size
         }
