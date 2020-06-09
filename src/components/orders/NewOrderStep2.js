@@ -24,9 +24,10 @@ export class NewOrderStep2 extends Component {
             added: []
         };
 
+        this.addToList = this.addToList.bind(this);
+        this.sendData = this.sendData.bind(this);
         this.colorOnChange = this.colorOnChange.bind(this);
         this.sizeOnChange = this.sizeOnChange.bind(this);
-        this.addToList = this.addToList.bind(this);
     };
 
     componentWillUnmount() {
@@ -197,7 +198,6 @@ export class NewOrderStep2 extends Component {
             </div>
         );
         else {
-            this.setState({redirect: false});
             return (<Redirect to='/' />);
         }
     };

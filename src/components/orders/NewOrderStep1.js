@@ -139,7 +139,6 @@ export class NewOrderStep1 extends Component {
             </div>
         );
         else {
-            this.setState({redirect: false});
             return (<Redirect to='/step2' />);
         }
     };
