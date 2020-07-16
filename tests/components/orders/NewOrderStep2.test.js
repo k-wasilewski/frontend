@@ -419,15 +419,9 @@ describe("NewOrderStep2 functional specification", () => {
         const mockSetItems = jest.fn();
         const mockAddItem = jest.fn();
 
-        const name = 'Kuba';
-        const age = 30;
-        const items = [{id: 0, color: 'blue', size: 's'},
-            {id: 1, color: 'lightblue', size: 'm'}];
-
         const component = shallow(
             <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
-                           setItems={mockSetItems} addItem={mockAddItem} name={name}
-                           age={age} items={items}/>
+                           setItems={mockSetItems} addItem={mockAddItem}/>
         );
 
         component.instance().doAddOrder();
@@ -436,7 +430,7 @@ describe("NewOrderStep2 functional specification", () => {
             expect(mockSetResp).toHaveBeenCalledWith('Błąd serwera');
             console.error = error;
 
-            component.unmount();
+            //component.unmount();
             done();
         }, 4000);
     });
