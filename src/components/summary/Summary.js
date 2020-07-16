@@ -76,7 +76,7 @@ export class Summary extends Component {
         return transformedList;
     };
 
-    showOrderList = (event) => {
+    showOrderList(event) {
         const $this = event.target;
         const list = $this.parentElement.getElementsByClassName('orderItems')[0];
         list.classList.toggle('hidden');

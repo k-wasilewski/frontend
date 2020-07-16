@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import store from "../../../src/redux/store";
 import {Provider} from "react-redux";
-import {configure, shallow} from 'enzyme';
+import {configure, shallow, mount} from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
 import ConnectedSummary, { Summary } from "../../../src/components/summary/Summary";
 import axios from 'axios';
@@ -135,12 +135,17 @@ describe("Summary functional specification", () => {
         component.unmount();
     })
 
-    it('button "Elementy" invokes style-changing showOrderList() onClick', () => {
+    it('button "Elementy" invokes showOrderList() onClick', (done) => {
         configure({ adapter: new Adapter() });
 
+        const showOrderList = jest.spyOn(Summary.prototype, 'showOrderList')
+            .mockImplementation(() => {});
+
         const name = 'Kuba';
-        const age = '30';
-        const list = {name: name, age: age, items: [{id: 0, color: 'blue', size: 's'}]}
+        const age = '666';
+        const created = '123'
+        const list = [{name: name, age: age, created: created,
+            items: [{id: 0, color: 'blue', size: 's'}]}];
 
         const component = shallow(
             <Summary />
@@ -149,10 +154,46 @@ describe("Summary functional specification", () => {
         component.instance().setState({
             list: list
         });
+        component.update();
 
         setTimeout(function () {
-            const showElemsBtn = component.find('.showElems').at(0)
-            showElemsBtn.simulate('click', { target: {showElemsBtn} })
+            const showElemsBtn = component.find('.showElems').at(0);
+
+            const mockshowElemsBtnEvent = { target: showElemsBtn};
+
+            showElemsBtn.simulate('click', mockshowElemsBtnEvent);
+
+            setTimeout(function () {
+                expect(showOrderList).toHaveBeenCalledWith(mockshowElemsBtnEvent);
+
+                done();
+                component.unmount();
+                showOrderList.mockRestore();
+            }, 500);
+        }, 4000)
+    });
+
+    it('showOrderList() modifies DOM elements style', (done) => {
+        configure({ adapter: new Adapter() });
+
+        const getElementsByClassName = jest.spyOn(document, 'getElementsByClassName');
+
+        const mockToggle = jest.fn();
+        const mockFn = jest.fn(() => [{classList: {toggle: mockToggle}}]);
+        const mockEvent = {target: {parentElement: {getElementsByClassName: mockFn}}}
+
+        const component = shallow(
+            <Summary />
+        );
+
+        component.instance().showOrderList(mockEvent);
+        component.update();
+
+        setTimeout(function () {
+            expect(mockFn).toHaveBeenCalledWith('orderItems');
+            expect(mockToggle).toHaveBeenCalled();
+
+            done();
             component.unmount();
         }, 4000)
     });
