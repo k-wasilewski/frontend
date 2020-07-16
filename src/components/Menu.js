@@ -10,7 +10,7 @@ class Menu extends Component {
         this.menuRef = React.createRef();
     };
 
-    toggleMenuVisibility = () => {
+    toggleMenuVisibility() {
         this.menuRef.current.classList.toggle('hidden');
     };
 

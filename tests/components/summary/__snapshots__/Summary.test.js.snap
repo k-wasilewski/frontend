@@ -12,9 +12,7 @@ exports[`Summary rendering specification renders a title and a button initially 
     </h2>
     <div
       className="col1"
-    >
-      <p />
-    </div>
+    />
     <div
       className="col2"
     >

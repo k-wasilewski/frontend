@@ -36,6 +36,8 @@ describe("Menu functional specification", () => {
 
         const mockMenuRef = jest.spyOn(React, 'createRef');
 
+        const toggleMenuVisibility = jest.spyOn(Menu.prototype, 'toggleMenuVisibility');
+
         const component = shallow(
             <Menu />
         );
@@ -52,6 +54,8 @@ describe("Menu functional specification", () => {
             expect(mockMenu.classList).toEqual('menu');
             mockClick();
             expect(mockMenu.classList).toEqual('menu hidden');
+
+            expect(toggleMenuVisibility).toHaveBeenCalledTimes(2);
 
             component.unmount();
         }, 4000);
