@@ -334,6 +334,41 @@ describe("NewOrderStep2 functional specification", () => {
         }, 4000);
     });
 
+    it('doCheckAvailability() sets redux state value: response to errorMsg when there is ' +
+        'server error', (done) => {
+        const error = console.error;
+        console.error = jest.fn();
+
+        var mock = new MockAdapter(axios);
+        mock.onPost().networkError();
+
+        const mockSetResp = jest.fn();
+        const mockSetName = jest.fn();
+        const mockSetAge = jest.fn();
+        const mockSetItems = jest.fn();
+        const mockAddItem = jest.fn();
+
+        const component = shallow(
+            <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
+                           setItems={mockSetItems} addItem={mockAddItem}/>
+        );
+
+        const color = 'blue';
+        const size = 's';
+        const id = 0;
+        const item = [id, color, size];
+
+        component.instance().doCheckAvailability(color, size, item, id);
+
+        setTimeout(function () {
+            expect(mockSetResp).toHaveBeenCalledWith('Błąd serwera');
+            console.error = error;
+
+            //component.unmount();
+            done();
+        }, 4000);
+    });
+
     it('doAddOrder() sends data to server', (done) => {
         const error = console.error;
         console.error = jest.fn();
@@ -363,6 +398,42 @@ describe("NewOrderStep2 functional specification", () => {
 
         setTimeout(function () {
             expect(component.state('added')).toEqual([name+age+items]);
+            console.error = error;
+
+            component.unmount();
+            done();
+        }, 4000);
+    });
+
+    it('doAddOrder() sets redux state value: response to errorMsg when there is ' +
+        'server error', (done) => {
+        const error = console.error;
+        console.error = jest.fn();
+
+        var mock = new MockAdapter(axios);
+        mock.onPost().networkError();
+
+        const mockSetResp = jest.fn();
+        const mockSetName = jest.fn();
+        const mockSetAge = jest.fn();
+        const mockSetItems = jest.fn();
+        const mockAddItem = jest.fn();
+
+        const name = 'Kuba';
+        const age = 30;
+        const items = [{id: 0, color: 'blue', size: 's'},
+            {id: 1, color: 'lightblue', size: 'm'}];
+
+        const component = shallow(
+            <NewOrderStep2 setResp={mockSetResp} setName={mockSetName} setAge={mockSetAge}
+                           setItems={mockSetItems} addItem={mockAddItem} name={name}
+                           age={age} items={items}/>
+        );
+
+        component.instance().doAddOrder();
+
+        setTimeout(function () {
+            expect(mockSetResp).toHaveBeenCalledWith('Błąd serwera');
             console.error = error;
 
             component.unmount();
