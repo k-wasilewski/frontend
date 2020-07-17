@@ -21,29 +21,46 @@ describe("Visualization rendering specification", () => {
 });
 
 describe("Visualization functional specification", () => {
-    it('visualization div changes accordingly when componentWillReceiveProps', () => {
+    it('visualization div changes accordingly when componentWillReceiveProps', (done) => {
         configure({ adapter: new Adapter() });
 
-        const mockVisualizationRef = jest.spyOn(React, 'createRef');
+        const displayVisualization = jest.spyOn(Visualization.prototype, 'displayVisualization');
+        const paintVisualizationSize = jest.spyOn(Visualization.prototype, 'paintVisualizationSize');
+        const paintVisualizationColor = jest.spyOn(Visualization.prototype, 'paintVisualizationColor');
+
+        const mockVisualization = { classList: { remove: jest.fn(), add: jest.fn() } };
+        const mockVisualizationRef = jest.spyOn(React, 'createRef')
+            .mockImplementation(() => {return {current: mockVisualization}});
+
+        const mockProps = {
+            size: 's',
+            color: 'blue'
+        };
 
         const component = shallow(
             <Visualization />
         );
 
-        const mockVisualization = (<div id='visualization' />);
-        mockVisualizationRef.mockReturnValue({
-            current: mockVisualization
-        });
+        component.instance().UNSAFE_componentWillReceiveProps(mockProps);
+        component.update();
 
         setTimeout(function () {
-            expect(mockVisualization.classList).toContain('hidden');
-            component.instance().UNSAFE_componentWillReceiveProps({
-                size: 's',
-                color: 'blue'
-            });
-            expect(mockVisualization.classList).toContain('small');
-            expect(mockVisualization.classList).toContain('blue');
+            expect(displayVisualization).toHaveBeenCalledWith(mockProps);
+            expect(mockVisualization.classList.add).toHaveBeenCalledWith('visible');
+            expect(mockVisualization.classList.remove).toHaveBeenCalledWith('hidden');
 
+            expect(paintVisualizationColor).toHaveBeenCalledWith(mockProps);
+            expect(mockVisualization.classList.add).toHaveBeenCalledWith('small');
+            expect(mockVisualization.classList.remove).toHaveBeenCalledWith('medium');
+            expect(mockVisualization.classList.remove).toHaveBeenCalledWith('large');
+            expect(mockVisualization.classList.remove).toHaveBeenCalledWith('extralarge');
+
+            expect(paintVisualizationSize).toHaveBeenCalledWith(mockProps);
+            expect(mockVisualization.classList.add).toHaveBeenCalledWith('blue');
+            expect(mockVisualization.classList.remove).toHaveBeenCalledWith('lightblue');
+            expect(mockVisualization.classList.remove).toHaveBeenCalledWith('darkblue');
+
+            done();
             component.unmount();
         }, 4000);
     });

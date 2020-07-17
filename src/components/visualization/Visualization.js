@@ -20,14 +20,14 @@ export class Visualization extends Component {
         this.paintVisualizationColor(nextProps);
     };
 
-    displayVisualization = (nextProps) => {
+    displayVisualization(nextProps) {
         if (nextProps.size!=='' && nextProps.color!=='') {
             this.visualizationRef.current.classList.add('visible');
             this.visualizationRef.current.classList.remove('hidden');
         };
     };
 
-    paintVisualizationSize = (nextProps) => {
+    paintVisualizationSize(nextProps) {
         if (nextProps.size !== this.props.size) {
             if (nextProps.size==='s' || nextProps.size==='S') {
                 this.visualizationRef.current.classList.add('small');
@@ -56,7 +56,7 @@ export class Visualization extends Component {
         }
     };
 
-    paintVisualizationColor = (nextProps) => {
+    paintVisualizationColor(nextProps) {
         if (nextProps.color !== this.props.color) {
             if (nextProps.color==='lightblue' || nextProps.color==='Błękitny') {
                 this.visualizationRef.current.classList.remove('blue');
