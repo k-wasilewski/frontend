@@ -29,7 +29,7 @@ describe("Visualization functional specification", () => {
         const paintVisualizationColor = jest.spyOn(Visualization.prototype, 'paintVisualizationColor');
 
         const mockVisualization = { classList: { remove: jest.fn(), add: jest.fn() } };
-        const mockVisualizationRef = jest.spyOn(React, 'createRef')
+        jest.spyOn(React, 'createRef')
             .mockImplementation(() => {return {current: mockVisualization}});
 
         const mockProps = {
