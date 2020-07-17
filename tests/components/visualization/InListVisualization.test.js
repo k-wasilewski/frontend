@@ -60,6 +60,8 @@ describe("InListVisualization functional specification", () => {
         expect(component.instance().setVisibility).toBeCalledWith(size, color);
         expect(component.instance().setCol).toBeCalledWith(color);
 
+        mockComponentDidMount.mockRestore();
+        mockVisualizationRef.mockRestore();
         component.unmount();
     });
 
@@ -68,27 +70,61 @@ describe("InListVisualization functional specification", () => {
         const size = 'mock size';
         const color = 'mock color';
 
-        const mockVisualizationRef = jest.spyOn(React, 'createRef');
+        const renderVisualization = jest.spyOn(InListVisualization.prototype, 'renderVisualization')
+            .mockImplementation(() => {});
 
         const component = shallow(
             <InListVisualization size={size} color={color} />
         );
 
-        const mockVisualization = (<div className='visible' />);
-        mockVisualizationRef.mockReturnValue({
-            current: mockVisualization
-        });
+        expect(renderVisualization).toHaveBeenCalled();
 
-        component.instance().setSize = jest.fn();
-        component.instance().setVisibility = jest.fn();
-        component.instance().setCol = jest.fn();
-        component.instance().renderVisualization = jest.fn();
-        component.update();
+        renderVisualization.mockRestore();
+    });
 
-        setTimeout(function () {
-            expect(component.instance().renderVisualization).toHaveBeenCalled();
-        }, 4000);
+    it('renderVisualization() invokes setVisibility(), setSize(), setCol()', () => {
+        configure({ adapter: new Adapter() });
+        const size = 'mock size';
+        const color = 'mock color';
 
-        component.unmount();
+        const renderVisualization = jest.spyOn(InListVisualization.prototype, 'renderVisualization');
+        const setVisibility = jest.spyOn(InListVisualization.prototype, 'setVisibility')
+            .mockImplementation(() => {});
+        const setSize = jest.spyOn(InListVisualization.prototype, 'setSize')
+            .mockImplementation(() => {});
+        const setCol = jest.spyOn(InListVisualization.prototype, 'setCol')
+            .mockImplementation(() => {});
+
+        const component = shallow(
+            <InListVisualization size={size} color={color} />
+        );
+
+        expect(renderVisualization).toHaveBeenCalled();
+        expect(setVisibility).toHaveBeenCalled();
+        expect(setSize).toHaveBeenCalled();
+        expect(setCol).toHaveBeenCalled();
+
+        setVisibility.mockRestore();
+        setSize.mockRestore();
+        setCol.mockRestore();
+    });
+
+    it('setSize() and setCol() modify visualizationRef accordingly', () => {
+        configure({ adapter: new Adapter() });
+        const size = 's';
+        const color = 'lightblue';
+
+        const mockVisualization = { classList: { remove: jest.fn(), add: jest.fn() } };
+        const mockCreateRef = jest.spyOn(React, 'createRef')
+            .mockImplementation(() => {return {current: mockVisualization}});
+
+        const component = shallow(
+            <InListVisualization size={size} color={color} />
+        );
+
+        expect(mockVisualization.classList.add).toHaveBeenCalledWith('small');
+        expect(mockVisualization.classList.add).toHaveBeenCalledWith('lightblue');
+
+        mockCreateRef.mockRestore();
     });
 })

@@ -15,10 +15,11 @@ export class InListVisualization extends Component {
     };
 
     componentDidMount() {
-        this.visualizationRef.current = this.renderVisualization()
+        this.visualizationRef.current = this.renderVisualization();
     }
 
-    setSize = (size) => {
+    setSize(size) {
+        console.log(JSON.stringify(this.visualizationRef)+size)
         if (size==='s' || size==='S') {
             this.visualizationRef.current.classList.add('small');
             this.visualizationRef.current.classList.remove('medium');
@@ -42,7 +43,7 @@ export class InListVisualization extends Component {
         }
     };
 
-    setVisibility = (size, color) => {
+    setVisibility(size, color) {
         if (size!=='S' && size!=='M' && size!=='L' && size!=='XL') {
             this.visualizationRef.current.classList.remove('visible');
             this.visualizationRef.current.classList.add('hidden');
@@ -53,7 +54,7 @@ export class InListVisualization extends Component {
         }
     }
 
-    setCol = (color) => {
+    setCol(color) {
         if (color==='lightblue' || color==='Błękitny') {
             this.visualizationRef.current.classList.remove('blue');
             this.visualizationRef.current.classList.add('lightblue');
@@ -69,7 +70,7 @@ export class InListVisualization extends Component {
         }
     }
 
-    renderVisualization = () => {
+    renderVisualization() {
         const size = this.props.size;
         const color = this.props.color;
 
