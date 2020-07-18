@@ -1,35 +1,41 @@
 import React from 'react';
 import store from "../src/redux/store";
-import {BrowserRouter} from "react-router-dom";
+import {BrowserRouter, MemoryRouter} from "react-router-dom";
 import App from "../src/App";
 import {Provider} from "react-redux";
-import {render} from "react-dom";
+import renderer from 'react-test-renderer';
+import {mount, configure} from 'enzyme';
+import Adapter from "enzyme-adapter-react-16";
 
 describe("index rendering specification", () => {
-    const root = document.createElement('div');
-
-    beforeEach(() => {
-        document.body.appendChild(root);
-
-        render(
+    it('index is rendered', () => {
+        const component = renderer.create(
             <Provider store={store}>
                 <BrowserRouter>
                     <App />
                 </BrowserRouter>
-            </Provider>,
-            root
+            </Provider>
         );
+        const tree = component.toJSON();
+        expect(tree).toMatchSnapshot();
     });
+});
 
-    it('index is rendered to "root" div', () => {
-        expect(root.children[0].classList).toContain('App');
-    });
-
+describe("index functional specification", () => {
     it('index is rendered with divs "menu" and "main"', () => {
-        const menu = document.body.children[0].children[0].children[0].children[0];
-        const main = document.body.children[0].children[0].children[1].children[0];
+        configure({ adapter: new Adapter() });
 
-        expect(Array.from(menu.classList)).toContain('menu');
-        expect(Array.from(main.classList)).toContain('main');
+        const component = mount(
+            <Provider store={store}>
+                <MemoryRouter initialEntries={['/']}>
+                    <App />
+                </MemoryRouter>
+            </Provider>
+        );
+
+        expect(component.find('.menu')).toHaveLength(1);
+        expect(component.find('.main')).toHaveLength(1);
+
+        component.unmount();
     });
 });

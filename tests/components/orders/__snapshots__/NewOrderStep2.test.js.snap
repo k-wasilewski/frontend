@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`NewOrderStep2 rendering specification renders a form with select, radio, and two buttons 1`] = `
+exports[`NewOrderStep2 rendering specification NewOrderStep2 is rendered 1`] = `
 <div
   className="main"
 >

@@ -8,7 +8,7 @@ import {configure, shallow} from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
 
 describe("Menu rendering specification", () => {
-    it('renders two menu items and a menu btn', () => {
+    it('Menu is rendered', () => {
         const component = renderer.create(
             <Provider store={store}>
                 <BrowserRouter>
@@ -18,27 +18,35 @@ describe("Menu rendering specification", () => {
         );
         const tree = component.toJSON();
         expect(tree).toMatchSnapshot();
-
-        const menuItems = tree.children[0];
-        const newOrderBtn = menuItems.children[0].children[0];
-        const summaryBtn = menuItems.children[0].children[1];
-        expect(newOrderBtn.children[0].children[0].children[0]).toContain('Nowe zamówienie');
-        expect(summaryBtn.children[0].children[0].children[0]).toContain('Podsumowanie');
-
-        const menuBtn = tree.children[1];
-        expect(menuBtn.props.id).toContain('menu-btn');
     });
 });
 
 describe("Menu functional specification", () => {
-    it('menu button toggles menu display when clicked', () => {
-        configure({ adapter: new Adapter() });
+    let component;
 
+    beforeEach(() => {
+        configure({ adapter: new Adapter() });
+    });
+
+    afterEach(() => {
+       component.unmount();
+    });
+
+    it('renders two menu items and a menu btn', () => {
+        component = shallow(
+            <Menu />
+        );
+
+        expect(component.find('.menu-item-div')).toHaveLength(2);
+        expect(component.find('#menu-btn')).toHaveLength(1);
+    });
+
+    it('menu button toggles menu display when clicked', () => {
         const mockMenuRef = jest.spyOn(React, 'createRef');
 
         const toggleMenuVisibility = jest.spyOn(Menu.prototype, 'toggleMenuVisibility');
 
-        const component = shallow(
+        component = shallow(
             <Menu />
         );
 
@@ -56,8 +64,6 @@ describe("Menu functional specification", () => {
             expect(mockMenu.classList).toEqual('menu hidden');
 
             expect(toggleMenuVisibility).toHaveBeenCalledTimes(2);
-
-            component.unmount();
-        }, 4000);
+        }, 500);
     });
 });

@@ -33,7 +33,7 @@ export class NewOrderStep2 extends Component {
     componentWillUnmount() {
         axios.post('http://localhost:8081/restore',
             this.getAxiosConfig()
-        );
+        ).catch();
     };
 
     getAxiosConfig = () => {

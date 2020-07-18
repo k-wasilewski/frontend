@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Visualization rendering specification renders empty div 1`] = `
+exports[`Visualization rendering specification Visualization is rendered 1`] = `
 <div
   className="hidden"
 >

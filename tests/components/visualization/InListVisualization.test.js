@@ -7,7 +7,7 @@ import Adapter from "enzyme-adapter-react-16";
 import ConnectedInListVisualization, { InListVisualization } from "../../../src/components/visualization/InListVisualization";
 
 describe("InListVisualization rendering specification", () => {
-    it('renders empty div', () => {
+    it('InListVisualization is rendered', () => {
         const component = renderer.create(
             <Provider store={store}>
                 <ConnectedInListVisualization/>
@@ -30,9 +30,31 @@ describe("InListVisualization rendering specification", () => {
 });
 
 describe("InListVisualization functional specification", () => {
+    let component;
+
+    beforeEach(() => {
+        configure({ adapter: new Adapter() });
+    });
+
+    afterEach(() => {
+        component.unmount();
+    });
+
+    it('renders empty div', () => {
+        const mockComponentDidMount = jest.spyOn(InListVisualization.prototype, 'componentDidMount');
+        mockComponentDidMount.mockReturnValue({});
+
+        component = shallow(
+            <InListVisualization />
+        );
+
+        expect(component.find('div').at(0).text()).toEqual('');
+
+        mockComponentDidMount.mockRestore();
+    });
+
     it('renderVisualization() invokes setSize(), setVisibility(), setCol() ' +
         'functions', () => {
-        configure({ adapter: new Adapter() });
         const size = 'mock size';
         const color = 'mock color';
 
@@ -40,7 +62,7 @@ describe("InListVisualization functional specification", () => {
         const mockComponentDidMount = jest.spyOn(InListVisualization.prototype, 'componentDidMount');
         mockComponentDidMount.mockReturnValue({});
 
-        const component = shallow(
+        component = shallow(
             <InListVisualization size={size} color={color} />
         );
 
@@ -62,18 +84,16 @@ describe("InListVisualization functional specification", () => {
 
         mockComponentDidMount.mockRestore();
         mockVisualizationRef.mockRestore();
-        component.unmount();
     });
 
     it('renderVisualization() is invoked when componentDidMount', () => {
-        configure({ adapter: new Adapter() });
         const size = 'mock size';
         const color = 'mock color';
 
         const renderVisualization = jest.spyOn(InListVisualization.prototype, 'renderVisualization')
             .mockImplementation(() => {});
 
-        const component = shallow(
+        component = shallow(
             <InListVisualization size={size} color={color} />
         );
 
@@ -83,7 +103,6 @@ describe("InListVisualization functional specification", () => {
     });
 
     it('renderVisualization() invokes setVisibility(), setSize(), setCol()', () => {
-        configure({ adapter: new Adapter() });
         const size = 'mock size';
         const color = 'mock color';
 
@@ -95,7 +114,7 @@ describe("InListVisualization functional specification", () => {
         const setCol = jest.spyOn(InListVisualization.prototype, 'setCol')
             .mockImplementation(() => {});
 
-        const component = shallow(
+        component = shallow(
             <InListVisualization size={size} color={color} />
         );
 
@@ -110,7 +129,6 @@ describe("InListVisualization functional specification", () => {
     });
 
     it('setSize() and setCol() modify visualizationRef accordingly', () => {
-        configure({ adapter: new Adapter() });
         const size = 's';
         const color = 'lightblue';
 
@@ -118,7 +136,7 @@ describe("InListVisualization functional specification", () => {
         const mockCreateRef = jest.spyOn(React, 'createRef')
             .mockImplementation(() => {return {current: mockVisualization}});
 
-        const component = shallow(
+        component = shallow(
             <InListVisualization size={size} color={color} />
         );
 

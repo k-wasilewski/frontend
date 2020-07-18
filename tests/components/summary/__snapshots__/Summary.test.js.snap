@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Summary rendering specification renders a title and a button initially 1`] = `
+exports[`Summary rendering specification Summary is rendered 1`] = `
 <div
   className="main"
 >

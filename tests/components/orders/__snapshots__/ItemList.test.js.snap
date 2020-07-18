@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ItemList rendering specification renders header and ordered list 1`] = `
+exports[`ItemList rendering specification ItemList is rendered 1`] = `
 <div
   className="main"
 >

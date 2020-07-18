@@ -9,7 +9,7 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
 describe("Summary rendering specification", () => {
-    it('renders a title and a button initially', () => {
+    it('Summary is rendered', () => {
         const component = renderer.create(
             <Provider store={store}>
                 <ConnectedSummary/>
@@ -17,38 +17,34 @@ describe("Summary rendering specification", () => {
         );
         const tree = component.toJSON();
         expect(tree).toMatchSnapshot();
-
-        const summary = tree.children[0];
-        expect(summary.children[0].children[0]).toEqual('Podsumowanie');
-        expect(summary.children[2].children[0].children[0]).toEqual('Szukaj');
     })
 })
 
-
 describe("Summary functional specification", () => {
+    let component;
+
     const axiosConfig = {
         headers: {
             "Access-Control-Allow-Origin": "*",
         }
     };
 
-    it('doGetList() is invoked when search btn is clicked', () => {
+    beforeEach(() => {
         configure({ adapter: new Adapter() });
+    });
 
-        const doGetList = jest.spyOn(Summary.prototype, 'doGetList');
+    afterEach(() => {
+       component.unmount();
+    });
 
-        const component = shallow(
+    it('renders title and a button initialy', () => {
+        component = shallow(
             <Summary />
         );
 
-        component.instance().doGetList = jest.fn();
-        component.update();
-        const mockClick = () => component.find('.col2').find('button').simulate('click');
-        mockClick();
-
-        expect(doGetList).toHaveBeenCalled();
-        //component.unmount();
-    })
+        expect(component.find('h2').at(0).text()).toEqual('Podsumowanie');
+        expect(component.find('button').at(0).text()).toEqual('Szukaj');
+    });
 
     it('doGetList() sends a request to server', (done) => {
         const error = console.error;
@@ -64,7 +60,7 @@ describe("Summary functional specification", () => {
             axiosConfig
         ).reply(200, resp);
 
-        const component = shallow(
+        component = shallow(
             <Summary />
         );
 
@@ -74,25 +70,21 @@ describe("Summary functional specification", () => {
             expect(component.instance().state.list).toEqual(translatedResp);
             console.error = error;
 
-            component.unmount();
             done();
-        }, 4000)
+        }, 500)
     });
 
     it('formatList() transforms json list element to html li', () => {
-        configure({ adapter: new Adapter() });
-
         const name = 'Kuba';
         const age = '30';
         const datetime = '2020-05-29 18:37:23.458';
-        const items = [{id:0, color:'blue', size:'s'}];
         const list = [{
             name: name,
             age: age,
             created: datetime
         }];
 
-        const component = shallow(
+        component = shallow(
             <Summary />
         );
 
@@ -100,13 +92,9 @@ describe("Summary functional specification", () => {
 
         expect(transformedList[0].type).toEqual('ul');
         expect(transformedList[0].key).toEqual(name+age+datetime);
-
-        component.unmount();
     })
 
     it('formatItems() transforms array elements to list elements', () => {
-        configure({ adapter: new Adapter() });
-
         const size = 's';
         const color = 'blue';
         const sizePL = 'S';
@@ -120,7 +108,7 @@ describe("Summary functional specification", () => {
         }
         items.push(item);
 
-        const component = shallow(
+        component = shallow(
             <Summary />
         );
 
@@ -131,13 +119,9 @@ describe("Summary functional specification", () => {
 
         expect(JSON.stringify(transformedItems[0])).toContain(colorPL);
         expect(JSON.stringify(transformedItems[0])).toContain(sizePL);
-
-        component.unmount();
     })
 
     it('button "Elementy" invokes showOrderList() onClick', (done) => {
-        configure({ adapter: new Adapter() });
-
         const showOrderList = jest.spyOn(Summary.prototype, 'showOrderList')
             .mockImplementation(() => {});
 
@@ -147,7 +131,7 @@ describe("Summary functional specification", () => {
         const list = [{name: name, age: age, created: created,
             items: [{id: 0, color: 'blue', size: 's'}]}];
 
-        const component = shallow(
+        component = shallow(
             <Summary />
         );
 
@@ -167,22 +151,17 @@ describe("Summary functional specification", () => {
                 expect(showOrderList).toHaveBeenCalledWith(mockshowElemsBtnEvent);
 
                 done();
-                component.unmount();
                 showOrderList.mockRestore();
             }, 500);
-        }, 4000)
+        }, 500)
     });
 
     it('showOrderList() modifies DOM elements style', (done) => {
-        configure({ adapter: new Adapter() });
-
-        const getElementsByClassName = jest.spyOn(document, 'getElementsByClassName');
-
         const mockToggle = jest.fn();
         const mockFn = jest.fn(() => [{classList: {toggle: mockToggle}}]);
         const mockEvent = {target: {parentElement: {getElementsByClassName: mockFn}}}
 
-        const component = shallow(
+        component = shallow(
             <Summary />
         );
 
@@ -194,7 +173,19 @@ describe("Summary functional specification", () => {
             expect(mockToggle).toHaveBeenCalled();
 
             done();
-            component.unmount();
-        }, 4000)
+        }, 500)
     });
+
+    it('doGetList() is invoked when search btn is clicked', () => {
+        const doGetList = jest.spyOn(Summary.prototype, 'doGetList');
+
+        component = shallow(
+            <Summary />
+        );
+
+        const mockClick = () => component.find('.col2').find('button').simulate('click');
+        mockClick();
+
+        expect(doGetList).toHaveBeenCalled();
+    })
 });

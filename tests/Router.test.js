@@ -9,14 +9,11 @@ import App from "../src/App";
 import {mount, configure} from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
 
-describe("Router rendering specification", () => {
+describe("Router functional specification", () => {
     let component;
-    const root = document.createElement('div');
 
     beforeEach(() => {
         configure({ adapter: new Adapter() });
-
-        document.body.appendChild(root);
     });
 
     afterEach(() => {

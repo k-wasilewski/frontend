@@ -7,7 +7,7 @@ import Adapter from "enzyme-adapter-react-16";
 import ConnectedVisualization, { Visualization } from "../../../src/components/visualization/Visualization";
 
 describe("Visualization rendering specification", () => {
-    it('renders empty div', () => {
+    it('Visualization is rendered', () => {
         const component = renderer.create(
             <Provider store={store}>
                 <ConnectedVisualization/>
@@ -15,15 +15,29 @@ describe("Visualization rendering specification", () => {
         );
         const tree = component.toJSON();
         expect(tree).toMatchSnapshot();
-
-        expect(tree.children[0]).toEqual('\u00a0');
     });
 });
 
 describe("Visualization functional specification", () => {
-    it('visualization div changes accordingly when componentWillReceiveProps', (done) => {
-        configure({ adapter: new Adapter() });
+    let component;
 
+    beforeEach(() => {
+        configure({ adapter: new Adapter() });
+    });
+
+    afterEach(() => {
+        component.unmount();
+    });
+
+    it('renders empty div', () => {
+        component = shallow(
+            <Visualization />
+        );
+
+        expect(component.find('div').at(0).text()).toEqual('\u00a0');
+    });
+
+    it('visualization div changes accordingly when componentWillReceiveProps', (done) => {
         const displayVisualization = jest.spyOn(Visualization.prototype, 'displayVisualization');
         const paintVisualizationSize = jest.spyOn(Visualization.prototype, 'paintVisualizationSize');
         const paintVisualizationColor = jest.spyOn(Visualization.prototype, 'paintVisualizationColor');
@@ -37,7 +51,7 @@ describe("Visualization functional specification", () => {
             color: 'blue'
         };
 
-        const component = shallow(
+        component = shallow(
             <Visualization />
         );
 
@@ -61,7 +75,6 @@ describe("Visualization functional specification", () => {
             expect(mockVisualization.classList.remove).toHaveBeenCalledWith('darkblue');
 
             done();
-            component.unmount();
-        }, 4000);
+        }, 500);
     });
 });

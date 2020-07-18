@@ -8,7 +8,7 @@ import ConnectedItemList, { ItemList } from "../../../src/components/orders/Item
 import InListVisualization from "../../../src/components/visualization/InListVisualization";
 
 describe("ItemList rendering specification", () => {
-    it('renders header and ordered list', () => {
+    it('ItemList is rendered', () => {
         const component = renderer.create(
             <Provider store={store}>
                 <ConnectedItemList/>
@@ -16,23 +16,34 @@ describe("ItemList rendering specification", () => {
         );
         const tree = component.toJSON();
         expect(tree).toMatchSnapshot();
-
-        expect(tree.children[0].children[0]).toEqual('Lista zamówień');
-        expect(tree.children[1].type).toBe('ol');
-        expect(tree.children[1].props.start).toBe('1');
     });
 });
 
 describe("ItemList functional specification", () => {
+    let component;
+
     beforeEach(() => {
         configure({adapter: new Adapter()});
+    });
+
+    afterEach(() => {
+       component.unmount();
+    });
+
+    it('renders header and ordered list', () => {
+        component = shallow(
+            <ItemList />
+        );
+
+        expect(component.find('h3').text()).toEqual('Lista zamówień');
+        expect(component.find('ol')).toHaveLength(1);
     });
 
     it('passes props to redux when componentWillReceiveProps', () => {
         const item = {id: 43, color: 'blue', size: 's'};
 
         const mockSetItems = jest.fn();
-        const component = shallow(
+        component = shallow(
             <ItemList items={[]} setItems={mockSetItems}/>
         );
 
@@ -41,14 +52,12 @@ describe("ItemList functional specification", () => {
         });
 
         expect(mockSetItems).toHaveBeenCalled();
-
-        component.unmount();
     });
 
     it('mapItems() maps array of elements to html list of elements', () => {
         const items = [[], [1, 'Niebieski', 'S']];
 
-        const component = shallow(
+        component = shallow(
             <ItemList items={[]}/>
         );
 
@@ -65,7 +74,5 @@ describe("ItemList functional specification", () => {
         result.push(elem);
 
         expect(mappedItems.toString()).toContain(result);
-
-        component.unmount();
     });
 });

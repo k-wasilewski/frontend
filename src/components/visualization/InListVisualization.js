@@ -19,7 +19,6 @@ export class InListVisualization extends Component {
     }
 
     setSize(size) {
-        console.log(JSON.stringify(this.visualizationRef)+size)
         if (size==='s' || size==='S') {
             this.visualizationRef.current.classList.add('small');
             this.visualizationRef.current.classList.remove('medium');

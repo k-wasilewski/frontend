@@ -7,7 +7,7 @@ import Adapter from "enzyme-adapter-react-16";
 import ConnectedNewOrderStep1, { NewOrderStep1 } from "../../../src/components/orders/NewOrderStep1";
 
 describe("NewOrderStep1 rendering specification", () => {
-    it('renders a form with two inputs', () => {
+    it('NewOrderStep1 is rendered', () => {
         const component = renderer.create(
             <Provider store={store}>
                 <ConnectedNewOrderStep1/>
@@ -15,21 +15,6 @@ describe("NewOrderStep1 rendering specification", () => {
         );
         const tree = component.toJSON();
         expect(tree).toMatchSnapshot();
-
-        const form = tree.children[0];
-        expect(form.type).toEqual('form');
-
-        const col2 = form.children[0].children[4];
-
-        const nameInput = col2.children[0].children[0];
-        expect(nameInput.props).toHaveProperty('id', 'nameInput');
-        expect(nameInput.props).toHaveProperty('type', 'text');
-        expect(nameInput.props).toHaveProperty('name', 'name');
-
-        const ageInput = col2.children[1].children[0];
-        expect(ageInput.props).toHaveProperty('id', 'ageInput');
-        expect(ageInput.props).toHaveProperty('type', 'number');
-        expect(ageInput.props).toHaveProperty('name', 'age');
     });
 });
 
@@ -37,6 +22,7 @@ describe("NewOrderStep1 functional specification", () => {
     let mockSetItems;
     let mockSetName;
     let mockSetAge;
+    let component;
 
     beforeEach(() => {
         configure({adapter: new Adapter()});
@@ -45,12 +31,26 @@ describe("NewOrderStep1 functional specification", () => {
         mockSetAge = jest.fn();
     });
 
+    afterEach(() => {
+        component.unmount();
+    });
+
+    it('renders a form with two inputs', () => {
+        component = shallow(
+            <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge}/>
+        );
+
+        expect(component.find('input[type="number"]')).toHaveLength(1);
+        expect(component.find('input[type="text"]')).toHaveLength(1);
+        expect(component.find('form')).toHaveLength(1);
+    });
+
     it('functions getResponse(), getError() and redux functions setItems(), setName(), ' +
         'setAge() are invoked when componentDidMount', () => {
         const getResponse = jest.spyOn(NewOrderStep1.prototype, 'getResponse');
         const getError = jest.spyOn(NewOrderStep1.prototype, 'getError');
 
-        const component = shallow(
+        component = shallow(
             <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge}/>
         );
 
@@ -59,12 +59,13 @@ describe("NewOrderStep1 functional specification", () => {
         expect(mockSetAge).toHaveBeenCalledWith('');
         expect(getResponse).toHaveBeenCalled();
         expect(getError).toHaveBeenCalled();
-
-        component.unmount();
     });
 
-    it('name input changes color to red when value is incorrect', () => {
-        const mockNameRef = jest.spyOn(React, 'createRef')
+    it('name input changes color to red when value is incorrect', (done) => {
+        const mockNameRef = jest.spyOn(React, 'createRef');
+        mockNameRef.mockReturnValue({
+            current: {classList: {add: jest.fn(), remove: jest.fn()}}
+        });
 
         const correctInputEvent = {
             preventDefault() {},
@@ -76,32 +77,32 @@ describe("NewOrderStep1 functional specification", () => {
             target: { value: 'jfu876vVJH$^*d' }
         };
 
-        const component = shallow(
+        component = shallow(
             <NewOrderStep1 setItems={mockSetItems} setName={mockSetName}
                            setAge={mockSetAge} />
         );
-
-        const mockNameInput = (<input type='text' />);
-        mockNameRef.mockReturnValue({
-            current: mockNameInput
-        });
 
         const nameInput = component.find('#nameInput');
 
         setTimeout(function () {
             nameInput.simulate('change', incorrectInputEvent);
-            expect(mockNameRef).toHaveBeenCalled();
-            expect(mockNameInput.props.style.color==='red');
+            expect(mockNameRef().current.classList.add).toHaveBeenCalledWith('invalid');
+            expect(mockNameRef().current.classList.remove).toHaveBeenCalledWith('valid');
+            expect(component.state().nameValid).toEqual(false);
             nameInput.simulate('change', correctInputEvent);
-            expect(mockNameRef).toHaveBeenCalled();
-            expect(mockNameInput.props.style.color==='black');
+            expect(mockNameRef().current.classList.add).toHaveBeenCalledWith('valid');
+            expect(mockNameRef().current.classList.remove).toHaveBeenCalledWith('invalid');
+            expect(component.state().nameValid).toEqual(true);
 
-            component.unmount();
-        }, 4000);
+            done();
+        }, 500);
     });
 
-    it('age input changes color to red when value is incorrect', () => {
+    it('age input changes color to red when value is incorrect', (done) => {
         const mockAgeRef = jest.spyOn(React, 'createRef');
+        mockAgeRef.mockReturnValue({
+            current: {classList: {add: jest.fn(), remove: jest.fn()}}
+        });
 
         const correctInputEvent = {
             preventDefault() {},
@@ -113,85 +114,71 @@ describe("NewOrderStep1 functional specification", () => {
             target: { value: '11' }
         };
 
-        const event = {
-            preventDefault() {},
-            target: { value: 'some value' }
-        };
-
-        const component = shallow(
+        component = shallow(
             <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge} />
         );
-
-        const mockAgeInput = (<input type='number' />);
-        mockAgeRef.mockReturnValue({
-            current: mockAgeInput
-        });
 
         const ageInput = component.find('#ageInput');
 
         setTimeout(function () {
             ageInput.simulate('change', incorrectInputEvent);
-            expect(mockAgeRef).toHaveBeenCalled();
-            expect(mockAgeInput.props.style.color==='red');
+            expect(mockAgeRef().current.classList.add).toHaveBeenCalledWith('invalid');
+            expect(mockAgeRef().current.classList.remove).toHaveBeenCalledWith('valid');
+            expect(component.state().ageValid).toEqual(false);
             ageInput.simulate('change', correctInputEvent);
-            expect(mockAgeRef).toHaveBeenCalled();
-            expect(mockAgeInput.props.style.color==='black');
+            expect(mockAgeRef().current.classList.add).toHaveBeenCalledWith('valid');
+            expect(mockAgeRef().current.classList.remove).toHaveBeenCalledWith('invalid');
+            expect(component.state().ageValid).toEqual(true);
 
-            component.unmount();
-        }, 4000);
+            done();
+        }, 500);
     });
 
-    it('errorMsg is displayed when state value: error is present', () => {
+    it('errorMsg is displayed when state value: error is present', (done) => {
         const mockErrorRef = jest.spyOn(React, 'createRef');
+        mockErrorRef.mockReturnValue({
+            current: {classList: {add: jest.fn(), remove: jest.fn()}}
+        });
 
-        const component = shallow(
+        component = shallow(
             <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge} />
         );
-
-        const mockErrorMsg = (<p id='nameAgeError' />);
-        mockErrorRef.mockReturnValue({
-            current: mockErrorMsg
-        });
 
         setTimeout(function () {
             component.setState({
                 error: 'sample error'
             });
-            expect(mockErrorRef).toHaveBeenCalled();
-            expect(mockErrorMsg.props.style.display==='block');
+            expect(mockErrorRef().current.classList.add).toHaveBeenCalledWith('visible');
+            expect(mockErrorRef().current.classList.remove).toHaveBeenCalledWith('hidden');
 
-            component.unmount();
-        }, 4000);
+            done();
+        }, 500);
     });
 
     it('getResponse() returns the errorMsg when the prop: resp contains string ' +
         'error', () => {
-        const component = shallow(
+        component = shallow(
             <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge}
                 resp='error: sample resp' />
         );
 
         const result = component.instance().getResponse();
         expect(result).toEqual('sample resp');
-
-        component.unmount();
     });
 
     it('getResponse() returns the prop: resp when it doesnt contain string ' +
         'error', () => {
-        const component = shallow(
+        component = shallow(
             <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge}
                            resp='sample resp' />
         );
 
         const result = component.instance().getResponse();
         expect(result).toEqual('sample resp');
-
-        component.unmount();
     });
 
     it('handleSubmit() sets state value: error to errorMsg when age is empty', () => {
-        const component = shallow(
+        component = shallow(
             <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge}
                 age=''/>
         );
@@ -202,12 +189,10 @@ describe("NewOrderStep1 functional specification", () => {
         component.instance().handleSubmit();
 
         expect(component.state('error')).toEqual('Należy podać wymagane dane');
-
-        component.unmount();
     });
 
     it('handleSubmit() sets state value: error to errorMsg when name is empty', () => {
-        const component = shallow(
+        component = shallow(
             <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge}
                            name=''/>
         );
@@ -218,12 +203,10 @@ describe("NewOrderStep1 functional specification", () => {
         component.instance().handleSubmit();
 
         expect(component.state('error')).toEqual('Należy podać wymagane dane');
-
-        component.unmount();
     });
 
     it('handleSubmit() sets state value: error to errorMsg when age is invalid', () => {
-        const component = shallow(
+        component = shallow(
             <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge} />
         );
 
@@ -239,12 +222,10 @@ describe("NewOrderStep1 functional specification", () => {
         component.instance().handleSubmit();
 
         expect(component.state('error')).toEqual('Należy podać wiek w przedziale 18-100');
-
-        component.unmount();
     });
 
     it('handleSubmit() sets state value: error to errorMsg when name is invalid', () => {
-        const component = shallow(
+        component = shallow(
             <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge} />
         );
 
@@ -261,13 +242,11 @@ describe("NewOrderStep1 functional specification", () => {
 
         expect(component.state('error')).toEqual('Imię może zawierać tylko jeden wyraz, ' +
             'musi być pisane z wielkiej litery, bez cyfr i znaków specjalnych');
-
-        component.unmount();
     });
 
     it('handleSubmit() sets state value: redirect to true when name and age' +
         ' are valid', () => {
-        const component = shallow(
+        component = shallow(
             <NewOrderStep1 setItems={mockSetItems} setName={mockSetName} setAge={mockSetAge} />
         );
 
@@ -284,7 +263,5 @@ describe("NewOrderStep1 functional specification", () => {
         component.instance().handleSubmit();
 
         expect(component.state('redirect')).toEqual(true);
-
-        component.unmount();
     });
 });
