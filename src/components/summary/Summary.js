@@ -24,7 +24,7 @@ export class Summary extends Component {
             }
         };
 
-        axios.get('http://localhost:8081/auth/list',
+        axios.get(`http://localhost:8081/auth/list?username=${this.props.username}`,
             axiosConfig
         ).then(resp => {
             this.setState({list: resp.data});
