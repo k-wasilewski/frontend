@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import '../../css/App.css';
 import {connect} from "react-redux";
 import {setUsername} from "../../redux/actions";
+import axios from 'axios';
 
 class Login extends Component {
     constructor(props) {
@@ -17,8 +18,18 @@ class Login extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        alert(this.state.username+', '+this.state.password)
-        this.props.setUsername(this.state.username);
+
+        axios.post('http://localhost:8081/auth',
+            {username: this.state.username, password: this.state.password},
+            {withCredentials: true}
+        ).then(function (response) {
+            if (response.status === 200) {
+                alert(response.data)
+                this.props.setUsername(this.state.username);
+            } else {
+                alert('response is not 200')
+            }
+        }).catch(alert('catched error'));
     }
 
     usernameOnChange = (event) => {
