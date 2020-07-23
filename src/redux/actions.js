@@ -3,6 +3,7 @@ export const SET_NAME = 'SET_NAME';
 export const SET_AGE = 'SET_AGE';
 export const SET_ITEMS = 'SET_ITEMS';
 export const SET_RESP = 'SET_RESP';
+export const SET_USERNAME = 'SET_USERNAME';
 
 export function addItem(item) {
     return {
@@ -36,5 +37,12 @@ export function setResp(resp) {
     return {
         type: SET_RESP,
         data: resp
+    };
+};
+
+export function setUsername(username) {
+    return {
+        type: SET_USERNAME,
+        data: username
     };
 };
