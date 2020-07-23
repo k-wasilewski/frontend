@@ -29,7 +29,7 @@ class Login extends Component {
             {'username': this.state.username, 'password': this.state.password}
         ).then(function (response) {
             if (response.status === 200) {
-                alert(JSON.stringify(response.data));
+                localStorage.setItem('token', JSON.stringify(response.data.token));
                 that.setState({error: null});
                 that.props.setUsername(that.state.username);
             } else {

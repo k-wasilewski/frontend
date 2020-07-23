@@ -20,6 +20,7 @@ class Menu extends Component {
     render() {
         return (
             <header>
+                <span id="user">{this.props.username}</span>
                 <div className="menu hidden" ref={this.menuRef}>
                     <nav>
                         <NavLink exact to={`/`} className="menu-item">
