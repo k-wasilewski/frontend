@@ -3,6 +3,7 @@ import '../../css/App.css';
 import {connect} from "react-redux";
 import {setUsername} from "../../redux/actions";
 import axios from 'axios';
+import {Redirect} from 'react-router-dom';
 
 class Login extends Component {
     constructor(props) {
@@ -10,26 +11,33 @@ class Login extends Component {
 
         this.state = {
             username: '',
-            password: ''
+            password: '',
+
+            error: null
         }
 
         this.errorRef = React.createRef('');
+
+        this.handleSubmit = this.handleSubmit.bind(this);
     };
 
     handleSubmit = (e) => {
         e.preventDefault();
+        const that = this;
 
         axios.post('http://localhost:8081/auth',
-            {username: this.state.username, password: this.state.password},
-            {withCredentials: true}
+            {'username': this.state.username, 'password': this.state.password}
         ).then(function (response) {
             if (response.status === 200) {
-                alert(response.data)
-                this.props.setUsername(this.state.username);
+                alert(JSON.stringify(response.data));
+                that.setState({error: null});
+                that.props.setUsername(that.state.username);
             } else {
-                alert('response is not 200')
+                that.setState({error: 'Niepoprawna nazwa użytkownika lub hasło'});
             }
-        }).catch(alert('catched error'));
+        }).catch(() => {
+            that.setState({error: 'Niepoprawna nazwa użytkownika lub hasło'});
+        });
     }
 
     usernameOnChange = (event) => {
@@ -43,14 +51,15 @@ class Login extends Component {
     };
 
     render() {
-        let error;
-
-        return (
+        if (this.props.username!=null) return (
+            <Redirect to={'/'} />
+        );
+        else return (
             <div className="main">
                 <form onSubmit={this.handleSubmit}>
                     <div className='form'>
                         <h2>Logowanie</h2>
-                        <p className='hidden invalid' ref={this.errorRef}>{error}</p>
+                        <p className='invalid' ref={this.errorRef}>{this.state.error}</p>
                         <div className='col1'>
                             <p>Użytkownik:</p>
                             <p>Hasło:</p>
@@ -69,8 +78,14 @@ class Login extends Component {
     };
 }
 
+function mapStateToProps(state) {
+    return {
+        username: state.setUsernameReducer.username
+    };
+};
+
 const mapDispatchToProps = {
     setUsername
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
