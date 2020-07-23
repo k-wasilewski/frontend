@@ -8,6 +8,7 @@ export class Summary extends Component {
         super(props);
         this.state = {
             list: '',
+            error: null
         };
 
         this.doGetList = this.doGetList.bind(this);
@@ -17,15 +18,16 @@ export class Summary extends Component {
         const axiosConfig = {
             headers: {
                 "Access-Control-Allow-Origin": "*",
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
             }
         };
 
-        axios.get('http://localhost:8081/list',
+        axios.get('http://localhost:8081/auth/list',
             axiosConfig
         ).then(resp => {
             this.setState({list: resp.data});
-        }).catch(error => {
-            this.setState({list:('Błąd serwera')});
+        }).catch(() => {
+            this.setState({error: 'Błąd serwera'});
         });
     }
 
@@ -88,6 +90,7 @@ export class Summary extends Component {
 
         return (
             <div className="main">
+                <span style={{color: 'red'}}>{this.state.error}</span>
                 <div className='summary'>
                     <h2>Podsumowanie</h2>
                     <div className='col1'>

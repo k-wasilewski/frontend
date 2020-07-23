@@ -120,7 +120,8 @@ export class NewOrderStep2 extends Component {
             {
                 'name': this.props.name,
                 'age': this.props.age,
-                'items': items
+                'items': items,
+                ...(this.props.username ? { username: this.props.username } : {})
             },
             this.getAxiosConfigJson()
         ).then(resp => {
@@ -208,7 +209,8 @@ function mapStateToProps(state) {
     return {
         items: state.setItemsReducer.items,
         name: state.setNameReducer.name,
-        age: state.setAgeReducer.age
+        age: state.setAgeReducer.age,
+        username: state.setUsernameReducer.username
     };
 };
 

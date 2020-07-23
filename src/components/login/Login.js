@@ -25,11 +25,11 @@ class Login extends Component {
         e.preventDefault();
         const that = this;
 
-        axios.post('http://localhost:8081/auth',
+        axios.post('http://localhost:8081/login',
             {'username': this.state.username, 'password': this.state.password}
         ).then(function (response) {
             if (response.status === 200) {
-                localStorage.setItem('token', JSON.stringify(response.data.token));
+                localStorage.setItem('token', response.data.token);
                 that.setState({error: null});
                 that.props.setUsername(that.state.username);
             } else {
