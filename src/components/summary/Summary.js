@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import '../../css/App.css';
 import axios from "axios";
 import TranslateItems from "../../func/TranslateItems";
+import {connect} from "react-redux";
+import {Redirect} from "react-router-dom";
 
 export class Summary extends Component {
     constructor(props) {
@@ -88,7 +90,10 @@ export class Summary extends Component {
         let list = this.state.list;
         list = this.formatList(list);
 
-        return (
+        if (!this.props.username) return (
+            <Redirect to='/login' />
+        );
+        else return (
             <div className="main">
                 <span style={{color: 'red'}}>{this.state.error}</span>
                 <div className='summary'>
@@ -105,4 +110,10 @@ export class Summary extends Component {
     };
 }
 
-export default Summary;
+function mapStateToProps(state) {
+    return {
+        username: state.setUsernameReducer.username
+    };
+}
+
+export default connect(mapStateToProps, null)(Summary);
