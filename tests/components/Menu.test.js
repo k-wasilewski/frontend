@@ -44,7 +44,7 @@ describe("Menu functional specification", () => {
     it('menu button toggles menu display when clicked', (done) => {
         const mockToggleFn = jest.fn();
 
-        const mockMenuRef = jest.spyOn(React, 'createRef').mockImplementation(() => {
+        jest.spyOn(React, 'createRef').mockImplementation(() => {
             return {current: {
                     classList: {
                         toggle: mockToggleFn
@@ -66,6 +66,26 @@ describe("Menu functional specification", () => {
             expect(mockToggleFn).toHaveBeenCalledWith('hidden');
 
             expect(toggleMenuVisibility).toHaveBeenCalledTimes(1);
+            done();
+        }, 500);
+    });
+
+    it('logout() removes token from localStorage and clears props value username',
+        (done) => {
+        const mockSetUsername = jest.fn();
+        const removeItem = jest.spyOn(window.localStorage.__proto__, 'removeItem');
+
+        component = shallow(
+            <Menu setUsername={mockSetUsername}/>
+        );
+
+        component.instance().logout();
+        component.update();
+
+        setTimeout(function () {
+            expect(mockSetUsername).toHaveBeenCalledWith(null);
+            expect(removeItem).toHaveBeenCalledWith('token');
+
             done();
         }, 500);
     });

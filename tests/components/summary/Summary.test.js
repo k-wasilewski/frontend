@@ -76,6 +76,32 @@ describe("Summary functional specification", () => {
             console.error = error;
 
             done();
+            mock.restore();
+        }, 500);
+    });
+
+    it('doGetList() handles error accordingly', (done) => {
+        const error = console.error;
+        console.error = jest.fn();
+
+        var mock = new MockAdapter(axios);
+        mock.onGet(
+            'http://localhost:8081/auth/list?username='+mockUser,
+            axiosConfig
+        ).networkError();
+
+        component = shallow(
+            <Summary username={mockUser}/>
+        );
+
+        component.instance().doGetList();
+        component.update();
+
+        setTimeout(function () {
+            expect(component.state('error')).toEqual('Błąd serwera');
+            console.error = error;
+
+            done();
         }, 500)
     });
 

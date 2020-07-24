@@ -11,5 +11,6 @@ describe("rootReducer specification", () => {
         expect(store.getState().setItemsReducer).toHaveProperty('items');
         expect(store.getState().setNameReducer).toHaveProperty('name');
         expect(store.getState().setRespReducer).toHaveProperty('resp');
+        expect(store.getState().setUsernameReducer).toHaveProperty('username');
     });
 });

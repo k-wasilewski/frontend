@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login rendering specification Login is rendered 1`] = `
+<div
+  className="main"
+>
+  <form
+    onSubmit={[Function]}
+  >
+    <div
+      className="form"
+    >
+      <h2>
+        Logowanie
+      </h2>
+      <p
+        className="invalid"
+      />
+      <div
+        className="col1"
+      >
+        <p>
+          Użytkownik:
+        </p>
+        <p>
+          Hasło:
+        </p>
+        <button>
+          Zatwierdź
+        </button>
+      </div>
+      <div
+        className="col2"
+      >
+        <p>
+          <input
+            id="usernameInput"
+            name="username"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </p>
+        <p>
+          <input
+            id="passwordInput"
+            name="password"
+            onChange={[Function]}
+            type="password"
+            value=""
+          />
+        </p>
+      </div>
+    </div>
+  </form>
+</div>
+`;

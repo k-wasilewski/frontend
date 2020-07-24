@@ -21,7 +21,7 @@ class Login extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     };
 
-    handleSubmit = (e) => {
+    handleSubmit(e) {
         e.preventDefault();
         const that = this;
 

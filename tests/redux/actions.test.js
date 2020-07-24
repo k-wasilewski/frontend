@@ -46,4 +46,13 @@ describe("redux/actions specification", () => {
         };
         expect(actions.setResp(resp)).toEqual(expectedAction);
     });
+
+    it('setUsername action works as expected', () => {
+        const username = 'mock';
+        const expectedAction = {
+            type: actions.SET_USERNAME,
+            data: username
+        };
+        expect(actions.setUsername(username)).toEqual(expectedAction);
+    });
 });
