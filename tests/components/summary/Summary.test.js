@@ -7,12 +7,16 @@ import Adapter from "enzyme-adapter-react-16";
 import ConnectedSummary, { Summary } from "../../../src/components/summary/Summary";
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
+import {BrowserRouter} from "react-router-dom";
+import TranslateItems from "../../../src/func/TranslateItems";
 
 describe("Summary rendering specification", () => {
     it('Summary is rendered', () => {
         const component = renderer.create(
             <Provider store={store}>
-                <ConnectedSummary/>
+                <BrowserRouter>
+                    <ConnectedSummary/>
+                </BrowserRouter>
             </Provider>
         );
         const tree = component.toJSON();
@@ -22,6 +26,7 @@ describe("Summary rendering specification", () => {
 
 describe("Summary functional specification", () => {
     let component;
+    const mockUser = 'mock';
 
     const axiosConfig = {
         headers: {
@@ -39,7 +44,7 @@ describe("Summary functional specification", () => {
 
     it('renders title and a button initialy', () => {
         component = shallow(
-            <Summary />
+            <Summary username={mockUser}/>
         );
 
         expect(component.find('h2').at(0).text()).toEqual('Podsumowanie');
@@ -51,23 +56,23 @@ describe("Summary functional specification", () => {
         console.error = jest.fn();
 
         var mock = new MockAdapter(axios);
-        const resp = [{name:'Kuba', age:30, items: [{id:0, color:'blue', size:'s'},
-            {id:1, color:'lightblue', size:'m'}]}];
-        const translatedResp = [{name:'Kuba', age:30, items: [{id:0, color:'Niebieski', size:'S'},
-                {id:1, color:'Błękitny', size:'M'}]}];
+        const resp = {name:'Kuba', age:30, items: [{id:0, color:'blue', size:'s'},
+            {id:1, color:'lightblue', size:'m'}]};
+        const translatedResp = TranslateItems(resp);
         mock.onGet(
-            'http://localhost:8081/list',
+            'http://localhost:8081/auth/list?username='+mockUser,
             axiosConfig
         ).reply(200, resp);
 
         component = shallow(
-            <Summary />
+            <Summary username={mockUser}/>
         );
 
         component.instance().doGetList();
+        component.update();
 
         setTimeout(function () {
-            expect(component.instance().state.list).toEqual(translatedResp);
+            expect(component.state.list).toEqual(translatedResp);
             console.error = error;
 
             done();
@@ -85,7 +90,7 @@ describe("Summary functional specification", () => {
         }];
 
         component = shallow(
-            <Summary />
+            <Summary username={mockUser}/>
         );
 
         const transformedList = component.instance().formatList(list);
@@ -109,7 +114,7 @@ describe("Summary functional specification", () => {
         items.push(item);
 
         component = shallow(
-            <Summary />
+            <Summary username={mockUser}/>
         );
 
         const transformedItems = component.instance().formatItems(items);
@@ -132,7 +137,7 @@ describe("Summary functional specification", () => {
             items: [{id: 0, color: 'blue', size: 's'}]}];
 
         component = shallow(
-            <Summary />
+            <Summary username={mockUser}/>
         );
 
         component.instance().setState({
@@ -162,7 +167,7 @@ describe("Summary functional specification", () => {
         const mockEvent = {target: {parentElement: {getElementsByClassName: mockFn}}}
 
         component = shallow(
-            <Summary />
+            <Summary username={mockUser}/>
         );
 
         component.instance().showOrderList(mockEvent);
@@ -180,7 +185,7 @@ describe("Summary functional specification", () => {
         const doGetList = jest.spyOn(Summary.prototype, 'doGetList');
 
         component = shallow(
-            <Summary />
+            <Summary username={mockUser}/>
         );
 
         const mockClick = () => component.find('.col2').find('button').simulate('click');

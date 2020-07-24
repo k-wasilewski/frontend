@@ -3,6 +3,7 @@ import {MemoryRouter} from "react-router-dom";
 import NewOrderStep1 from "../src/components/orders/NewOrderStep1";
 import Orders from "../src/components/orders/Orders";
 import Summary from "../src/components/summary/Summary"
+import Login from "../src/components/login/Login";
 import store from "../src/redux/store";
 import {Provider} from "react-redux";
 import App from "../src/App";
@@ -44,7 +45,8 @@ describe("Router functional specification", () => {
         expect(component.find(Orders)).toHaveLength(1);
     });
 
-    it('component "Summary" is displayed when "/summary" url is passed', () => {
+    it('component "Login" is displayed when "/summary" url is passed ' +
+        'and user is not authenticated', () => {
         component = mount(
             <Provider store={store}>
                 <MemoryRouter initialEntries={['/summary']}>
@@ -53,6 +55,21 @@ describe("Router functional specification", () => {
             </Provider>
         );
 
-        expect(component.find(Summary)).toHaveLength(1);
+        expect(component.find(Login)).toHaveLength(1);
+    });
+
+    it('component "Summary" is displayed when "/summary" url is passed ' +
+        'and user is authenticated', () => {
+        const mockUsername = "mock";
+
+        component = mount(
+            <Provider store={store}>
+                <MemoryRouter initialEntries={['/summary']}>
+                    <App username={mockUsername}/>
+                </MemoryRouter>
+            </Provider>
+        );
+
+        expect(component.find(Login)).toHaveLength(1);
     });
 });

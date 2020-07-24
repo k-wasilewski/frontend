@@ -6,6 +6,11 @@ exports[`App rendering specification App is rendered 1`] = `
 >
   <header>
     <div
+      id="user"
+    >
+      <br />
+    </div>
+    <div
       className="menu hidden"
     >
       <nav>
@@ -29,7 +34,7 @@ exports[`App rendering specification App is rendered 1`] = `
         <a
           aria-current={null}
           className="menu-item"
-          href="/summary"
+          href="/login"
           onClick={[Function]}
         >
           <button
@@ -38,7 +43,7 @@ exports[`App rendering specification App is rendered 1`] = `
             <div
               className="menu-item-div"
             >
-              Podsumowanie
+              Logowanie
             </div>
           </button>
         </a>

@@ -1,27 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Summary rendering specification Summary is rendered 1`] = `
-<div
-  className="main"
->
-  <div
-    className="summary"
-  >
-    <h2>
-      Podsumowanie
-    </h2>
-    <div
-      className="col1"
-    />
-    <div
-      className="col2"
-    >
-      <button
-        onClick={[Function]}
-      >
-        Szukaj
-      </button>
-    </div>
-  </div>
-</div>
-`;
+exports[`Summary rendering specification Summary is rendered 1`] = `null`;

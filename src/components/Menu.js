@@ -5,7 +5,7 @@ import img from '../img/menu-btn.svg'
 import {connect} from "react-redux";
 import {setUsername} from "../redux/actions";
 
-class Menu extends Component {
+export class Menu extends Component {
     constructor(props) {
         super(props);
 
