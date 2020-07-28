@@ -31,7 +31,7 @@ export class NewOrderStep2 extends Component {
     };
 
     componentWillUnmount() {
-        axios.post('http://localhost:8081/restore',
+        axios.post('https://localhost:8081/restore',
             this.getAxiosConfig()
         ).catch();
     };
@@ -55,7 +55,7 @@ export class NewOrderStep2 extends Component {
     };
 
     doCheckAvailability(color, size, newItem, id) {
-        axios.post('http://localhost:8081/check',
+        axios.post('https://localhost:8081/check',
             `color=${color}&size=${size}`,
             this.getAxiosConfig()
         ).then(resp => {
@@ -116,7 +116,7 @@ export class NewOrderStep2 extends Component {
     doAddOrder() {
         let items = this.props.items;
         UntranslateItems(items);
-        axios.post('http://localhost:8081/addOrder',
+        axios.post('https://localhost:8081/addOrder',
             {
                 'name': this.props.name,
                 'age': this.props.age,

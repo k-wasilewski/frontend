@@ -25,7 +25,7 @@ class Login extends Component {
         e.preventDefault();
         const that = this;
 
-        axios.post('http://localhost:8081/login',
+        axios.post('https://localhost:8081/login',
             {'username': this.state.username, 'password': this.state.password}
         ).then(function (response) {
             if (response.status === 200) {

@@ -60,7 +60,7 @@ describe("Summary functional specification", () => {
             {id:1, color:'lightblue', size:'m'}]};
         const translatedResp = TranslateItems(resp);
         mock.onGet(
-            'http://localhost:8081/auth/list?username='+mockUser,
+            'https://localhost:8081/auth/list?username='+mockUser,
             axiosConfig
         ).reply(200, resp);
 
@@ -86,7 +86,7 @@ describe("Summary functional specification", () => {
 
         var mock = new MockAdapter(axios);
         mock.onGet(
-            'http://localhost:8081/auth/list?username='+mockUser,
+            'https://localhost:8081/auth/list?username='+mockUser,
             axiosConfig
         ).networkError();
 

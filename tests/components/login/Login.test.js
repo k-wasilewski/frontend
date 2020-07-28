@@ -45,7 +45,7 @@ describe("Login functional specification", () => {
 
         var mock = new MockAdapter(axios);
         const resp = {token: mockToken};
-        mock.onPost('http://localhost:8081/login')
+        mock.onPost('https://localhost:8081/login')
             .reply(200, resp);
 
         const mockData = 'mock';

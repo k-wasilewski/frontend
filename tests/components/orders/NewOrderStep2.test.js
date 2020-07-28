@@ -118,7 +118,7 @@ describe("NewOrderStep2 functional specification", () => {
         var mock = new MockAdapter(axios);
         const resp = [];
         mock.onPost(
-            'http://localhost:8081/restore',
+            'https://localhost:8081/restore',
             axiosConfig
         ).reply(200, resp);
 
