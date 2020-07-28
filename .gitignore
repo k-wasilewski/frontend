@@ -4,3 +4,6 @@
 *.iml
 /coverage
 /build
+server.cert
+server.key
+server.pem
